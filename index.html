@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VRT Taxateur Roadmaps</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",system-ui,sans-serif;background:#0f1117;color:#e2e8f0}
+.screen{display:none}.screen.active{display:block}
+
+/* NAV */
+.navbar{background:#0f1117;border-bottom:1px solid #1f2937;height:56px;display:flex;align-items:center;padding:0 32px;gap:20px;position:sticky;top:0;z-index:40}
+.nav-logo{width:32px;height:32px;background:white;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:900;color:#111827;cursor:pointer;flex-shrink:0}
+.nav-links{display:flex;gap:2px}
+.nav-link{font-size:13px;color:#94a3b8;padding:6px 12px;border-radius:6px;cursor:pointer}
+.nav-link:hover{color:#f1f5f9;background:rgba(255,255,255,.06)}
+.nav-right{margin-left:auto;display:flex;gap:10px;align-items:center}
+.nav-inloggen{font-size:13px;color:#94a3b8;cursor:pointer}
+.nav-reg{background:#7c3aed;color:white;border:none;padding:7px 18px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.nav-reg:hover{background:#6d28d9}
+
+/* HERO */
+.hero{text-align:center;padding:80px 20px 60px;max-width:760px;margin:0 auto}
+.hero-title{font-size:58px;font-weight:800;letter-spacing:-2px;line-height:1.05;margin-bottom:20px;background:linear-gradient(135deg,#a78bfa,#60a5fa,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-desc{font-size:15px;color:#94a3b8;line-height:1.75;max-width:580px;margin:0 auto}
+.hero-desc b{color:#c4b5fd}
+
+/* PORTAL */
+#portal{min-height:100vh;background:#0f1117}
+.wrap{max-width:1100px;margin:0 auto;padding:0 32px 100px}
+
+.bm-sec{margin-bottom:36px}
+.bm-lbl{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#64748b;margin-bottom:12px}
+
+.sec-div{display:flex;align-items:center;margin-bottom:18px;margin-top:4px}
+.sec-line{flex:1;height:1px;background:#1f2937}
+.sec-pill{font-size:12px;font-weight:500;color:#94a3b8;background:#111827;border:1px solid #1f2937;padding:5px 18px;border-radius:6px;white-space:nowrap}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:32px}
+.card{background:#1c2333;border:1px solid #1f2937;border-radius:8px;padding:15px 17px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all .12s}
+.card:hover{border-color:#374151;background:#1e2845}
+.card-lbl{font-size:14px;color:#e2e8f0}
+.card-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.card-new{font-size:10px;font-weight:700;color:#a78bfa}
+.bm-ico{color:rgba(255,255,255,.18);cursor:pointer;transition:color .12s;flex-shrink:0}
+.bm-ico:hover{color:#7c3aed}.bm-ico.on{color:#7c3aed}
+
+/* ROADMAP SCREEN */
+#rm{background:white;min-height:100vh;color:#111}
+.rm-nav{background:#0f1117;border-bottom:1px solid #1f2937;height:56px;display:flex;align-items:center;padding:0 32px;gap:20px;position:sticky;top:0;z-index:40}
+.rm-header{padding:24px 32px 0;border-bottom:1px solid #e5e7eb}
+.rm-back{font-size:13px;color:#6b7280;cursor:pointer;margin-bottom:16px;display:inline-flex;align-items:center;gap:5px}
+.rm-back:hover{color:#111}
+.rm-title{font-size:38px;font-weight:800;letter-spacing:-1.5px;margin-bottom:5px}
+.rm-sub{font-size:14px;color:#6b7280;margin-bottom:16px}
+.rm-tabs{display:flex}
+.rm-tab{font-size:13px;font-weight:500;color:#6b7280;padding:10px 18px;cursor:pointer;border-bottom:2px solid transparent}
+.rm-tab.on{color:#111;border-bottom-color:#111}
+.hint-bar{background:#fffbeb;border-bottom:1px solid #fde68a;padding:9px 32px;font-size:12px;color:#92400e}
+.rm-body{display:flex;min-height:calc(100vh - 200px)}
+.rm-side{width:256px;flex-shrink:0;padding:20px 16px;border-right:1px solid #e5e7eb}
+.sbox{border:1px solid #e5e7eb;border-radius:8px;padding:13px 15px;margin-bottom:13px}
+.sbox-ttl{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#9ca3af;margin-bottom:10px}
+.leg-row{display:flex;align-items:center;gap:8px;font-size:12px;color:#374151;margin-bottom:8px}
+.leg-row:last-child{margin-bottom:0}
+.leg-dot{width:17px;height:17px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.prog-bg{background:#f3f4f6;border-radius:99px;height:5px;overflow:hidden;margin-bottom:5px}
+.prog-fill{height:100%;background:#7c3aed;border-radius:99px;transition:width .3s;width:0}
+.prog-txt{font-size:12px;color:#6b7280}.prog-txt b{color:#7c3aed}
+.rel-row{display:flex;align-items:center;gap:6px;font-size:12px;color:#374151;margin-bottom:7px;cursor:pointer}
+.rel-row:hover{color:#7c3aed}
+.rm-chart{flex:1;overflow:auto;padding:28px 32px 60px}
+#svg{display:block}
+
+/* NODE PANEL */
+.np{position:fixed;top:0;right:-520px;width:500px;height:100vh;background:white;transition:right .28s cubic-bezier(.4,0,.2,1);z-index:50;overflow-y:auto;box-shadow:-8px 0 40px rgba(0,0,0,.15)}
+.np.open{right:0}
+.np-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid #f3f4f6;position:sticky;top:0;background:white;z-index:2}
+.np-close{background:none;border:none;cursor:pointer;color:#9ca3af;padding:4px 7px;border-radius:5px;font-size:18px;line-height:1}
+.np-close:hover{background:#f3f4f6;color:#374151}
+.st-sel{background:#f9fafb;border:1px solid #e5e7eb;color:#374151;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit}
+.st-sel.done{background:#f0fdf4;border-color:#86efac;color:#16a34a}
+.st-sel.bezig{background:#eff6ff;border-color:#93c5fd;color:#1d4ed8}
+.np-body{padding:20px 24px 40px}
+.np-tag{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7c3aed;margin-bottom:6px}
+.np-h{font-size:24px;font-weight:800;color:#111;margin-bottom:12px;line-height:1.2}
+.np-desc{font-size:14px;color:#4b5563;line-height:1.7;margin-bottom:24px}
+.np-sec{margin-bottom:22px}
+.np-sec-h{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#374151;margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid #f3f4f6}
+
+/* Werkvloer */
+.wv-item{display:flex;gap:12px;padding:12px 14px;border:1px solid #f3f4f6;border-radius:8px;margin-bottom:8px;background:#fafafa}
+.wv-icon{width:32px;height:32px;background:#ede9fe;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.wv-txt{flex:1}
+.wv-lbl{font-size:13px;font-weight:600;color:#111;margin-bottom:3px}
+.wv-sub{font-size:12px;color:#6b7280;line-height:1.5}
+
+/* Opleidingen */
+.opl-item{border:1px solid #e5e7eb;border-radius:8px;padding:13px 15px;margin-bottom:9px}
+.opl-nm{font-size:13.5px;font-weight:700;color:#111;margin-bottom:5px}
+.opl-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px}
+.tag.tp{background:#f3f4f6;color:#374151}
+.tag.dr{background:#eff6ff;color:#1d4ed8}
+.tag.pr{background:#f0fdf4;color:#16a34a}
+.opl-link{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:#7c3aed;text-decoration:none;font-weight:600}
+.opl-link:hover{text-decoration:underline}
+
+/* Premium */
+.pm-item{display:flex;align-items:center;gap:10px;padding:10px 13px;border:1px solid #fde68a;border-radius:8px;background:#fffbeb;margin-bottom:8px}
+.pm-badge{font-size:10px;font-weight:700;background:#fbbf24;color:#78350f;padding:2px 8px;border-radius:4px;flex-shrink:0}
+.pm-lbl{font-size:13px;font-weight:600;color:#111;flex:1}
+.pm-price{font-size:12px;font-weight:700;color:#92400e}
+
+/* Leervorm badges */
+.lv-badge{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;margin-left:6px;vertical-align:middle}
+.lv-badge.klassikaal{background:#fef3c7;color:#92400e}
+.lv-badge.online{background:#ede9fe;color:#5b21b6}
+.lv-badge.blended{background:#d1fae5;color:#065f46}
+.lv-badge.zelfstudie{background:#f3f4f6;color:#374151}
+
+/* Toekomst section */
+.tk-item{display:flex;gap:12px;padding:12px 14px;border:1px solid #fde68a;border-radius:8px;margin-bottom:8px;background:#fffbeb}
+.tk-icon{width:32px;height:32px;background:#fef3c7;border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px}
+.tk-txt{flex:1}
+.tk-lbl{font-size:13px;font-weight:600;color:#111;margin-bottom:3px}
+.tk-sub{font-size:12px;color:#6b7280;line-height:1.5}
+.tk-opl{margin-top:8px}
+.tk-opl-item{display:flex;align-items:center;justify-content:space-between;padding:7px 10px;background:white;border:1px solid #fde68a;border-radius:6px;margin-bottom:5px;text-decoration:none}
+.tk-opl-item:hover{background:#fffbeb}
+.tk-opl-nm{font-size:12px;font-weight:600;color:#111}
+.tk-opl-meta{display:flex;align-items:center;gap:6px}
+.tk-opl-brand{font-size:10px;font-weight:700;color:#7c3aed;background:#ede9fe;padding:2px 7px;border-radius:4px}
+.tk-opl-type{font-size:10px;color:#6b7280}
+
+/* MODAL */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:60;align-items:center;justify-content:center;padding:20px}
+.ov.open{display:flex}
+.mbox{background:white;border-radius:12px;max-width:440px;width:100%;box-shadow:0 24px 60px rgba(0,0,0,.18);overflow:hidden;animation:mpop .18s ease}
+@keyframes mpop{from{transform:scale(.94);opacity:0}to{transform:scale(1);opacity:1}}
+.mh{padding:20px 24px 14px;border-bottom:1px solid #f3f4f6;border-top:4px solid #7c3aed}
+.mt{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#7c3aed;margin-bottom:5px}
+.mn{font-size:18px;font-weight:700;color:#111}
+.mb{padding:16px 24px 20px}
+.md{font-size:13px;color:#6b7280;line-height:1.7;margin-bottom:12px}
+.ms{font-size:12px;color:#9ca3af;background:#f9fafb;border:1px solid #f3f4f6;border-radius:6px;padding:10px 14px;margin-bottom:14px}
+.mf{padding:12px 24px;background:#f9fafb;display:flex;justify-content:flex-end}
+.mbtn{background:#7c3aed;border:none;color:white;padding:9px 20px;border-radius:6px;cursor:pointer;font-size:13px;font-family:inherit;font-weight:600}
+.mbtn:hover{background:#6d28d9}
+</style>
+</head>
+<body>
+
+<div id="portal" class="screen active">
+  <nav class="navbar">
+    <div class="nav-logo" onclick="go('portal')">V</div>
+    <div class="nav-links">
+      <div class="nav-link">Roadmaps &#9662;</div>
+      <div class="nav-link">Over VRT &#9662;</div>
+      <div class="nav-link">Word VRT Taxateur</div>
+    </div>
+    <div class="nav-right">
+      <span class="nav-inloggen">Inloggen</span>
+      <button class="nav-reg">Registreren</button>
+    </div>
+  </nav>
+  <div class="hero">
+    <h1 class="hero-title">VRT Taxateur Roadmaps</h1>
+    <p class="hero-desc"><b>VRT</b> — Verenigd Register van Taxateurs. Stap voor stap erkend specialist worden in uw discipline. Van eerste meeloopdag tot VRT-registratie.</p>
+  </div>
+  <div class="wrap">
+    <div class="bm-sec" id="bmSec" style="display:none">
+      <div class="bm-lbl">Uw bladwijzers</div>
+      <div class="grid" id="bmGrid"></div>
+    </div>
+    <div><div class="sec-div"><div class="sec-line"></div><div class="sec-pill">Role Based Roadmaps</div><div class="sec-line"></div></div><div class="grid" id="roleGrid"></div></div>
+    <div><div class="sec-div"><div class="sec-line"></div><div class="sec-pill">Skill Based Roadmaps</div><div class="sec-line"></div></div><div class="grid" id="skillGrid"></div></div>
+    <div><div class="sec-div"><div class="sec-line"></div><div class="sec-pill">Project Ideas</div><div class="sec-line"></div></div><div class="grid" id="projGrid"></div></div>
+    <div><div class="sec-div"><div class="sec-line"></div><div class="sec-pill">Best Practices</div><div class="sec-line"></div></div><div class="grid" id="bpGrid"></div></div>
+  </div>
+</div>
+
+<div id="rm" class="screen">
+  <nav class="rm-nav">
+    <div class="nav-logo" onclick="go('portal')" style="cursor:pointer">V</div>
+    <div class="nav-links"><div class="nav-link" style="color:#64748b">Roadmaps</div></div>
+  </nav>
+  <div class="rm-header">
+    <div class="rm-back" onclick="go('portal')">&#8592; All Roadmaps</div>
+    <h1 class="rm-title" id="rmTitle">-</h1>
+    <div class="rm-sub" id="rmSub">-</div>
+    <div class="rm-tabs"><div class="rm-tab on">Roadmap</div><div class="rm-tab">Projecten</div></div>
+  </div>
+  <div class="hint-bar">Klik op een vakje voor uitleg, werkvloer-modules en opleidingen</div>
+  <div class="rm-body">
+    <div class="rm-side">
+      <div class="sbox">
+        <div class="sbox-ttl">Legenda</div>
+        <div class="leg-row"><div class="leg-dot" style="background:#7c3aed"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2.5L7.5 2.5" stroke="white" stroke-width="1.5"/></svg></div>Aanbevolen route</div>
+        <div class="leg-row"><div class="leg-dot" style="background:#16a34a"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2.5L7.5 2.5" stroke="white" stroke-width="1.5"/></svg></div>Alternatieve optie</div>
+        <div class="leg-row"><div class="leg-dot" style="background:#9ca3af"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2.5L7.5 2.5" stroke="white" stroke-width="1.5"/></svg></div>Volgorde niet strikt</div>
+      </div>
+      <div class="sbox">
+        <div class="sbox-ttl">Voortgang</div>
+        <div class="prog-bg"><div class="prog-fill" id="pFill"></div></div>
+        <div class="prog-txt"><b id="pDone">0</b> / <span id="pTotal">0</span> afgerond</div>
+      </div>
+      <div class="sbox"><div class="sbox-ttl">Gerelateerde Roadmaps</div><div id="relLinks"></div></div>
+    </div>
+    <div class="rm-chart"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+  </div>
+</div>
+
+<div class="np" id="np">
+  <div class="np-bar">
+    <select class="st-sel" id="stSel" onchange="setSt(this.value)">
+      <option value="pending">Pending</option>
+      <option value="bezig">Bezig</option>
+      <option value="done">Afgerond &#10003;</option>
+    </select>
+    <button class="np-close" onclick="closeNp()">&#x2715;</button>
+  </div>
+  <div class="np-body" id="npBody"></div>
+</div>
+
+<div class="ov" id="ov" onclick="ovClick(event)">
+  <div class="mbox">
+    <div class="mh"><div class="mt" id="mTag">-</div><div class="mn" id="mTitle">-</div></div>
+    <div class="mb"><div class="md" id="mDesc">-</div><div class="ms" id="mSoon" style="display:none">Volledige roadmap komt binnenkort beschikbaar</div></div>
+    <div class="mf"><button class="mbtn" onclick="closeOv()">Sluiten</button></div>
+  </div>
+</div>
+
+<script>
+// =====================================================
+// PORTAL CARDS
+// =====================================================
+const ROLES=[
+  {id:"schade",l:"Schade Taxateur"},
+  {id:"voertuig",l:"Voertuig Taxateur"},
+  {id:"inboedel",l:"Inboedel & Opstal Taxateur"},
+  {id:"successie",l:"Successie & Boedel Taxateur"},
+  {id:"kunst",l:"Kunst & Antiek Taxateur"},
+  {id:"bedrijf",l:"Bedrijfsschade Taxateur"},
+  {id:"gerechtelijk",l:"Gerechtelijk Deskundige",isNew:true},
+  {id:"vastgoed",l:"Vastgoed Taxateur (VRT)"},
+  {id:"agrarisch",l:"Agrarisch Taxateur (VRT)"},
+];
+const SKILLS=[
+  {id:"s_calc",l:"Schadecalculatie"},
+  {id:"s_rapport",l:"Expertiserapport Schrijven"},
+  {id:"s_inspectie",l:"Objectinspectie Techniek"},
+  {id:"s_wft",l:"Verzekeringswetgeving (Wft)"},
+  {id:"s_foto",l:"Fotodocumentatie"},
+  {id:"s_contra",l:"Contra-expertise"},
+  {id:"s_boedel",l:"Boedelwaardering"},
+  {id:"s_bedrijfsonderbreking",l:"Bedrijfsonderbreking"},
+  {id:"s_herwaardering",l:"Herwaardering & Indexering"},
+];
+const PROJECTS=[
+  {id:"p1",l:"Eerste Schade-expertise Uitvoeren"},
+  {id:"p2",l:"Voertuigschade van A tot Z"},
+  {id:"p3",l:"Boedelwaardering Nalatenschap"},
+  {id:"p4",l:"Bedrijfsschade Case Study"},
+  {id:"p5",l:"Contra-expertise Schrijven"},
+  {id:"p6",l:"VRT Portfolio Opbouwen"},
+];
+const BP=[
+  {id:"bp1",l:"Objectiviteit & Onpartijdigheid"},
+  {id:"bp2",l:"Dossier Documentatie"},
+  {id:"bp3",l:"Tuchtrecht & Klachtenprocedure"},
+  {id:"bp4",l:"Permanente Educatie"},
+  {id:"bp5",l:"Onafhankelijkheid Bewaken"},
+  {id:"bp6",l:"Kwaliteitsborgingssysteem"},
+];
+
+// =====================================================
+// ROADMAP DATA
+// =====================================================
+const RD={
+  schade:{
+    title:"Schade Taxateur",
+    sub:"Stap voor stap naar VRT-geregistreerd schade taxateur — van basis tot register",
+    related:["voertuig","successie"],
+    phases:[
+      {label:"Vooropleiding & Basis",nodes:["HBO/MBO Opleiding","Verzekeringskennis","Schadeproces begrijpen","Aansprakelijkheidsrecht"]},
+      {label:"Technische Kennis",nodes:["Bouwkunde & Constructie","Installatietechniek","Materiaalkunde & Slijtage","Fotodocumentatie"]},
+      {label:"Schadecalculatie",nodes:["Herstelkostenberekening","Waardevermindering","Vervangings- vs Dagwaarde","Schadebegroting opstellen"]},
+      {label:"Wet- & Regelgeving",nodes:["Verzekeringsrecht (Wft)","VRT Reglement & Gedragscode","Tuchtrecht & Klachtenprocedure","Privacy & AVG"]},
+      {label:"Praktijkervaring",nodes:["Stage Expertisebureau","Begeleiding VRT-lid","50+ Schade-expertises","Dossieropbouw & Portfolio"]},
+      {label:"VRT Registratie",nodes:["Toetsing VRT Commissie","Inschrijving VRT Register","Permanente Educatie (PE)"]}
+    ]
+  },
+  voertuig:{
+    title:"Voertuig Taxateur",
+    sub:"Specialisatie in voertuigschade, dagwaarde en total loss beoordeling",
+    related:["schade","inboedel"],
+    phases:[
+      {label:"Technisch Fundament",nodes:["Autotechniek & Carrosserie","Merkkennis & Typologieen","Constructie & Veiligheid","Schadecategorieen herkennen"]},
+      {label:"Waarderingsmethoden",nodes:["Dagwaarde bepaling","Koerslijsten (NACA/Eurotax)","Total loss calculatie","Restwaarde bepalen"]},
+      {label:"Schade & Herstel",nodes:["Carrosserieschade beoordelen","Mechanische schade herkennen","Herstelkostencalculatie","Verholen gebreken signaleren"]},
+      {label:"VRT Registratie",nodes:["100+ Voertuigtaxaties","Begeleiding erkend taxateur","VRT Voertuig register","Permanente educatie (PE)"]}
+    ]
+  },
+  inboedel:{
+    title:"Inboedel & Opstal Taxateur",
+    sub:"Waardering van huisraad en woongebonden zaken bij schade, verzekering en verdeling",
+    related:["successie","schade"],
+    phases:[
+      {label:"Basiskennis",nodes:["Waardebegrippen inboedel","Vervangingswaarde vs dagwaarde","Verzekeringspolissen lezen","Schadeproces woningschade"]},
+      {label:"Inspectie & Waardering",nodes:["Systematische opname inboedel","Bijzondere objecten herkennen","Elektronica & witgoed","Kleding & persoonlijke bezittingen"]},
+      {label:"Rapportage",nodes:["Inboedelrapport opstellen","Fotorapportage bij schade","Betwiste schades behandelen","Schadeopstelling ondertekenen"]},
+      {label:"VRT Registratie",nodes:["Portfolio 30+ inboedelexpertises","Begeleiding VRT-lid","VRT Inboedel register","Permanente educatie (PE)"]}
+    ]
+  },
+  successie:{
+    title:"Successie & Boedel Taxateur",
+    sub:"Waardering van nalatenschappen en boedels voor verdeling, belasting en recht",
+    related:["kunst","inboedel"],
+    phases:[
+      {label:"Juridisch Fundament",nodes:["Erfrecht (BW Boek 4)","Boedelscheiding procedures","Successiebelasting & notariaat","Samenwerking met notaris"]},
+      {label:"Waarderingsmethoden",nodes:["Marktwaarde roerende zaken","Comparatieve methode","Dagwaarde & vervangingswaarde","Fiscale waardering"]},
+      {label:"Categoriespecialisatie",nodes:["Sieraden & edelmetalen","Numismatiek & verzamelingen","Klassieke voertuigen","Kunst & antiek basis"]},
+      {label:"Rapportage & Recht",nodes:["Successierapport opstellen","Rechtbankwaardige rapportage","Contra-expertise","Betwiste boedels behandelen"]},
+      {label:"VRT Registratie",nodes:["Portfolio 30+ boedelexpertises","Toetsing VRT commissie","VRT Successie register","Permanente educatie (PE)"]}
+    ]
+  },
+  kunst:{
+    title:"Kunst & Antiek Taxateur",
+    sub:"Specialisatie in de waardering van kunst, antiek en bijzondere objecten",
+    related:["successie","inboedel"],
+    phases:[
+      {label:"Kunsthistorische Basis",nodes:["Kunstgeschiedenis overzicht","Stilperioden herkennen","Signaturen & echtheid","Provenanceonderzoek"]},
+      {label:"Markt & Waarde",nodes:["Veilingmarkt begrijpen","Galeriehandel & prijsvorming","Internationale marktprijzen","Veiling databases gebruiken"]},
+      {label:"Technisch Onderzoek",nodes:["Materiaalanalyse basis","UV & conditiebeoordeling","Restauratie herkennen","Echtheidsonderzoek methoden"]},
+      {label:"VRT Registratie",nodes:["Portfolio 30+ kunstexpertises","Toetsing VRT commissie","VRT Kunst & Antiek register","Permanente educatie (PE)"]}
+    ]
+  },
+  bedrijf:{
+    title:"Bedrijfsschade Taxateur",
+    sub:"Beoordeling van bedrijfsschade, bedrijfsonderbreking en gederfde winst",
+    related:["schade","successie"],
+    phases:[
+      {label:"Bedrijfskundige Basis",nodes:["Bedrijfsprocessen begrijpen","Financiele administratie lezen","Verzekerd belang bedrijven","Polisvoorwaarden bedrijven"]},
+      {label:"Schadeberekening",nodes:["Gederfde omzet berekenen","Vaste lasten analyseren","Extra kosten bepalen","Herstelperiode inschatten"]},
+      {label:"Juridisch & Verzekering",nodes:["Bedrijfsschadeverzekering (BI)","Aansprakelijkheid bij bedrijfsschade","Deskundigenclausule polissen","Arbitrage & geschillen"]},
+      {label:"VRT Registratie",nodes:["Portfolio 20+ bedrijfsexpertises","Samenwerking met accountants","VRT Bedrijfsschade register","Permanente educatie (PE)"]}
+    ]
+  }
+};
+
+// =====================================================
+// NODE DETAIL DATA (per roadmap, per node id)
+// =====================================================
+const ND={
+  schade:{
+    "n_0_0":{
+      tag:"Vooropleiding",title:"HBO/MBO Opleiding",
+      desc:"Een relevant diploma op MBO of HBO niveau in techniek, bouwkunde, economie of een aanverwant vakgebied is het startpunt. Dit fundament bepaalt hoe snel u de praktijk kunt oppakken.",
+      wv:[
+        {ico:"👥",lbl:"Gesprek met een VRT-taxateur over zijn loopbaanpad",sub:"Vraag hoe zij zijn gestart, welke opleiding het meeste heeft opgeleverd en wat ze achteraf anders zouden doen"},
+        {ico:"🏢",lbl:"Bezoek een open dag bij NIVRE of een expertisebureau",sub:"Oriënteer u op de dagelijkse praktijk voordat u een opleiding kiest — dit voorkomt een verkeerde keuze"},
+        {ico:"📋",lbl:"Vraag uw leidinggevende om een functieprofiel van een junior taxateur",sub:"Vergelijk de vereisten met uw huidige diploma en signaleer uw ontwikkelgaten"}
+      ],
+      opl:[
+        {nm:"NIVRE — Opleiding Register Expert",url:"https://www.nivre.nl",tp:"Post-HBO",dr:"2 jaar",pr:"Op aanvraag",lv:"klassikaal"},
+        {nm:"LOI — Verzekeringstechniek",url:"https://www.loi.nl",tp:"Afstandsonderwijs",dr:"1 jaar",pr:"€ 1.395",lv:"online"},
+        {nm:"Hogeschool van Amsterdam — Vastgoed & Makelaardij",url:"https://www.hva.nl",tp:"HBO",dr:"4 jaar",pr:"€ 2.530/jr",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Handboek Expertisepraktijk — NIVRE",pr:"€ 65"}]
+    },
+    "n_0_1":{
+      tag:"Vooropleiding",title:"Verzekeringskennis",
+      desc:"Basiskennis van de verzekeringsbranche: hoe werkt een schadeverzekering, wat zijn de rechten en plichten van alle partijen, en hoe verloopt een claim van melding tot afwikkeling?",
+      wv:[
+        {ico:"📄",lbl:"Lees samen met een senior collega een schadepolis door",sub:"Vraag hem/haar de voorwaarden te verduidelijken — focus op uitsluitingen en bijzondere bedingen"},
+        {ico:"👥",lbl:"Woon een intakegesprek bij tussen taxateur en verzekerde",sub:"Observeer hoe de taxateur vragen stelt, informatie verzamelt en verwachtingen managet"},
+        {ico:"💬",lbl:"Bespreek een afgewezen schadeclaim in teamverband",sub:"Analyseer waarom de claim is afgewezen en wat de polis hierover zegt — leer de redeneerwijze"}
+      ],
+      opl:[
+        {nm:"NIBE-SVV — Schade Basis",url:"https://www.nibe-svv.nl",tp:"Certificaat",dr:"6 maanden",pr:"€ 895",lv:"klassikaal"},
+        {nm:"Dukers & Baelemans — Wft Online",url:"https://www.dukersenbaelemans.nl",tp:"E-learning",dr:"3 maanden",pr:"€ 299",lv:"online"}
+      ],
+      pm:[{tp:"Boek",lbl:"Verzekeringsrecht in de Praktijk",pr:"€ 58"}]
+    },
+    "n_0_2":{
+      tag:"Vooropleiding",title:"Schadeproces begrijpen",
+      desc:"Het volledige schadeproces van A tot Z: schademelding, opdrachtverlening, inspectie, calculatie, rapport, schadeopstelling en afwikkeling met alle betrokken partijen.",
+      wv:[
+        {ico:"🔄",lbl:"Volg een dossier van begin tot eind mee",sub:"Vraag uw leidinggevende of u een lopend dossier van start tot afwikkeling mag volgen — minstens 2 weken"},
+        {ico:"📞",lbl:"Luister mee bij een telefoongesprek met een verzekeraar",sub:"Observeer hoe de taxateur communiceert over schadeomvang, hersteladvies en tijdlijn"},
+        {ico:"📝",lbl:"Schrijf na elke meeloopdag een korte reflectie",sub:"Noteer wat u geleerd heeft, wat u verraste en welke vragen u nog heeft — bespreek dit met uw begeleider"}
+      ],
+      opl:[
+        {nm:"NIVRE — Basiscursus Schadetaxatie",url:"https://www.nivre.nl",tp:"Cursus",dr:"3 dagen",pr:"€ 650"},
+        {nm:"Adfiz — Schade Specialisatie",url:"https://www.adfiz.nl",tp:"PE-module",dr:"1 dag",pr:"€ 295"}
+      ],
+      pm:[{tp:"Boek",lbl:"Praktijkboek Schadeafwikkeling",pr:"€ 44"}],
+      tk:[
+        {ico:"❤️",lbl:"Klantgesprek bij emotionele schades",sub:"Bij brand of overlijden is de verzekerde in shock. U leert hoe u professioneel communiceert in emotioneel beladen situaties zonder uw onpartijdigheid te verliezen.",
+          opl:[
+            {nm:"Communiceren in moeilijke situaties",url:"https://www.debaak.nl",brand:"De Baak",tp:"Training",dr:"1 dag"},
+            {nm:"Empathisch communiceren voor professionals",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"2 uur"}
+          ]}
+      ]
+    },
+    "n_0_3":{
+      tag:"Vooropleiding",title:"Aansprakelijkheidsrecht",
+      desc:"Kennis van de wettelijke grondslagen voor aansprakelijkheid (BW Boek 6), onrechtmatige daad en schadevergoedingsplicht. Essentieel bij elke expertise waarbij aansprakelijkheid speelt.",
+      wv:[
+        {ico:"⚖️",lbl:"Bespreek een aansprakelijkheidsdossier met uw juridisch adviseur",sub:"Vraag de juridische redenering achter een aansprakelijkheidsstelling en hoe die uw taxatierapport beïnvloedt"},
+        {ico:"📚",lbl:"Lees twee recente rechtbankuitspraken over schadevergoeding",sub:"Bespreek de uitkomst met een senior collega — wat betekent dit voor uw dagelijkse praktijk?"}
+      ],
+      opl:[
+        {nm:"Grotius Academie — Aansprakelijkheidsrecht",url:"https://www.grotius.nl",tp:"Post-academisch",dr:"2 dagen",pr:"€ 1.250"},
+        {nm:"SSR — Schadevergoedingsrecht",url:"https://www.ssr.nl",tp:"Cursus",dr:"1 dag",pr:"€ 450"}
+      ],
+      pm:[{tp:"Boek",lbl:"Aansprakelijkheid & Schade — Asser Serie",pr:"€ 89"}]
+    },
+    "n_1_0":{
+      tag:"Technische Kennis",title:"Bouwkunde & Constructie",
+      desc:"Inzicht in hoe gebouwen zijn opgebouwd: fundering, constructie, materiaalgebruik en bouwwijzen. U leert constructieve schades herkennen en de oorzaak traceren.",
+      wv:[
+        {ico:"🏗️",lbl:"Loop een dag mee bij een brandschadeopname",sub:"Focus op de bouwkundige aspecten: welke constructiedelen zijn aangetast, wat is de oorzaak-gevolg relatie?"},
+        {ico:"🔍",lbl:"Inspecteer samen met een bouwkundig adviseur een schadeobject",sub:"Vraag hem/haar de constructie toe te lichten en te wijzen op verborgen schade die u zelf gemist had"},
+        {ico:"📐",lbl:"Teken een eenvoudige plattegrond van een geïnspecteerd object",sub:"Oefen met het vastleggen van afmetingen, schade-locaties en constructieve elementen — laat dit nalezen"},
+        {ico:"💬",lbl:"Bespreek een moeilijke constructieschade in teamverband",sub:"Presenteer uw bevindingen en luister naar de feedback van ervaren collega's"}
+      ],
+      opl:[
+        {nm:"Bouwacademie — Bouwtechniek voor niet-bouwers",url:"https://www.bouwacademie.nl",tp:"Cursus",dr:"5 dagen",pr:"€ 1.195",lv:"klassikaal"},
+        {nm:"NIVRE — Technische Basis Schadetaxatie",url:"https://www.nivre.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 550",lv:"klassikaal"},
+        {nm:"SOMA — Bouwkunde voor Taxateurs",url:"https://www.soma.nl",tp:"Module",dr:"3 maanden",pr:"€ 980",lv:"blended"}
+      ],
+      pm:[{tp:"Boek",lbl:"Bouwkundige Gebreken — Handboek",pr:"€ 72"},{tp:"Boek",lbl:"NEN-normen Bouwkunde Praktijkgids",pr:"€ 55"}]
+    },
+    "n_1_1":{
+      tag:"Technische Kennis",title:"Installatietechniek",
+      desc:"Kennis van elektrische installaties, cv-installaties, sanitair en klimaatbeheersing. Installatieschades zijn frequent en vereisen inzicht in werking, levensduur en herstelkosten.",
+      wv:[
+        {ico:"🔌",lbl:"Loop mee bij een waterschade veroorzaakt door een installatiefout",sub:"Observeer hoe de taxateur de oorzaak vaststelt en de schadeomvang relateert aan de installatiestaat"},
+        {ico:"🛠️",lbl:"Vergezeld een installatietechnicus bij zijn herstelofferte",sub:"Begrijp hoe hij de schadeomvang inschat en hoe zijn offerte zich vertaalt naar uw calculatie"},
+        {ico:"💬",lbl:"Bespreek een betwiste installatieschade met uw team",sub:"Focus op de vraag: wat valt wel en niet onder de dekking, en hoe onderbouwt u uw standpunt?"}
+      ],
+      opl:[
+        {nm:"SOMA — Installatietechniek voor Taxateurs",url:"https://www.soma.nl",tp:"Module",dr:"2 dagen",pr:"€ 595"},
+        {nm:"ROC — Installatie Techniek basis",url:"https://www.roc.nl",tp:"MBO module",dr:"6 maanden",pr:"€ 750"}
+      ],
+      pm:[{tp:"Boek",lbl:"Installatietechniek Praktijkboek",pr:"€ 48"}]
+    },
+    "n_1_2":{
+      tag:"Technische Kennis",title:"Materiaalkunde & Slijtage",
+      desc:"Kennis van bouwmaterialen, hun levensduur en slijtagepatronen. U onderscheidt schade van normale slijtage en bepaalt de technische restwaarde van objecten.",
+      wv:[
+        {ico:"🔬",lbl:"Analyseer samen met een senior collega drie schadeoorzaken",sub:"Bespreek bij elk dossier: is dit schade, achterstallig onderhoud of normale slijtage? En hoe ziet u dat?"},
+        {ico:"🏚️",lbl:"Inspecteer een oud pand en beoordeel de staat van bouwdelen",sub:"Maak een overzicht van elk bouwdeel met uw inschatting van de resterende technische levensduur"},
+        {ico:"📊",lbl:"Vergelijk uw afschrijvingsberekening met die van een collega",sub:"Bespreek de verschillen en de gebruikte methoden — leer van elkaars aanpak"}
+      ],
+      opl:[
+        {nm:"NIVRE — Technische Waardebepaling",url:"https://www.nivre.nl",tp:"Cursus",dr:"1 dag",pr:"€ 395"},
+        {nm:"Bouwacademie — Materiaalkunde",url:"https://www.bouwacademie.nl",tp:"Cursus",dr:"3 dagen",pr:"€ 875"}
+      ],
+      pm:[{tp:"Boek",lbl:"Bouwmaterialen Handboek",pr:"€ 65"}]
+    },
+    "n_1_3":{
+      tag:"Technische Kennis",title:"Fotodocumentatie",
+      desc:"Professionele vastlegging van schades met foto en video. Goede documentatie is juridisch van belang en voorkomt discussies achteraf over de schadeomvang.",
+      wv:[
+        {ico:"📸",lbl:"Documenteer uw volgende inspectie volledig op foto",sub:"Laat uw fotorapportage beoordelen door een senior collega — vraag specifiek naar volledigheid en volgorde"},
+        {ico:"🎥",lbl:"Bekijk de fotodossiers van drie afgeronde expertises",sub:"Analyseer hoe de foto's de schade ondersteunen en wat u zelf eventueel anders zou fotograferen"},
+        {ico:"💬",lbl:"Vraag een herstelondernemer wat hij mist in uw fotorapportage",sub:"Zijn perspectief helpt u begrijpen welke detailfoto's noodzakelijk zijn voor een goede offerte"}
+      ],
+      opl:[
+        {nm:"NIVRE — Praktijkmiddag Documentatie",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 250"},
+        {nm:"Fotovakschool — Technische Fotografie",url:"https://www.fotovakschool.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 495"}
+      ],
+      pm:[{tp:"Software",lbl:"SketchUp — Schadeopname software",pr:"€ 229/jr"}],
+      tk:[
+        {ico:"🤖",lbl:"AI beeldanalyse bij schadeopname",sub:"AI-tools herkennen automatisch schadetypen op foto's. Als taxateur begrijpt u hoe deze tools werken, waar ze falen en hoe u de uitkomst valideert.",
+          opl:[
+            {nm:"AI & Beeldherkenning voor Professionals",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"3 uur"},
+            {nm:"Digitale Tools in de Expertisepraktijk",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"2 uur"}
+          ]}
+      ]
+    },
+    "n_2_0":{
+      tag:"Schadecalculatie",title:"Herstelkostenberekening",
+      desc:"Het berekenen van de kosten voor herstel op basis van arbeidsuren, materialen en bijkomende kosten. U werkt met calculatiesoftware en kent de gangbare tarieven.",
+      wv:[
+        {ico:"🧮",lbl:"Maak uw eerste schadebegroting onder begeleiding van een senior",sub:"Laat elke stap toelichten: hoe kiest hij herstelposten, welke tarieven gebruikt hij en waarom?"},
+        {ico:"🤝",lbl:"Vergezeld een herstelondernemer bij zijn offerte op locatie",sub:"Vergelijk zijn calculatie achteraf met de uwe — bespreek de verschillen grondig"},
+        {ico:"✅",lbl:"Loop mee bij de eindinspectie van een afgerond herstelproject",sub:"Controleer of het herstel overeenkomt met de begroting — wat is er bijgekomen of weggevallen?"}
+      ],
+      opl:[
+        {nm:"Bouwacademie — Kostenmanagement",url:"https://www.bouwacademie.nl",tp:"Cursus",dr:"3 dagen",pr:"€ 995"},
+        {nm:"NIVRE — Calculatietechnieken",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 350"}
+      ],
+      pm:[{tp:"Software",lbl:"Kleos Calculatiesoftware",pr:"€ 85/mnd"},{tp:"Boek",lbl:"Kostenkengetallen Bouw & Installatie",pr:"€ 95"}],
+      tk:[
+        {ico:"🤖",lbl:"Geautomatiseerde calculatietools begrijpen",sub:"Steeds meer verzekeraars gebruiken AI-calculatiesoftware als eerste schatting. U leert hoe u deze uitkomsten kritisch beoordeelt en waar algoritmes tekort schieten.",
+          opl:[
+            {nm:"ChatGPT & AI voor administratieve professionals",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"4 uur"},
+            {nm:"Werken met digitale calculatietools",url:"https://www.ncoi.nl",brand:"NCOI",tp:"Online module",dr:"1 dag"}
+          ]},
+        {ico:"💬",lbl:"Uitleggen van AI-uitkomsten aan verzekerden",sub:"Verzekerde begrijpt niet waarom een algoritme zijn schade lager inschat. U kunt dit helder uitleggen en betwiste uitkomsten professioneel behandelen.",
+          opl:[
+            {nm:"Klantgesprekken bij complexe schades",url:"https://www.debaak.nl",brand:"De Baak",tp:"Training",dr:"1 dag"}
+          ]}
+      ]
+    },
+    "n_2_1":{
+      tag:"Schadecalculatie",title:"Waardevermindering",
+      desc:"Bepaling van technische en economische waardevermindering na schade of door leeftijd. Inzicht in afschrijvingsmethoden en hun toepassing bij expertises.",
+      wv:[
+        {ico:"📉",lbl:"Bereken de waardevermindering van drie objecten samen met uw begeleider",sub:"Bespreek welke methode u gebruikt en waarom — leer de argumenten die een verzekeraar of rechter zou accepteren"},
+        {ico:"💬",lbl:"Bespreek een betwiste waardeverminderingsberekening in uw team",sub:"Welke argumenten heeft de verzekerde? Welke heeft de verzekeraar? Hoe vindt u de juiste balans?"}
+      ],
+      opl:[
+        {nm:"NIVRE — Waardebepaling & Afschrijving",url:"https://www.nivre.nl",tp:"Cursus",dr:"1 dag",pr:"€ 375"},
+        {nm:"NIBE-SVV — Schadeberekening Verdieping",url:"https://www.nibe-svv.nl",tp:"Module",dr:"2 maanden",pr:"€ 545"}
+      ],
+      pm:[{tp:"Boek",lbl:"Waardevermindering in de Schadepraktijk",pr:"€ 52"}]
+    },
+    "n_2_2":{
+      tag:"Schadecalculatie",title:"Vervangings- vs Dagwaarde",
+      desc:"Het onderscheid tussen vervangingswaarde en dagwaarde. U weet wanneer welke grondslag van toepassing is en hoe u dit onderbouwt in uw rapport.",
+      wv:[
+        {ico:"⚖️",lbl:"Zoek drie dossiers waarbij de grondslag heeft gespeeld",sub:"Analyseer waarom gekozen is voor dag- of vervangingswaarde — wat stond er in de polis?"},
+        {ico:"📄",lbl:"Lees samen met een senior de polisvoorwaarden van een woonhuis- en inboedelverzekering",sub:"Focus specifiek op de omschrijving van de grondslag en de uitzonderingen"}
+      ],
+      opl:[
+        {nm:"NIVRE — Grondslagen Schadeberekening",url:"https://www.nivre.nl",tp:"E-learning",dr:"4 uur",pr:"€ 195"},
+        {nm:"NIBE-SVV — Schaderecht & Vergoeding",url:"https://www.nibe-svv.nl",tp:"Cursus",dr:"1 dag",pr:"€ 425"}
+      ],
+      pm:[{tp:"Boek",lbl:"Verzekeringswaardering — Handboek",pr:"€ 60"}]
+    },
+    "n_2_3":{
+      tag:"Schadecalculatie",title:"Schadebegroting opstellen",
+      desc:"Het opstellen van een volledige, onderbouwde schadebegroting — van inspectie en calculatie tot definitieve schadeopstelling die door alle partijen wordt geaccepteerd.",
+      wv:[
+        {ico:"📝",lbl:"Stel uw eerste schadebegroting op en laat die nalezen",sub:"Vraag uw VRT-begeleider specifiek te letten op volledigheid, logica en leesbaarheid voor een leek"},
+        {ico:"🔄",lbl:"Vergelijk uw schadebegroting met de definitieve van uw begeleider",sub:"Bespreek elk verschilpunt: waarom koos hij een andere post, bedrag of volgorde?"},
+        {ico:"👥",lbl:"Presenteer een schadebegroting aan het team en verdedig uw keuzes",sub:"Leer omgaan met kritische vragen — dit bereidt u voor op de VRT-toetsingscommissie"}
+      ],
+      opl:[
+        {nm:"NIVRE — Rapportagetechnieken",url:"https://www.nivre.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 595",lv:"klassikaal"},
+        {nm:"Schoevers — Zakelijk Schrijven",url:"https://www.schoevers.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 495",lv:"blended"}
+      ],
+      pm:[{tp:"Software",lbl:"Expert Suite — Expertisesoftware",pr:"€ 120/mnd"},{tp:"Boek",lbl:"Praktijkgids Schadeopstelling",pr:"€ 45"}],
+      tk:[
+        {ico:"✍️",lbl:"AI als schrijfassistent voor rapporten",sub:"AI-tools zoals ChatGPT kunnen de structuur van een rapport genereren op basis van uw inspectienotities. U bepaalt de inhoud, AI helpt met formulering en opbouw.",
+          opl:[
+            {nm:"ChatGPT voor Professionals",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"3 uur"},
+            {nm:"Rapportage met AI-ondersteuning",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"2 uur"}
+          ]},
+        {ico:"📝",lbl:"Schrijven voor leken — begrijpelijke rapporten",sub:"Uw rapport wordt gelezen door verzekerden, rechters en bemiddelaars. Duidelijke taal vergroot uw geloofwaardigheid en voorkomt discussies.",
+          opl:[
+            {nm:"Zakelijk Schrijven",url:"https://www.schoevers.nl",brand:"Schoevers",tp:"Blended",dr:"2 dagen"},
+            {nm:"Schrijven voor niet-specialisten",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"2 uur"}
+          ]}
+      ]
+    },
+    "n_3_0":{
+      tag:"Wet- & Regelgeving",title:"Verzekeringsrecht (Wft)",
+      desc:"De Wet op het financieel toezicht regelt de financiële dienstverlening in Nederland. Als taxateur dient u de relevante bepalingen te kennen voor uw dagelijkse praktijk.",
+      wv:[
+        {ico:"📜",lbl:"Lees de Wft-samenvatting met uw leidinggevende door",sub:"Vraag welke artikelen hij dagelijks gebruikt en welke het meest relevant zijn voor uw rol als taxateur"},
+        {ico:"⚖️",lbl:"Volg een interne juridische bespreking over een geschil",sub:"Observeer hoe wetgeving wordt toegepast bij het oplossen van een dispuut tussen verzekerde en verzekeraar"}
+      ],
+      opl:[
+        {nm:"NIBE-SVV — Wft Schade Particulier",url:"https://www.nibe-svv.nl",tp:"Wft Diploma",dr:"4 maanden",pr:"€ 745",lv:"klassikaal"},
+        {nm:"NIBE-SVV — Wft Schade Zakelijk",url:"https://www.nibe-svv.nl",tp:"Wft Diploma",dr:"3 maanden",pr:"€ 695",lv:"klassikaal"},
+        {nm:"Dukers & Baelemans — Wft Online",url:"https://www.dukersenbaelemans.nl",tp:"E-learning",dr:"3 maanden",pr:"€ 299",lv:"online"}
+      ],
+      pm:[{tp:"Boek",lbl:"Wft Handboek Schade — Compleet",pr:"€ 79"}]
+    },
+    "n_3_1":{
+      tag:"Wet- & Regelgeving",title:"VRT Reglement & Gedragscode",
+      desc:"Het reglement stelt eisen aan vakbekwaamheid, onafhankelijkheid en integriteit. De gedragscode beschrijft de normen waaraan u als VRT-lid dagelijks bent gehouden.",
+      wv:[
+        {ico:"📋",lbl:"Lees het VRT-reglement en de gedragscode in zijn geheel",sub:"Markeer de artikelen die u het meest raken in uw huidige werk — bespreek die met uw begeleider"},
+        {ico:"🏛️",lbl:"Lees drie gepubliceerde tuchtuitspraken van VRT",sub:"Analyseer wat de taxateur fout deed, hoe dit voorkomen had kunnen worden en wat dit voor uw eigen werk betekent"}
+      ],
+      opl:[
+        {nm:"VRT — Introductiecursus Register",url:"https://www.vrt.nl",tp:"Verplichte module",dr:"1 dag",pr:"Op aanvraag"},
+        {nm:"VRT — Jaarlijkse PE-bijeenkomst",url:"https://www.vrt.nl",tp:"PE-verplichting",dr:"1 dag/jaar",pr:"Inbegrepen bij lidmaatschap"}
+      ],
+      pm:[{tp:"Boek",lbl:"Beroepsethiek voor Taxateurs",pr:"€ 38"}]
+    },
+    "n_3_2":{
+      tag:"Wet- & Regelgeving",title:"Tuchtrecht & Klachtenprocedure",
+      desc:"Het VRT-tuchtrecht beschermt de kwaliteit van het register. U kent de klachtenprocedure, volgt tuchtuitspraken en handelt correct bij eventuele klachten over uw werk.",
+      wv:[
+        {ico:"📖",lbl:"Bestudeer vijf recente tuchtuitspraken van VRT",sub:"Bespreek ze in teamverband — wat zijn de meest voorkomende fouten en hoe vermijdt u die?"},
+        {ico:"🎭",lbl:"Doe een rollenspel: u bent de taxateur, een collega speelt een klagende verzekerde",sub:"Oefen hoe u reageert op een klacht: rustig, feitelijk en professioneel"}
+      ],
+      opl:[
+        {nm:"NIVRE — Tuchtrecht voor Experts",url:"https://www.nivre.nl",tp:"PE-module",dr:"1 dag",pr:"€ 295"},
+        {nm:"VRT — Tuchtrecht Verdieping",url:"https://www.vrt.nl",tp:"PE-bijeenkomst",dr:"Halve dag",pr:"€ 195"}
+      ],
+      pm:[{tp:"Boek",lbl:"Tuchtrecht in de Expertisepraktijk",pr:"€ 42"}],
+      tk:[
+        {ico:"🤝",lbl:"Professioneel omgaan met klachten",sub:"Een klacht hoeft geen conflict te worden. U leert hoe u een klager serieus neemt, de situatie de-escaleert en een zakelijke opstelling behoudt.",
+          opl:[
+            {nm:"Omgaan met klachten en bezwaren",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"2 uur"},
+            {nm:"Conflicthantering voor professionals",url:"https://www.debaak.nl",brand:"De Baak",tp:"Training",dr:"1 dag"}
+          ]}
+      ]
+    },
+    "n_3_3":{
+      tag:"Wet- & Regelgeving",title:"Privacy & AVG",
+      desc:"De AVG is van toepassing op uw praktijk. U verwerkt persoonsgegevens van verzekerden en dient correct om te gaan met opslag, beveiliging en rechten van betrokkenen.",
+      wv:[
+        {ico:"🔒",lbl:"Controleer samen met uw leidinggevende hoe uw bureau persoonsgegevens verwerkt",sub:"Bekijk het privacyreglement van uw werkgever en stel vragen over de concrete uitvoering"},
+        {ico:"💻",lbl:"Doe de gratis AVG-test van de Autoriteit Persoonsgegevens",sub:"Bespreek uw resultaten met uw leidinggevende en stel een persoonlijk verbeterplan op"}
+      ],
+      opl:[
+        {nm:"Privacy Company — AVG Training",url:"https://www.privacycompany.eu",tp:"E-learning",dr:"4 uur",pr:"€ 149"},
+        {nm:"Juridische Hogeschool — AVG voor Professionals",url:"https://www.juridische-hogeschool.nl",tp:"Certificaat",dr:"2 dagen",pr:"€ 595"}
+      ],
+      pm:[{tp:"Boek",lbl:"Privacy Compliance Handboek",pr:"€ 49"}]
+    },
+    "n_4_0":{
+      tag:"Praktijkervaring",title:"Stage Expertisebureau",
+      desc:"Praktijkervaring bij een erkend expertisebureau is verplicht voor VRT-toelating. U loopt mee, voert inspecties uit en leert de dagelijkse praktijk van het taxatievak.",
+      wv:[
+        {ico:"🏢",lbl:"Spreek een erkend expertisebureau aan voor een meeloopstage",sub:"NIVRE heeft een overzicht van erkende bureaus — vraag specifiek naar een gestructureerd begeleidingsprogramma"},
+        {ico:"📅",lbl:"Plan minimaal twee meeloopweken in bij uw eerste stagebureau",sub:"Focus de eerste week op observeren, de tweede week op zelf uitvoeren onder begeleiding"},
+        {ico:"📊",lbl:"Houd een stagelogboek bij van elke dag",sub:"Noteer wat u heeft geleerd, welke vragen er open staan en welke situaties u terug wilt zien"}
+      ],
+      opl:[
+        {nm:"NIVRE — Stagebegeleidingsprogramma",url:"https://www.nivre.nl",tp:"Stage",dr:"Min. 6 maanden",pr:"Via werkgever"},
+        {nm:"VRT — Mentorprogramma",url:"https://www.vrt.nl",tp:"Begeleiding",dr:"1-2 jaar",pr:"Inbegrepen"}
+      ],
+      pm:[]
+    },
+    "n_4_1":{
+      tag:"Praktijkervaring",title:"Begeleiding VRT-lid",
+      desc:"VRT vereist begeleiding door een ingeschreven register taxateur. Uw begeleider beoordeelt rapporten, geeft feedback en ondertekent uw aanvraag voor VRT-registratie.",
+      wv:[
+        {ico:"🤝",lbl:"Stel een formele begeleidingsovereenkomst op met uw VRT-mentor",sub:"Leg vast hoeveel dossiers u samen bespreekt, hoe vaak u afspreekt en wanneer u klaar bent voor registratie"},
+        {ico:"📝",lbl:"Laat elk rapport dat u schrijft eerst beoordelen door uw begeleider",sub:"Vraag specifiek: wat ontbreekt er, wat is onduidelijk, en wat zou u anders formuleren?"},
+        {ico:"🗓️",lbl:"Plan maandelijks een vaste feedbacksessie met uw begeleider",sub:"Bespreek minimaal twee afgeronde dossiers in detail — zo bouwt u snel en gericht aan uw kwaliteit"}
+      ],
+      opl:[
+        {nm:"VRT — Mentorbijeenkomst",url:"https://www.vrt.nl",tp:"Begeleiding",dr:"Doorlopend",pr:"Inbegrepen bij registratie"}
+      ],
+      pm:[],
+      tk:[
+        {ico:"🎯",lbl:"Feedback geven als begeleider",sub:"Als VRT-mentor geeft u structureel feedback op rapporten van kandidaten. Goede feedbackvaardigheden versnellen de ontwikkeling van uw mentee aanzienlijk.",
+          opl:[
+            {nm:"Coachend begeleiden",url:"https://www.debaak.nl",brand:"De Baak",tp:"Training",dr:"2 dagen"},
+            {nm:"Feedback geven en ontvangen",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"1.5 uur"}
+          ]}
+      ]
+    },
+    "n_4_2":{
+      tag:"Praktijkervaring",title:"50+ Schade-expertises",
+      desc:"Voor de VRT-aanvraag bouwt u een portfolio op van minimaal 50 aantoonbare schade-expertises. Kwaliteit en diversiteit van dossiers zijn bepalend voor de toetsing.",
+      wv:[
+        {ico:"📁",lbl:"Begin direct met het opbouwen van een gestructureerd portfolio",sub:"Maak een registratie per expertise: datum, objecttype, schadesoort, uw rol en de uitkomst"},
+        {ico:"🎯",lbl:"Streef naar diversiteit in uw portfolio",sub:"Zorg voor brand, water, storm, inbraak én aansprakelijkheid — de VRT-commissie beoordeelt uw breedte"},
+        {ico:"👁️",lbl:"Laat uw portfolio halverwege beoordelen door uw VRT-begeleider",sub:"Vraag: welke dossiertypen mist hij nog, en welke kwaliteitspunten heeft hij voor de resterende helft?"}
+      ],
+      opl:[
+        {nm:"NIVRE — Portfoliobeoordeling",url:"https://www.nivre.nl",tp:"Toetsing",dr:"Op afspraak",pr:"€ 150"}
+      ],
+      pm:[{tp:"Software",lbl:"Expert Suite Dossierbeheer",pr:"€ 120/mnd"}]
+    },
+    "n_4_3":{
+      tag:"Praktijkervaring",title:"Dossieropbouw & Portfolio",
+      desc:"Leg elke opdracht volledig vast: opdrachtbrief, inspectieverslag met foto's, calculatiebladen en eindrapport. Een goed dossier beschermt u juridisch en is vereist voor VRT-toelating.",
+      wv:[
+        {ico:"🗂️",lbl:"Controleer drie oude dossiers van uw bureau op volledigheid",sub:"Gebruik de VRT-dossierrichtlijnen als checklist — stel vast wat er ontbreekt en leer hiervan voor uw eigen dossiers"},
+        {ico:"✅",lbl:"Maak een persoonlijke dossier-checklist voor elke expertise",sub:"Verfijn deze na elk dossier totdat u zeker weet dat u niets vergeet — dit wordt uw persoonlijke standaard"}
+      ],
+      opl:[
+        {nm:"NIVRE — Workshop Dossiervoering",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 275"}
+      ],
+      pm:[{tp:"Software",lbl:"Kleos Dossierbeheer",pr:"€ 85/mnd"}]
+    },
+    "n_5_0":{
+      tag:"VRT Registratie",title:"Toetsing VRT Commissie",
+      desc:"Na opleiding en praktijkervaring beoordeelt de VRT-commissie uw dossier. Zij beoordelen opleiding, diversiteit van ervaringen en eventueel een gesprek.",
+      wv:[
+        {ico:"📋",lbl:"Doe een mock-toetsing met uw VRT-begeleider",sub:"Vraag hem de rol van commissielid te spelen en kritische vragen te stellen over uw portfolio en keuzes"},
+        {ico:"📄",lbl:"Controleer uw aanvraagdossier op volledigheid met de VRT-checklist",sub:"Zorg dat elk vereist document aanwezig, actueel en correct ondertekend is voordat u indient"}
+      ],
+      opl:[
+        {nm:"VRT — Voorbereidingsgesprek kandidaten",url:"https://www.vrt.nl",tp:"Adviesgesprek",dr:"1 uur",pr:"Gratis voor kandidaten"}
+      ],
+      pm:[],
+      tk:[
+        {ico:"🎤",lbl:"Presenteren en verdedigen van uw werk",sub:"De VRT-commissie stelt kritische vragen over uw portfolio. U leert hoe u uw keuzes helder presenteert, vragen rustig beantwoordt en zelfverzekerd overkomt.",
+          opl:[
+            {nm:"Presenteren met impact",url:"https://www.debaak.nl",brand:"De Baak",tp:"Training",dr:"1 dag"},
+            {nm:"Overtuigend presenteren",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"2 uur"}
+          ]}
+      ]
+    },
+    "n_5_1":{
+      tag:"VRT Registratie",title:"Inschrijving VRT Register",
+      desc:"Na succesvolle toetsing wordt u ingeschreven, ontvangt u uw registratienummer en mag u de titel VRT-taxateur voeren.",
+      wv:[
+        {ico:"🎉",lbl:"Informeer uw netwerk over uw VRT-registratie",sub:"Dit vergroot uw geloofwaardigheid bij opdrachtgevers en verzekeraars — zet het ook op uw LinkedIn-profiel"},
+        {ico:"📢",lbl:"Word actief lid van de VRT-community",sub:"Bezoek netwerkbijeenkomsten, draag bij aan kennisdeling en help toekomstige kandidaten"}
+      ],
+      opl:[],
+      pm:[]
+    },
+    "n_5_2":{
+      tag:"VRT Registratie",title:"Permanente Educatie (PE)",
+      desc:"VRT-leden behalen jaarlijks PE-punten via erkende cursussen en bijeenkomsten. Dit borgt dat uw vakkennis actueel blijft.",
+      wv:[
+        {ico:"📅",lbl:"Plan aan het begin van het jaar al uw PE-activiteiten in",sub:"Stel een jaarplan op met cursussen, bijeenkomsten en zelfstudie — zo mist u nooit uw PE-verplichting"},
+        {ico:"👥",lbl:"Deel uw PE-learnings met uw team na elke cursus",sub:"Dit vergroot het leereffect, toont betrokkenheid en helpt collega's die dezelfde cursus overwegen"}
+      ],
+      opl:[
+        {nm:"VRT — Jaarlijkse PE-bijeenkomst",url:"https://www.vrt.nl",tp:"PE verplicht",dr:"1 dag/jaar",pr:"Inbegrepen",lv:"klassikaal"},
+        {nm:"NIVRE — PE-cursusprogramma",url:"https://www.nivre.nl",tp:"PE keuze",dr:"Diverse",pr:"Vanaf € 195",lv:"klassikaal"},
+        {nm:"NIBE-SVV — PE Schade Jaarabonnement",url:"https://www.nibe-svv.nl",tp:"PE keuze",dr:"Doorlopend",pr:"€ 199/jr",lv:"online"}
+      ],
+      pm:[{tp:"Cursus",lbl:"NIVRE Premium PE Pakket",pr:"€ 750/jr"}]
+    }
+  },
+  voertuig:{
+    "n_0_0":{
+      tag:"Technisch Fundament",title:"Autotechniek & Carrosserie",
+      desc:"Kennis van voertuigconstructie, carrosserietypes en technische werking is onmisbaar voor het beoordelen van voertuigschade. U leert het verschil zien tussen oppervlakkige en structurele schade.",
+      wv:[
+        {ico:"🚗",lbl:"Breng een dag door bij een FOCWA-erkend schadeherstelbedrijf",sub:"Observeer hoe een monteur schade beoordeelt, meet en repareert — vraag toelichting bij elke stap"},
+        {ico:"🔧",lbl:"Vraag een schadehersteller u de constructieve delen van een voertuig te tonen",sub:"Focus op draagstructuur, zones en veiligheidscomponenten — dit bepaalt of herstel mogelijk is"},
+        {ico:"📚",lbl:"Bestudeer het model en type van vijf recente taxatievoertuigen",sub:"Vergelijk de technische specificaties met de schadeomvang — leer patronen herkennen"}
+      ],
+      opl:[
+        {nm:"FOCWA — Voertuigtechniek Basis",url:"https://www.focwa.nl",tp:"Cursus",dr:"3 dagen",pr:"€ 750"},
+        {nm:"BOVAG — Voertuig Taxateur opleiding",url:"https://www.bovag.nl",tp:"Post-HBO",dr:"1 jaar",pr:"Op aanvraag"}
+      ],
+      pm:[{tp:"Boek",lbl:"Handboek Voertuigschade Taxatie",pr:"€ 58"}]
+    },
+    "n_0_1":{
+      tag:"Technisch Fundament",title:"Merkkennis & Typologieen",
+      desc:"Kennis van de gangbare automerken, modellen en hun marktpositionering. Elk merk heeft eigen constructieprincipes, onderdelen en reparatiemethoden die de schadekosten bepalen.",
+      wv:[
+        {ico:"🏷️",lbl:"Maak een merkenoverzicht van de tien meest getaxeerde voertuigen",sub:"Noteer per merk de kenmerken die relevant zijn voor schade: zelfreparerend, aluminium bouw, sensor-intensief"},
+        {ico:"👥",lbl:"Bespreek merkspecifieke schadegevallen met een ervaren collega",sub:"Vraag naar de valkuilen per merk — wat mist een junior taxateur bij deze merken?"}
+      ],
+      opl:[
+        {nm:"AutoExpert — Merkspecifieke Trainingen",url:"https://www.autoexpert.nl",tp:"Module",dr:"1-2 dagen",pr:"€ 395"}
+      ],
+      pm:[{tp:"Software",lbl:"Eurotax — Voertuigdata platform",pr:"€ 150/mnd"}]
+    },
+    "n_1_0":{
+      tag:"Waarderingsmethoden",title:"Dagwaarde bepaling",
+      desc:"De dagwaarde is de marktwaarde van een voertuig direct voor het schademoment. U bepaalt de dagwaarde op basis van koerslijsten, marktanalyse en objectspecifieke kenmerken.",
+      wv:[
+        {ico:"💰",lbl:"Bereken de dagwaarde van tien voertuigen en vergelijk met een collega",sub:"Bespreek elk verschil: welke factoren wogen anders, en welke methode is meer verdedigbaar?"},
+        {ico:"📊",lbl:"Observeer een bespreking over een betwiste dagwaarde met een verzekeraar",sub:"Leer hoe uw leidinggevende zijn berekening onderbouwt en verdedigt onder druk"}
+      ],
+      opl:[
+        {nm:"NIVRE — Voertuigwaardering",url:"https://www.nivre.nl",tp:"Module",dr:"1 dag",pr:"€ 350"},
+        {nm:"Eurotax — Koerslijsten Training",url:"https://www.eurotax.nl",tp:"E-learning",dr:"4 uur",pr:"€ 195"}
+      ],
+      pm:[{tp:"Software",lbl:"NACA Koerslijsten",pr:"€ 95/mnd"}]
+    },
+    "n_2_0":{
+      tag:"Schade & Herstel",title:"Carrosserieschade beoordelen",
+      desc:"Systematische beoordeling van carrosserieschade: omvang, diepte, herstelbaarbaarheid en impact op aangrenzende componenten.",
+      wv:[
+        {ico:"🔍",lbl:"Inspecteer vijf schadevoertuigen samen met een ervaren schadehersteller",sub:"Vraag hem precies aan te geven wat hij ziet dat u mist — leer zijn oog voor detail"},
+        {ico:"📐",lbl:"Oefen met het inmeten van deukdieptes en het inschatten van hersteltijd",sub:"Vergelijk uw inschatting met de werkelijke hersteltijd achteraf — analyseer de afwijkingen"}
+      ],
+      opl:[
+        {nm:"FOCWA — Schadebeoordeling Carrosserie",url:"https://www.focwa.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 595"}
+      ],
+      pm:[{tp:"Boek",lbl:"Carrosserie Handboek Schadeherstel",pr:"€ 62"}]
+    }
+  },
+  successie:{
+    "n_0_0":{
+      tag:"Juridisch Fundament",title:"Erfrecht (BW Boek 4)",
+      desc:"Het erfrecht regelt de verdeling van nalatenschappen. Als successie taxateur werkt u nauw samen met notarissen en erfgenamen en dient u de juridische context te begrijpen.",
+      wv:[
+        {ico:"⚖️",lbl:"Woon een boedelscheidingsgesprek bij bij een notaris",sub:"Observeer hoe de notaris de inventaris gebruikt, welke vragen hij stelt en hoe hij conflicten beheert"},
+        {ico:"📋",lbl:"Bestudeer een testament en een akte van verdeling samen met een notaris",sub:"Vraag uitleg over de fiscale gevolgen en hoe uw taxatie de verdeling beïnvloedt"}
+      ],
+      opl:[
+        {nm:"Grotius Academie — Erfrecht voor niet-juristen",url:"https://www.grotius.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 950"},
+        {nm:"KNB — Notarieel Recht basis",url:"https://www.knb.nl",tp:"Module",dr:"1 dag",pr:"€ 395"}
+      ],
+      pm:[{tp:"Boek",lbl:"Erfrecht in de Praktijk — Asser Serie",pr:"€ 89"}]
+    }
+  },
+  kunst:{
+    "n_0_0":{
+      tag:"Kunsthistorische Basis",title:"Kunstgeschiedenis overzicht",
+      desc:"Een brede kennis van kunstgeschiedenis is de basis voor betrouwbare kunst- en antiekwaardering. U leert stijlperioden, bewegingen en hun invloed op waarde herkennen.",
+      wv:[
+        {ico:"🎨",lbl:"Breng een dag door bij een veilinghuis (Venduehuis, Sotheby's Amsterdam)",sub:"Observeer hoe objecten worden gecatalogiseerd, getaxeerd en op welke gronden startprijzen worden bepaald"},
+        {ico:"🏛️",lbl:"Bezoek drie musea met verschillende stijlperioden",sub:"Documenteer per bezoek vijf werken: periode, stijl, materiaal en kenmerken — gebruik dit als referentiemateriaal"},
+        {ico:"👨‍🏫",lbl:"Volg een rondleiding met een conservator",sub:"Vraag specifiek naar echtheidskenmerken, hoe zij vervalsingen herkennen en wat bepalend is voor waarde"}
+      ],
+      opl:[
+        {nm:"Rijksmuseum — Kunsthistorie voor Professionals",url:"https://www.rijksmuseum.nl",tp:"Cursus",dr:"5 dagen",pr:"€ 1.450"},
+        {nm:"Christie's Education — Art Business",url:"https://www.christieseducation.com",tp:"Online",dr:"6 weken",pr:"€ 1.800"}
+      ],
+      pm:[{tp:"Boek",lbl:"Janson's History of Art",pr:"€ 75"}]
+    }
+  },
+  bedrijf:{
+    "n_0_0":{
+      tag:"Bedrijfskundige Basis",title:"Bedrijfsprocessen begrijpen",
+      desc:"Inzicht in hoe bedrijven functioneren is essentieel voor het beoordelen van bedrijfsschade. U begrijpt de relatie tussen productie, omzet, kosten en winst.",
+      wv:[
+        {ico:"🏭",lbl:"Loop een dag mee bij een productiebedrijf",sub:"Observeer de kritische processen: welke stap in de productie zou bij uitval de grootste schade veroorzaken?"},
+        {ico:"💼",lbl:"Bespreek een bedrijfsdossier met de accountant van het getroffen bedrijf",sub:"Vraag hem de verliesberekening toe te lichten — leer hoe hij omzet, vaste lasten en winst definieert"},
+        {ico:"📊",lbl:"Analyseer de jaarrekening van een bedrijf samen met een senior taxateur",sub:"Focus op de posten die relevant zijn bij een schadeclaim: omzet, brutomarge en vaste kosten"}
+      ],
+      opl:[
+        {nm:"Nyenrode — Bedrijfskunde voor niet-economen",url:"https://www.nyenrode.nl",tp:"Cursus",dr:"3 dagen",pr:"€ 1.895"},
+        {nm:"NIVRE — Bedrijfsschade Basis",url:"https://www.nivre.nl",tp:"Module",dr:"2 dagen",pr:"€ 650"}
+      ],
+      pm:[{tp:"Boek",lbl:"Bedrijfsschade en Verzekering — Handboek",pr:"€ 78"}]
+    }
+  },
+  inboedel:{
+    "n_0_0":{
+      tag:"Basiskennis",title:"Waardebegrippen inboedel",
+      desc:"Inzicht in de verschillende waardebegrippen die gelden bij inboedeltaxaties: nieuwwaarde, dagwaarde, vervangingswaarde en werkelijke waarde.",
+      wv:[
+        {ico:"🏠",lbl:"Loop mee bij een inboedelinspectie na een brand of waterschade",sub:"Observeer hoe de taxateur systematisch door de woning gaat en welke objecten hij prioriteit geeft"},
+        {ico:"📝",lbl:"Maak zelf een inboedellijst van uw eigen woning",sub:"Schat de dagwaarde en vervangingswaarde van elk object — bespreek uw methode met uw begeleider"},
+        {ico:"💬",lbl:"Bespreek een betwiste inboedelclaim met uw team",sub:"Welke argumenten heeft de verzekerde? Hoe onderbouwt de taxateur zijn lagere waardering?"}
+      ],
+      opl:[
+        {nm:"NIVRE — Inboedeltaxatie Basis",url:"https://www.nivre.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 495"},
+        {nm:"LOI — Woning & Inboedelverzekering",url:"https://www.loi.nl",tp:"Module",dr:"3 maanden",pr:"€ 595"}
+      ],
+      pm:[{tp:"Boek",lbl:"Handboek Inboedelwaardering",pr:"€ 48"}]
+    }
+  }
+  ,voertuig:{
+    "n_0_0":{tag:"Technisch Fundament",title:"Autotechniek & Carrosserie",
+      desc:"Kennis van voertuigconstructie, carrosserietypes en technische werking. U leert het verschil zien tussen oppervlakkige en structurele schade en wat dit betekent voor herstel of total loss.",
+      wv:[
+        {ico:"🚗",lbl:"Breng een dag door bij een FOCWA-erkend schadeherstelbedrijf",sub:"Observeer hoe een monteur schade beoordeelt, meet en repareert — vraag toelichting bij elke stap"},
+        {ico:"🔧",lbl:"Vraag een schadehersteller u de constructieve delen van een voertuig te tonen",sub:"Focus op draagstructuur, veiligheidszones en airbag-componenten — dit bepaalt of herstel verantwoord is"},
+        {ico:"📸",lbl:"Documenteer zelf vijf schadevoertuigen systematisch op foto",sub:"Vergelijk uw documentatie achteraf met die van een senior — wat miste u, wat deed u goed?"}
+      ],
+      opl:[
+        {nm:"FOCWA — Voertuigtechniek Basis",url:"https://www.focwa.nl",tp:"Cursus",dr:"3 dagen",pr:"€ 750",lv:"klassikaal"},
+        {nm:"BOVAG — Voertuig Taxateur Opleiding",url:"https://www.bovag.nl",tp:"Post-HBO",dr:"1 jaar",pr:"Op aanvraag",lv:"blended"}
+      ],
+      pm:[{tp:"Boek",lbl:"Handboek Voertuigschade Taxatie",pr:"€ 58"}]},
+    "n_0_1":{tag:"Technisch Fundament",title:"Merkkennis & Typologieën",
+      desc:"Kennis van gangbare automerken, modellen en hun marktpositionering. Elk merk heeft eigen constructieprincipes en reparatiemethoden die de schadekosten direct beïnvloeden.",
+      wv:[
+        {ico:"🏷️",lbl:"Maak een merkenoverzicht van de tien meest getaxeerde voertuigen",sub:"Noteer per merk de kenmerken die relevant zijn voor schade: zelfreparerend, aluminium bouw, sensor-intensief"},
+        {ico:"👥",lbl:"Bespreek merkspecifieke schadegevallen met een ervaren collega",sub:"Vraag naar de valkuilen per merk — wat mist een junior taxateur bij premium of elektrische voertuigen?"}
+      ],
+      opl:[
+        {nm:"AutoExpert — Merkspecifieke Trainingen",url:"https://www.autoexpert.nl",tp:"Module",dr:"1-2 dagen",pr:"€ 395",lv:"klassikaal"},
+        {nm:"SkillsTown — Elektrische Voertuigen & Schade",url:"https://skillstown.nl",tp:"Online",dr:"3 uur",pr:"€ 89",lv:"online"}
+      ],
+      pm:[{tp:"Software",lbl:"Eurotax — Voertuigdata platform",pr:"€ 150/mnd"}]},
+    "n_0_2":{tag:"Technisch Fundament",title:"Constructie & Veiligheid",
+      desc:"Inzicht in de veiligheidsarchitectuur van moderne voertuigen: crumple zones, airbags, rijhulpsystemen (ADAS) en hun impact op schadeherstel en total loss beslissingen.",
+      wv:[
+        {ico:"⚡",lbl:"Bezoek een demonstratie van ADAS-kalibratie na schade",sub:"Rijhulpsystemen moeten na carrosserieherstel opnieuw gekalibreerd worden — dit verhoogt herstelkosten aanzienlijk"},
+        {ico:"💬",lbl:"Bespreek een total loss beslissing bij een moderne auto met airbagontplooiing",sub:"Analyseer waarom de reparatiekosten de dagwaarde overschreden en welke veiligheidscomponenten doorslaggevend waren"}
+      ],
+      opl:[
+        {nm:"FOCWA — Moderne Voertuigtechniek & ADAS",url:"https://www.focwa.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 595",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"ADAS & Voertuigveiligheid Handboek",pr:"€ 65"}]},
+    "n_0_3":{tag:"Technisch Fundament",title:"Schadecategorieën herkennen",
+      desc:"Systematisch onderscheid maken tussen carrosserieschade, mechanische schade, verborgen schade en constructieve schade. Elk type vereist een andere aanpak en documentatie.",
+      wv:[
+        {ico:"🔍",lbl:"Inspecteer tien voertuigen en categoriseer de schade",sub:"Gebruik een vaste checklist: carrosserie, mechanisch, elektrisch, interieur — laat uw categorisering controleren"},
+        {ico:"📋",lbl:"Vergelijk uw schadetypering met die van een schadeherstelbedrijf",sub:"Zijn er verborgen schades die u gemist had? Wat zijn de signalen die u voortaan zoekt?"}
+      ],
+      opl:[
+        {nm:"NIVRE — Voertuigschade Beoordelen",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 350",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Schadeherstel & Beoordeling Praktijkgids",pr:"€ 52"}]},
+    "n_1_0":{tag:"Waarderingsmethoden",title:"Dagwaarde bepaling",
+      desc:"De dagwaarde is de marktwaarde van een voertuig direct voor het schademoment. U bepaalt dit op basis van koerslijsten, marktanalyse en objectspecifieke kenmerken als km-stand, staat en opties.",
+      wv:[
+        {ico:"💰",lbl:"Bereken de dagwaarde van tien voertuigen en vergelijk met een collega",sub:"Bespreek elk verschil: welke factoren wogen anders, en welke methode is verdedigbaarder bij een dispuut?"},
+        {ico:"📊",lbl:"Observeer een bespreking over een betwiste dagwaarde met een verzekeraar",sub:"Leer hoe uw leidinggevende zijn berekening onderbouwt en verdedigt onder druk"}
+      ],
+      opl:[
+        {nm:"NIVRE — Voertuigwaardering",url:"https://www.nivre.nl",tp:"Module",dr:"1 dag",pr:"€ 350",lv:"klassikaal"},
+        {nm:"Eurotax — Koerslijsten Training",url:"https://www.eurotax.nl",tp:"E-learning",dr:"4 uur",pr:"€ 195",lv:"online"}
+      ],
+      pm:[{tp:"Software",lbl:"NACA Koerslijsten",pr:"€ 95/mnd"}]},
+    "n_1_1":{tag:"Waarderingsmethoden",title:"Koerslijsten (NACA/Eurotax)",
+      desc:"NACA en Eurotax zijn de standaard koerslijsten voor dagwaardebepaling in Nederland. U leert hoe u deze tools correct gebruikt en waar handmatige correcties noodzakelijk zijn.",
+      wv:[
+        {ico:"💻",lbl:"Gebruik NACA en Eurotax naast elkaar voor vijf voertuigen",sub:"Vergelijk de uitkomsten — wanneer wijken ze af en welke is dan leidend? Vraag uw begeleider naar zijn keuze"},
+        {ico:"⚖️",lbl:"Zoek drie dossiers waarbij de koerslijst betwist werd",sub:"Analyseer op welke punten partijen van mening verschilden en hoe het geschil opgelost werd"}
+      ],
+      opl:[
+        {nm:"NACA — Gebruikerstraining Koerslijsten",url:"https://www.naca.nl",tp:"Online",dr:"2 uur",pr:"€ 125",lv:"online"}
+      ],
+      pm:[{tp:"Software",lbl:"Eurotax Dealer Edition",pr:"€ 180/mnd"}]},
+    "n_1_2":{tag:"Waarderingsmethoden",title:"Total loss calculatie",
+      desc:"Total loss treedt op wanneer de reparatiekosten de dagwaarde overschrijden. U berekent de economische en technische total loss grens en bepaalt de restwaarde.",
+      wv:[
+        {ico:"🧮",lbl:"Bereken de total loss grens van vijf voertuigen",sub:"Vergelijk uw berekening met de definitieve beslissing van uw bureau — bespreek elk verschilpunt"},
+        {ico:"🏪",lbl:"Bezoek een autodemonteur en bekijk hoe restwaarde bepaald wordt",sub:"Inzicht in de restwaardemarkt helpt u total loss beslissingen beter te onderbouwen"}
+      ],
+      opl:[
+        {nm:"NIVRE — Total Loss & Restwaarde",url:"https://www.nivre.nl",tp:"Cursus",dr:"1 dag",pr:"€ 375",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Total Loss Handboek Voertuigtaxatie",pr:"€ 48"}]},
+    "n_1_3":{tag:"Waarderingsmethoden",title:"Restwaarde bepalen",
+      desc:"De restwaarde is wat het beschadigde voertuig nog waard is na schade. Correcte restwaardebepaling is cruciaal voor de netto schade-uitkering en voorkomt discussies.",
+      wv:[
+        {ico:"🚘",lbl:"Volg een online veiling van schade-auto's (Autorola of Copart)",sub:"Observeer voor welke prijzen beschadigde voertuigen verkocht worden — dit is de realiteit van de restwaardemarkt"},
+        {ico:"💬",lbl:"Bespreek een betwiste restwaardebepaling in teamverband",sub:"Op welke gronden betwistte de verzekerde de restwaarde en hoe werd dit opgelost?"}
+      ],
+      opl:[
+        {nm:"Autorola — Platform Training",url:"https://www.autorola.nl",tp:"Online",dr:"2 uur",pr:"Gratis",lv:"online"}
+      ],
+      pm:[{tp:"Software",lbl:"Copart Auction Platform",pr:"Op aanvraag"}]},
+    "n_2_0":{tag:"Schade & Herstel",title:"Carrosserieschade beoordelen",
+      desc:"Systematische beoordeling van carrosserieschade: omvang, diepte, herstelbaarbaarheid en impact op aangrenzende componenten en veiligheidsstructuur.",
+      wv:[
+        {ico:"🔍",lbl:"Inspecteer vijf schadevoertuigen samen met een schadehersteller",sub:"Vraag hem precies aan te geven wat hij ziet dat u mist — leer zijn oog voor verborgen schade"},
+        {ico:"📐",lbl:"Oefen met het inmeten van deukdieptes en inschatten van hersteltijd",sub:"Vergelijk uw inschatting met de werkelijke hersteltijd achteraf — analyseer de afwijkingen"}
+      ],
+      opl:[
+        {nm:"FOCWA — Schadebeoordeling Carrosserie",url:"https://www.focwa.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 595",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Carrosserie Handboek Schadeherstel",pr:"€ 62"}]},
+    "n_2_1":{tag:"Schade & Herstel",title:"Mechanische schade herkennen",
+      desc:"Mechanische schade is niet altijd zichtbaar maar kan zeer kostbaar zijn. U leert signalen herkennen die wijzen op motor-, transmissie- of onderstelschade.",
+      wv:[
+        {ico:"🔧",lbl:"Rijd mee met een technisch expert bij een testrit na schade",sub:"Leer welke geluiden, trillingen en rijgedrag wijzen op mechanische problemen die niet zichtbaar zijn"},
+        {ico:"💬",lbl:"Bespreek drie dossiers waarbij mechanische schade over het hoofd gezien werd",sub:"Wat waren de signalen die gemist werden en hoe kunt u die in het vervolg herkennen?"}
+      ],
+      opl:[
+        {nm:"BOVAG — Mechanische Schade voor Taxateurs",url:"https://www.bovag.nl",tp:"Workshop",dr:"1 dag",pr:"€ 450",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Motorvoertuigen Techniek Handboek",pr:"€ 55"}]},
+    "n_2_2":{tag:"Schade & Herstel",title:"Herstelkostencalculatie",
+      desc:"Nauwkeurige berekening van reparatiekosten op basis van werktijden, onderdelen en lakwerk. U werkt met calculatiesoftware en vergelijkt offertes van herstelbedrijven.",
+      wv:[
+        {ico:"🧮",lbl:"Maak een herstelkostencalculatie naast de offerte van een FOCWA-bedrijf",sub:"Vergelijk elk post — waar zit het verschil en welke is onderbouwbaarder bij een dispuut?"},
+        {ico:"✅",lbl:"Loop mee bij de aflevering van een hersteld voertuig",sub:"Controleer of het herstel overeenkomt met de calculatie — wat is bijgekomen of weggevallen?"}
+      ],
+      opl:[
+        {nm:"Audatex — Calculatiesoftware Training",url:"https://www.audatex.nl",tp:"Online",dr:"4 uur",pr:"€ 195",lv:"online"},
+        {nm:"NIVRE — Voertuigcalculatie Praktijk",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 350",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Software",lbl:"Audatex Qapter — Calculatiesoftware",pr:"€ 175/mnd"}]},
+    "n_2_3":{tag:"Schade & Herstel",title:"Verholen gebreken signaleren",
+      desc:"Verholen gebreken zijn schades die pas later aan het licht komen. U leert hoe u deze herkent, vastlegt en welke consequenties dit heeft voor de schadeafwikkeling.",
+      wv:[
+        {ico:"🔦",lbl:"Gebruik een endoscoop bij uw volgende voertuiginspectie",sub:"Bekijk onzichtbare ruimtes achter carrosseriepanelen — u wordt verrast door wat u daar vindt"},
+        {ico:"📋",lbl:"Bestudeer drie dossiers waarbij verholen gebreken later opdoken",sub:"Wat waren de aanwijzingen die over het hoofd gezien werden bij de initiële inspectie?"}
+      ],
+      opl:[
+        {nm:"FOCWA — Verholen Schade & Aansprakelijkheid",url:"https://www.focwa.nl",tp:"Cursus",dr:"1 dag",pr:"€ 395",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Verholen Gebreken in de Voertuigtaxatie",pr:"€ 45"}]},
+    "n_3_0":{tag:"VRT Registratie",title:"100+ Voertuigtaxaties",
+      desc:"Voor VRT-registratie in het deelregister Voertuigen bouwt u een portfolio van minimaal 100 gedocumenteerde taxaties met voldoende diversiteit in merk, type en schadesoort.",
+      wv:[
+        {ico:"📁",lbl:"Begin direct met een digitaal portfolio per getaxeerd voertuig",sub:"Merk, type, km-stand, schadesoort, dagwaarde, herstelkosten, total loss beslissing — alles vastleggen"},
+        {ico:"🎯",lbl:"Streef naar diversiteit: personen-, bestelauto en lichte vrachtwagens",sub:"De VRT-commissie beoordeelt of u breed genoeg ervaren bent — variatie in uw portfolio is cruciaal"}
+      ],
+      opl:[
+        {nm:"VRT — Portfoliobegeleiding Voertuigen",url:"https://www.vrt.nl",tp:"Begeleiding",dr:"Doorlopend",pr:"Op aanvraag",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_3_1":{tag:"VRT Registratie",title:"Begeleiding erkend taxateur",
+      desc:"Begeleiding door een ingeschreven VRT-lid is verplicht. Uw begeleider beoordeelt taxaties, geeft feedback en ondertekent uw registratieaanvraag.",
+      wv:[
+        {ico:"🤝",lbl:"Stel maandelijkse feedbacksessies in met uw VRT-begeleider",sub:"Bespreek minimaal twee afgeronde taxaties in detail — dit bouwt snel kwaliteit op"},
+        {ico:"📝",lbl:"Laat elke taxatie eerst beoordelen voordat u die finaliseert",sub:"Vier-ogen-principe verhoogt kwaliteit en beschermt u bij eventuele klachten achteraf"}
+      ],
+      opl:[
+        {nm:"VRT — Mentorprogramma Voertuigen",url:"https://www.vrt.nl",tp:"Begeleiding",dr:"1-2 jaar",pr:"Inbegrepen",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_3_2":{tag:"VRT Registratie",title:"VRT Voertuig register",
+      desc:"Inschrijving in het VRT-deelregister Voertuigen geeft u de erkende status als register voertuig taxateur. U mag dan zelfstandig voertuigtaxaties uitbrengen voor verzekeraars.",
+      wv:[
+        {ico:"🎉",lbl:"Meld uw VRT-registratie bij uw opdrachtgevers en netwerk",sub:"Erkende status verhoogt uw geloofwaardigheid en vergroot uw opdrachtenportefeuille"},
+        {ico:"📢",lbl:"Word actief in de VRT-voertuigcommissie of werkgroepen",sub:"Bijdragen aan het register versterkt uw positie en netwerk in de branche"}
+      ],
+      opl:[],
+      pm:[]},
+    "n_3_3":{tag:"VRT Registratie",title:"Permanente educatie (PE)",
+      desc:"Jaarlijkse PE-verplichting om ingeschreven te blijven. Focus op actuele ontwikkelingen: elektrische voertuigen, ADAS-systemen en nieuwe calculatiemethoden.",
+      wv:[
+        {ico:"⚡",lbl:"Volg jaarlijks minimaal één cursus over elektrische voertuigen",sub:"EV-schade vraagt specifieke kennis van accu, hoogspanning en veiligheid — dit wordt steeds relevanter"},
+        {ico:"📅",lbl:"Plan PE-activiteiten aan het begin van het jaar",sub:"Voorkom dat u in december op zoek moet naar last-minute PE-punten — plan gespreid door het jaar"}
+      ],
+      opl:[
+        {nm:"VRT — PE Voertuig Jaarbijeenkomst",url:"https://www.vrt.nl",tp:"PE verplicht",dr:"1 dag/jaar",pr:"Inbegrepen",lv:"klassikaal"},
+        {nm:"SkillsTown — Elektrische Voertuigen & Schade",url:"https://skillstown.nl",tp:"Online",dr:"3 uur",pr:"€ 89",lv:"online"},
+        {nm:"FOCWA — PE Aanbod Voertuigtaxateurs",url:"https://www.focwa.nl",tp:"PE keuze",dr:"Diverse",pr:"Vanaf € 225",lv:"klassikaal"}
+      ],
+      pm:[],
+      tk:[
+        {ico:"⚡",lbl:"Elektrische voertuigen: de toekomst van uw vak",sub:"Tegen 2030 is een groot deel van de nieuw-verkochte auto's elektrisch. EV-schade heeft fundamenteel andere taxatieregels: accu-waardering, hoogspanningsveiligheid en Total Loss drempels liggen anders.",
+          opl:[
+            {nm:"EV Schade & Taxatie voor Professionals",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"4 uur"},
+            {nm:"Elektrische Voertuigen Techniek",url:"https://www.focwa.nl",brand:"FOCWA",tp:"Klassikaal",dr:"2 dagen"}
+          ]}
+      ]}
+  }
+  ,inboedel:{
+    "n_0_0":{tag:"Basiskennis",title:"Waardebegrippen inboedel",
+      desc:"Inzicht in de verschillende waardebegrippen bij inboedeltaxaties: nieuwwaarde, dagwaarde, vervangingswaarde en werkelijke waarde. Elk begrip leidt tot een andere uitkomst.",
+      wv:[
+        {ico:"🏠",lbl:"Loop mee bij een inboedelinspectie na een brand of waterschade",sub:"Observeer hoe de taxateur systematisch door de woning gaat en welke objecten hij prioriteit geeft"},
+        {ico:"📝",lbl:"Maak zelf een inboedellijst van uw eigen woning",sub:"Schat de dagwaarde en vervangingswaarde van elk object — bespreek uw methode met uw begeleider"}
+      ],
+      opl:[
+        {nm:"NIVRE — Inboedeltaxatie Basis",url:"https://www.nivre.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 495",lv:"klassikaal"},
+        {nm:"LOI — Woning & Inboedelverzekering",url:"https://www.loi.nl",tp:"Module",dr:"3 maanden",pr:"€ 595",lv:"online"}
+      ],
+      pm:[{tp:"Boek",lbl:"Handboek Inboedelwaardering",pr:"€ 48"}]},
+    "n_0_1":{tag:"Basiskennis",title:"Vervangingswaarde vs dagwaarde",
+      desc:"Het fundamentele onderscheid dat de schade-uitkering bepaalt. Vervangingswaarde geldt voor nieuwere objecten, dagwaarde voor objecten boven een bepaalde leeftijdsgrens.",
+      wv:[
+        {ico:"⚖️",lbl:"Vergelijk drie polissen op hun grondslagonschrijving",sub:"Wanneer geldt vervangingswaarde en wanneer dagwaarde? Noteer de exacte polisbepalingen"},
+        {ico:"💬",lbl:"Bespreek een betwiste grondslagkeuze met uw leidinggevende",sub:"Op welke gronden betwistte de verzekerde de dagwaardetoepassing en hoe werd het opgelost?"}
+      ],
+      opl:[
+        {nm:"NIBE-SVV — Inboedel & Opstalverzekering",url:"https://www.nibe-svv.nl",tp:"Module",dr:"3 maanden",pr:"€ 445",lv:"blended"}
+      ],
+      pm:[{tp:"Boek",lbl:"Verzekeringswaardering Inboedel",pr:"€ 44"}]},
+    "n_0_2":{tag:"Basiskennis",title:"Verzekeringspolissen lezen",
+      desc:"Elke polis heeft eigen dekkingsomschrijvingen, uitsluitingen en bijzondere bedingen. U leert de relevante bepalingen snel te vinden en correct te interpreteren.",
+      wv:[
+        {ico:"📄",lbl:"Lees vijf verschillende inboedelpolissen naast elkaar",sub:"Maak een vergelijkingstabel van dekkingsomvang, uitsluitingen en grondslagbepalingen"},
+        {ico:"👥",lbl:"Bespreek een onduidelijke polisbepaling met een juridisch adviseur",sub:"Polistaal is vaak voor meerdere uitleg vatbaar — leer hoe u dit in uw voordeel hanteert"}
+      ],
+      opl:[
+        {nm:"LOI — Wft Schadeverzekering Particulier",url:"https://www.loi.nl",tp:"Wft Diploma",dr:"4 maanden",pr:"€ 745",lv:"online"}
+      ],
+      pm:[{tp:"Boek",lbl:"Verzekeringsrecht Praktijkgids",pr:"€ 55"}]},
+    "n_0_3":{tag:"Basiskennis",title:"Schadeproces woningschade",
+      desc:"Het verloop van een woningschadeclaim van melding tot afwikkeling. U kent de rol van alle partijen: verzekerde, verzekeraar, taxateur en herstelondernemer.",
+      wv:[
+        {ico:"🔄",lbl:"Volg een woningschadedossier van begin tot eind",sub:"Van eerste inspectie tot definitieve uitkering — minstens twee weken meekijken"},
+        {ico:"📞",lbl:"Woon een overleg bij tussen taxateur en herstelondernemer",sub:"Observeer hoe partijen tot overeenstemming komen over de schadeomvang en herstelmethode"}
+      ],
+      opl:[
+        {nm:"NIVRE — Woningschade Basis",url:"https://www.nivre.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 550",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Praktijkboek Woningschade",pr:"€ 49"}]},
+    "n_1_0":{tag:"Inspectie & Waardering",title:"Systematische opname inboedel",
+      desc:"Een gestructureerde methodiek voor het opnemen van inboedel: kamer voor kamer, categorie voor categorie, met de juiste documentatie per object.",
+      wv:[
+        {ico:"📋",lbl:"Gebruik een vaste ruimte-voor-ruimte checklist bij uw volgende inspectie",sub:"Werk kamer voor kamer: woonkamer, keuken, slaapkamers, bijgebouwen — mis niets"},
+        {ico:"🤝",lbl:"Neem samen met een senior de inboedel op en vergelijk uw lijsten achteraf",sub:"Wat had u gemist? Welke objecten schatte u te laag of te hoog? Bespreek de methode"}
+      ],
+      opl:[
+        {nm:"NIVRE — Inboedeltaxatie Praktijk",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 325",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Software",lbl:"Expert Suite Inboedelmodule",pr:"€ 95/mnd"}]},
+    "n_1_1":{tag:"Inspectie & Waardering",title:"Bijzondere objecten herkennen",
+      desc:"Sieraden, kunst, antiek, verzamelingen en elektronica vereisen een aparte aanpak. U leert wanneer u een specialist inschakelt en hoe u dit documenteert.",
+      wv:[
+        {ico:"💎",lbl:"Neem een bijzonder object mee naar een specialist voor een second opinion",sub:"Vergelijk uw eigen waardeschatting met die van de specialist — leer van het verschil"},
+        {ico:"📸",lbl:"Documenteer drie bijzondere objecten uitgebreid op foto en omschrijving",sub:"Gedetailleerde documentatie is cruciaal bij betwisting of herbeoordeling achteraf"}
+      ],
+      opl:[
+        {nm:"NIVRE — Bijzondere Objecten in de Expertise",url:"https://www.nivre.nl",tp:"PE-module",dr:"1 dag",pr:"€ 350",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Waarderingsgids Bijzondere Objecten",pr:"€ 58"}]},
+    "n_1_2":{tag:"Inspectie & Waardering",title:"Elektronica & witgoed",
+      desc:"Elektronica en witgoed vertegenwoordigen een groot deel van inboedelschades. U kent de waardeontwikkeling, levensduur en herstelkosten versus vervangingswaarde.",
+      wv:[
+        {ico:"📱",lbl:"Bezoek een witgoed- en elektronicawinkel met uw waardebepaling in hand",sub:"Vergelijk uw berekende vervangingwaarden met actuele winkelprijzen — kloppen uw aannames?"},
+        {ico:"💬",lbl:"Bespreek drie elektronica-schades waarbij de grondslagkeuze bepalend was",sub:"Wanneer dagwaarde, wanneer vervangingswaarde — en hoe verdedigde de taxateur zijn keuze?"}
+      ],
+      opl:[
+        {nm:"SkillsTown — Digitale Producten & Waardebepaling",url:"https://skillstown.nl",tp:"Online",dr:"2 uur",pr:"€ 69",lv:"online"}
+      ],
+      pm:[{tp:"Boek",lbl:"Consumentenelektronica Waardegids",pr:"€ 38"}]},
+    "n_1_3":{tag:"Inspectie & Waardering",title:"Kleding & persoonlijke bezittingen",
+      desc:"Kleding en persoonlijke bezittingen zijn vaak omvangrijk maar moeilijk te waarderen. U leert werken met bandingmethodes en gemiddelde waarden per categorie.",
+      wv:[
+        {ico:"👗",lbl:"Waardeer de kledingschade van een getroffen gezin",sub:"Gebruik een categorisatiemethode: per persoon, per seizoen, per kledingcategorie"},
+        {ico:"📊",lbl:"Vergelijk uw kledingwaardering met die van een collega bij hetzelfde dossier",sub:"Waarvoor komen de grootste verschillen? Welke aannames lagen eraan ten grondslag?"}
+      ],
+      opl:[
+        {nm:"NIVRE — Kleding & Persoonlijke Bezittingen",url:"https://www.nivre.nl",tp:"PE-module",dr:"Halve dag",pr:"€ 195",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Inboedeltaxatie Handboek — Kleding & Bezittingen",pr:"€ 42"}]},
+    "n_2_0":{tag:"Rapportage",title:"Inboedelrapport opstellen",
+      desc:"Een volledig inboedelrapport bevat de gedetailleerde inventarisatie, waardebepaling per categorie, toegepaste grondslagen en de totale schadeopstelling.",
+      wv:[
+        {ico:"📝",lbl:"Stel uw eerste inboedelrapport op en laat het nalezen",sub:"Vraag specifiek feedback op volledigheid, leesbaarheid voor de verzekerde en onderbouwing"},
+        {ico:"🔄",lbl:"Vergelijk uw rapport met het definitieve rapport van uw begeleider",sub:"Noteer elk verschil en de reden — dit is uw persoonlijke leerlogboek"}
+      ],
+      opl:[
+        {nm:"NIVRE — Rapportagetechnieken Inboedel",url:"https://www.nivre.nl",tp:"Cursus",dr:"1 dag",pr:"€ 350",lv:"klassikaal"},
+        {nm:"Schoevers — Zakelijk Schrijven",url:"https://www.schoevers.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 495",lv:"blended"}
+      ],
+      pm:[{tp:"Boek",lbl:"Praktijkgids Inboedelrapportage",pr:"€ 44"}]},
+    "n_2_1":{tag:"Rapportage",title:"Fotorapportage bij schade",
+      desc:"Systematische fotodocumentatie van inboedelschade per ruimte en per categorie. Goede foto-rapportage ondersteunt uw waardering en voorkomt betwisting.",
+      wv:[
+        {ico:"📸",lbl:"Documenteer een complete woning na waterschade op foto",sub:"Per ruimte: overzichtsfoto, detailfoto schade, foto beschadigd object met herkenbare context"},
+        {ico:"👁️",lbl:"Laat uw fotorapportage beoordelen door een verzekeraar",sub:"Vraag wat zij missen en wat hen helpt bij de beoordeling — dit is waardevolle directe feedback"}
+      ],
+      opl:[
+        {nm:"NIVRE — Fotodocumentatie Workshop",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 250",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Software",lbl:"Snagit — Foto & annotatieprogramma",pr:"€ 65/jr"}]},
+    "n_2_2":{tag:"Rapportage",title:"Betwiste schades behandelen",
+      desc:"Wanneer verzekerde en verzekeraar het niet eens zijn over de schadeomvang of de grondslagtoepassing. U leert hoe u als taxateur omgaat met betwisting en arbitrage.",
+      wv:[
+        {ico:"⚖️",lbl:"Observeer een arbitrageprocedure bij een betwiste inboedelschade",sub:"Hoe argumenteert elke partij, welke bewijslast speelt een rol en hoe wordt de uitspraak gemotiveerd?"},
+        {ico:"💬",lbl:"Doe een rollenspel: u verdedigt uw taxatie tegenover een kritische verzekeraar",sub:"Oefen uw argumentatie — kalm, feitelijk en onderbouwd, ook onder druk"}
+      ],
+      opl:[
+        {nm:"De Baak — Onderhandelen voor Professionals",url:"https://www.debaak.nl",tp:"Training",dr:"2 dagen",pr:"€ 1.495",lv:"klassikaal"},
+        {nm:"SkillsTown — Omgaan met Weerstand",url:"https://skillstown.nl",tp:"Online",dr:"2 uur",pr:"€ 79",lv:"online"}
+      ],
+      pm:[{tp:"Boek",lbl:"Arbitrage & Geschillen in de Expertisepraktijk",pr:"€ 48"}]},
+    "n_2_3":{tag:"Rapportage",title:"Schadeopstelling ondertekenen",
+      desc:"De definitieve schadeopstelling is het sluitstuk van uw werk. Door ondertekening staat u in voor de juistheid en volledigheid van uw taxatie.",
+      wv:[
+        {ico:"✍️",lbl:"Bespreek de aansprakelijkheid bij het ondertekenen van een schadeopstelling",sub:"Wat zijn de juridische consequenties als uw taxatie achteraf onjuist blijkt? Wat dekt uw beroepsaansprakelijkheidsverzekering?"},
+        {ico:"📋",lbl:"Controleer een definitieve schadeopstelling op volledigheid voor ondertekening",sub:"Gebruik een vaste checklist — elk ondertekend document is uw verantwoordelijkheid"}
+      ],
+      opl:[
+        {nm:"NIVRE — Beroepsaansprakelijkheid voor Taxateurs",url:"https://www.nivre.nl",tp:"PE-module",dr:"Halve dag",pr:"€ 225",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_3_0":{tag:"VRT Registratie",title:"Portfolio 30+ inboedelexpertises",
+      desc:"Voor VRT-toelating bouwt u een portfolio van minimaal 30 inboedelexpertises met voldoende diversiteit in schadesoort, objecttype en omvang.",
+      wv:[
+        {ico:"📁",lbl:"Registreer elke expertise direct in uw portfolio",sub:"Datum, locatie, schadesoort, objectcategorieën, totale schade en uw rol — gestructureerd bijhouden"},
+        {ico:"🎯",lbl:"Streef naar diversiteit: brand, water, inbraak en storm",sub:"De VRT-commissie beoordeelt of u breed genoeg ervaren bent in verschillende schadetypen"}
+      ],
+      opl:[
+        {nm:"VRT — Portfoliobegeleiding Inboedel",url:"https://www.vrt.nl",tp:"Begeleiding",dr:"Doorlopend",pr:"Op aanvraag",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_3_1":{tag:"VRT Registratie",title:"Begeleiding VRT-lid",
+      desc:"Formele begeleiding door een ingeschreven VRT-register taxateur is verplicht voor toelating.",
+      wv:[
+        {ico:"🤝",lbl:"Plan maandelijkse feedbacksessies in met uw VRT-mentor",sub:"Minimaal twee dossiers per sessie bespreken in detail — zo bouwt u snel aan kwaliteit"},
+        {ico:"📝",lbl:"Laat elke schadeopstelling beoordelen voor definitieve ondertekening",sub:"Vier-ogen-principe verhoogt kwaliteit en beschermt beide partijen"}
+      ],
+      opl:[],pm:[]},
+    "n_3_2":{tag:"VRT Registratie",title:"VRT Inboedel register",
+      desc:"Na toetsing door de VRT-commissie wordt u ingeschreven in het deelregister Inboedel & Opstal.",
+      wv:[
+        {ico:"🎉",lbl:"Informeer uw opdrachtgevers over uw VRT-registratie",sub:"Erkende status onderscheidt u van niet-geregistreerde taxateurs in de markt"}
+      ],
+      opl:[],pm:[]},
+    "n_3_3":{tag:"VRT Registratie",title:"Permanente educatie (PE)",
+      desc:"Jaarlijkse PE-verplichting om ingeschreven te blijven. Focus op actuele poliswijzigingen, nieuwe objectcategorieën en marktprijsontwikkelingen.",
+      wv:[
+        {ico:"📅",lbl:"Plan PE-activiteiten aan het begin van het jaar",sub:"Combineer VRT-bijeenkomsten met SkillsTown online modules voor een gevarieerd PE-jaar"}
+      ],
+      opl:[
+        {nm:"VRT — PE Inboedel Jaarbijeenkomst",url:"https://www.vrt.nl",tp:"PE verplicht",dr:"1 dag/jaar",pr:"Inbegrepen",lv:"klassikaal"},
+        {nm:"SkillsTown — Actuele Ontwikkelingen Schadebranche",url:"https://skillstown.nl",tp:"Online",dr:"2 uur",pr:"€ 79",lv:"online"}
+      ],
+      pm:[]}
+  }
+  ,successie:{
+    "n_0_0":{tag:"Juridisch Fundament",title:"Erfrecht (BW Boek 4)",
+      desc:"Het erfrecht regelt de verdeling van nalatenschappen. Als successie taxateur werkt u nauw samen met notarissen en erfgenamen en dient u de juridische context goed te begrijpen.",
+      wv:[
+        {ico:"⚖️",lbl:"Woon een boedelscheidingsgesprek bij bij een notaris",sub:"Observeer hoe de notaris de inventaris gebruikt, welke vragen hij stelt en hoe hij conflicten beheert"},
+        {ico:"📋",lbl:"Bestudeer een testament en akte van verdeling samen met een notaris",sub:"Vraag uitleg over de fiscale gevolgen en hoe uw taxatie de verdeling beïnvloedt"}
+      ],
+      opl:[
+        {nm:"Grotius Academie — Erfrecht voor niet-juristen",url:"https://www.grotius.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 950",lv:"klassikaal"},
+        {nm:"KNB — Notarieel Recht Basis",url:"https://www.knb.nl",tp:"Module",dr:"1 dag",pr:"€ 395",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Erfrecht in de Praktijk — Asser Serie",pr:"€ 89"}]},
+    "n_0_1":{tag:"Juridisch Fundament",title:"Boedelscheiding procedures",
+      desc:"De praktische stappen bij boedelscheiding: inventarisatie, waardering, verdeling en eventuele verkoop van boedelgoederen. U kent uw rol als taxateur in dit proces.",
+      wv:[
+        {ico:"📋",lbl:"Observeer een boedelscheidingsprocedure van begin tot eind",sub:"Volg de stappen: notariële inventaris, taxatie, conceptverdeling, definitieve akte"},
+        {ico:"💬",lbl:"Bespreek een conflicteuze boedelscheiding met een notaris of mediator",sub:"Hoe wordt uw taxatie gebruikt als objectief anker bij meningsverschillen tussen erfgenamen?"}
+      ],
+      opl:[
+        {nm:"NCOI — Boedelscheiding & Erfrecht",url:"https://www.ncoi.nl",tp:"Module",dr:"2 maanden",pr:"€ 595",lv:"blended"}
+      ],
+      pm:[{tp:"Boek",lbl:"Boedelscheiding Praktijkgids",pr:"€ 52"}]},
+    "n_0_2":{tag:"Juridisch Fundament",title:"Successiebelasting & notariaat",
+      desc:"Uw taxatie heeft directe fiscale gevolgen voor de erfbelasting die erfgenamen betalen. U begrijpt de relatie tussen uw waardebepaling en de belastingaangifte.",
+      wv:[
+        {ico:"💰",lbl:"Bereken de erfbelastingimplicatie van een waardebepaling samen met een fiscalist",sub:"Hoe verandert de belastingdruk als uw taxatie 10% hoger of lager uitvalt?"},
+        {ico:"📄",lbl:"Bestudeer drie aangiftes successierecht waarbij uw taxaties een rol speelden",sub:"Hoe gebruikte de notaris uw rapport bij de aangifte en welke vragen stelde de Belastingdienst?"}
+      ],
+      opl:[
+        {nm:"NIBE-SVV — Successierecht & Fiscale Aspecten",url:"https://www.nibe-svv.nl",tp:"Module",dr:"2 maanden",pr:"€ 545",lv:"blended"}
+      ],
+      pm:[{tp:"Boek",lbl:"Successierecht voor Taxateurs",pr:"€ 58"}]},
+    "n_0_3":{tag:"Juridisch Fundament",title:"Samenwerking met notaris",
+      desc:"De notaris is uw voornaamste opdrachtgever bij successietaxaties. Goede samenwerking, heldere communicatie en tijdige levering van rapporten zijn essentieel.",
+      wv:[
+        {ico:"🤝",lbl:"Maak een afspraak voor een kennismakingsgesprek bij een notariskantoor",sub:"Begrijp wat de notaris van u verwacht, welke objecten hij taxeert en op welke termijnen"},
+        {ico:"📅",lbl:"Lever een taxatieopdracht op tijd en vraag feedback op uw rapport",sub:"Notarissen werken met strakke deadlines — betrouwbaarheid is uw belangrijkste visitekaartje"}
+      ],
+      opl:[
+        {nm:"De Baak — Professioneel Samenwerken",url:"https://www.debaak.nl",tp:"Training",dr:"1 dag",pr:"€ 895",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_1_0":{tag:"Waarderingsmethoden",title:"Marktwaarde roerende zaken",
+      desc:"De marktwaarde is de prijs waartegen een object tussen een willige koper en verkoper verhandeld zou worden. U bepaalt dit op basis van marktonderzoek en vergelijkingstransacties.",
+      wv:[
+        {ico:"🏷️",lbl:"Bezoek een veiling en analyseer de gerealiseerde prijzen",sub:"Vergelijk veilingprijzen met uw eigen waarderingen — wat verklaart de verschillen?"},
+        {ico:"💻",lbl:"Gebruik drie online platforms om vergelijkbare objecten te vinden",sub:"Marktplaats, Catawiki, veilinghuizen — elk platform heeft een andere doelgroep en prijsniveau"}
+      ],
+      opl:[
+        {nm:"Venduehuis — Marktwaarde & Veilingprijzen",url:"https://www.venduehuis.nl",tp:"Workshop",dr:"1 dag",pr:"€ 395",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Website",lbl:"Invaluable.com — Internationale veilingdatabase",pr:"Gratis basis"}]},
+    "n_1_1":{tag:"Waarderingsmethoden",title:"Comparatieve methode",
+      desc:"Waardering op basis van vergelijkbare verkopen. U zoekt referentietransacties voor vergelijkbare objecten en past correcties toe voor conditie, zeldzaamheid en marktomstandigheden.",
+      wv:[
+        {ico:"🔍",lbl:"Zoek vijf referentietransacties voor een te taxeren object",sub:"Gebruik veilingdatabases, antiquariaten en online platforms — documenteer elke referentie"},
+        {ico:"📊",lbl:"Bespreek uw referentieselectie met een ervaren collega",sub:"Welke referenties accepteerde hij wel en welke niet — en waarom? Leer de selectiecriteria"}
+      ],
+      opl:[
+        {nm:"NIVRE — Comparatieve Methode Successie",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 350",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Database",lbl:"Artprice — Internationale kunstprijzen",pr:"€ 89/mnd"}]},
+    "n_1_2":{tag:"Waarderingsmethoden",title:"Dagwaarde & vervangingswaarde",
+      desc:"Bij successie wordt voornamelijk gewerkt met de marktwaarde, maar sommige objecten vereisen een dagwaarde- of vervangingswaardeberekening, met name voor verzekeringsdoeleinden.",
+      wv:[
+        {ico:"⚖️",lbl:"Waardeer hetzelfde object op drie grondslagen",sub:"Marktwaarde, dagwaarde en vervangingswaarde — wat zijn de verschillen en wanneer is welke grondslag van toepassing?"},
+        {ico:"📋",lbl:"Lees drie taxatierapporten waarbij verschillende grondslagen gehanteerd werden",sub:"Begrijp de redenering achter elke keuze — dit vergroot uw argumentatievermogen bij betwisting"}
+      ],
+      opl:[
+        {nm:"NIVRE — Grondslagen in de Successietaxatie",url:"https://www.nivre.nl",tp:"PE-module",dr:"Halve dag",pr:"€ 225",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_1_3":{tag:"Waarderingsmethoden",title:"Fiscale waardering",
+      desc:"De fiscale waarde kan afwijken van de marktwaarde. Bij successie gelden specifieke regels voor de waardering van bepaalde objectcategorieën voor de Belastingdienst.",
+      wv:[
+        {ico:"💰",lbl:"Bestudeer de Successiewet en de bijbehorende waarderingsregels",sub:"Focus op de speciale regels voor bedrijfsvermogen, woningen en aandelen bij erfenis"},
+        {ico:"🤝",lbl:"Overleg met een belastingadviseur over fiscale waarderingsvragen",sub:"Leer wanneer uw taxatie fiscale consequenties heeft die uw methode beïnvloeden"}
+      ],
+      opl:[
+        {nm:"NIBE-SVV — Fiscale Aspecten Nalatenschap",url:"https://www.nibe-svv.nl",tp:"Module",dr:"2 maanden",pr:"€ 495",lv:"blended"}
+      ],
+      pm:[{tp:"Boek",lbl:"Erfbelasting & Waardering Handboek",pr:"€ 65"}]},
+    "n_2_0":{tag:"Categoriespecialisatie",title:"Sieraden & edelmetalen",
+      desc:"Sieraden en edelmetalen zijn vaak de meest waardevolle objecten in een nalatenschap. U leert de basiskennis van goud, zilver, diamanten en hun waardebepaling.",
+      wv:[
+        {ico:"💎",lbl:"Loop mee bij een sieradentaxatie door een erkend juwelier",sub:"Observeer hoe hij echtheid, kwaliteit en marktwaarde bepaalt — vraag naar zijn methode"},
+        {ico:"🔬",lbl:"Laat een sieraad authenticeren door een gehalte-expert",sub:"Begrijp het verschil tussen 14-, 18- en 24-karaats goud en de impact op waarde"}
+      ],
+      opl:[
+        {nm:"GIA — Diamant & Sieraadkunde Basis",url:"https://www.gia.edu",tp:"Online certificaat",dr:"3 maanden",pr:"€ 890",lv:"online"}
+      ],
+      pm:[{tp:"Boek",lbl:"Sieraden Taxatiegids",pr:"€ 65"}]},
+    "n_2_1":{tag:"Categoriespecialisatie",title:"Numismatiek & verzamelingen",
+      desc:"Munten, postzegels, ansichtkaarten en andere verzamelingen kunnen aanzienlijke waarde vertegenwoordigen. U leert de basisbeginselen van numismatiek en filatelie.",
+      wv:[
+        {ico:"🪙",lbl:"Bezoek een numismatische beurs en spreek met dealers",sub:"Leer hoe munten gecatalogiseerd worden, welke kenmerken waardeverhoging geven en hoe nep herkend wordt"},
+        {ico:"📚",lbl:"Raadpleeg drie standaardcatalogi voor een munt- of postzegelcollectie",sub:"Vergelijk de cataloguswaarden met gerealiseerde veilingprijzen — wat is het verschil en waarom?"}
+      ],
+      opl:[
+        {nm:"KNMvN — Numismatiek voor Taxateurs",url:"https://www.knmvn.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 450",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Standaard Munten Catalogus Nederland",pr:"€ 45"}]},
+    "n_2_2":{tag:"Categoriespecialisatie",title:"Klassieke voertuigen",
+      desc:"Oldtimers en klassieker hebben een eigen waarderingsmarkt die afwijkt van moderne voertuigen. U kent de specifieke factoren die waarde bepalen: originaliteit, conditie en documentatie.",
+      wv:[
+        {ico:"🚗",lbl:"Bezoek een oldtimer-evenement of beurs",sub:"Spreek met eigenaren en dealers over waardeontwikkeling, restauratiekosten en aankoopcriteria"},
+        {ico:"🔍",lbl:"Taxeer een oldtimer samen met een gespecialiseerd collega",sub:"Focus op originele onderdelen, documentatie, restoratieverleden en actuele marktpositie"}
+      ],
+      opl:[
+        {nm:"FEHAC — Klassieke Voertuigen Taxatie",url:"https://www.fehac.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 595",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Oldtimer Waarderingsgids Nederland",pr:"€ 52"}]},
+    "n_2_3":{tag:"Categoriespecialisatie",title:"Bijzondere collecties",
+      desc:"Wijn, whisky, speelgoed, sport-memorabilia, boeken en andere bijzondere verzamelingen vereisen gespecialiseerde kennis of externe expertise.",
+      wv:[
+        {ico:"🍷",lbl:"Bezoek een wijnveiling en observeer hoe prijzen totstandkomen",sub:"Welke factoren bepalen de waarde: jaargangrang, producent, conditie, provenance?"},
+        {ico:"🤝",lbl:"Bouw een netwerk van gespecialiseerde experts per objectcategorie",sub:"Voor bijzondere objecten is samenwerking met specialisten professioneler dan zelf gokken"}
+      ],
+      opl:[
+        {nm:"NIVRE — Bijzondere Collecties in de Nalatenschap",url:"https://www.nivre.nl",tp:"PE-dag",dr:"1 dag",pr:"€ 350",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_3_0":{tag:"Rapportage & Recht",title:"Successierapport opstellen",
+      desc:"Een volledig successierapport bevat een gedetailleerde inventarisatie per objectcategorie, de gehanteerde waarderingsmethode en de totale nalatenschap.",
+      wv:[
+        {ico:"📝",lbl:"Stel uw eerste successierapport op en laat het nalezen door de opdrachtgevend notaris",sub:"Vraag specifiek feedback op volledigheid, formuleringen en presentatie van de waardering"},
+        {ico:"🔄",lbl:"Vergelijk uw rapport met standaard modelrapporten van VRT",sub:"Voldoet uw rapport aan alle vereiste secties en formuleringen? Pas aan waar nodig"}
+      ],
+      opl:[
+        {nm:"NIVRE — Rapportage Successie",url:"https://www.nivre.nl",tp:"Cursus",dr:"1 dag",pr:"€ 375",lv:"klassikaal"},
+        {nm:"Schoevers — Professioneel Schrijven",url:"https://www.schoevers.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 495",lv:"blended"}
+      ],
+      pm:[{tp:"Boek",lbl:"Handboek Successierapporten",pr:"€ 55"}]},
+    "n_3_1":{tag:"Rapportage & Recht",title:"Rechtbankwaardige rapportage",
+      desc:"Bij betwiste nalatenschappen kan uw rapport als bewijsmiddel dienen voor de rechter. U leert hoe u rapporteert op een manier die standhoudt bij juridische toetsing.",
+      wv:[
+        {ico:"⚖️",lbl:"Lees drie rechterlijke uitspraken waarbij een taxatierapport als bewijs diende",sub:"Welke onderdelen van het rapport werden door de rechter gewogen en welke gebreken werden gesignaleerd?"},
+        {ico:"👨‍⚖️",lbl:"Woon een kort geding bij waarbij een taxatie betwist wordt",sub:"Observeer hoe de rechter omgaat met tegenstrijdige taxaties van twee experts"}
+      ],
+      opl:[
+        {nm:"SSR — Deskundige Rapportage voor de Rechter",url:"https://www.ssr.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 995",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Leidraad Deskundigen in Civiele Zaken",pr:"€ 45"}]},
+    "n_3_2":{tag:"Rapportage & Recht",title:"Contra-expertise",
+      desc:"Bij betwisting kan een second opinion worden gevraagd. Als contra-expert beoordeelt u een bestaande taxatie kritisch en rapporteert u uw bevindingen onafhankelijk.",
+      wv:[
+        {ico:"🔍",lbl:"Voer een contra-expertise uit op een bestaand successierapport",sub:"Analyseer de methodiek, controleer de referenties en stel vast waar u het wel of niet mee eens bent"},
+        {ico:"💬",lbl:"Bespreek een contra-expertise met de oorspronkelijke taxateur",sub:"Professionele discussie over taxatieverschillen verhoogt de kwaliteit in de sector"}
+      ],
+      opl:[
+        {nm:"NIVRE — Contra-expertise Praktijk",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 395",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_3_3":{tag:"Rapportage & Recht",title:"Fiscale waardering (verdieping)",
+      desc:"Verdieping op de fiscale aspecten: bezwaar en beroep bij de Belastingdienst, WOZ-waardering en de invloed van erfbelastingdiscussies op uw taxatiepraktijk.",
+      wv:[
+        {ico:"📄",lbl:"Bestudeer drie bezwaarprocedures waarbij uw taxatie een rol speelde",sub:"Hoe werd uw rapport gebruikt bij bezwaar en wat was het resultaat?"},
+        {ico:"🤝",lbl:"Voer een gezamenlijk overleg met een belastingadviseur over een lopende casus",sub:"Leer hoe u uw taxatie fiscaal-proof formuleert voor gebruik bij de Belastingdienst"}
+      ],
+      opl:[
+        {nm:"Grotius — Belastingrecht & Erfenis",url:"https://www.grotius.nl",tp:"Cursus",dr:"1 dag",pr:"€ 695",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_4_0":{tag:"VRT Registratie",title:"Portfolio 30+ boedelexpertises",
+      desc:"Voor VRT-toelating bouwt u een portfolio van minimaal 30 successietaxaties met voldoende diversiteit.",
+      wv:[
+        {ico:"📁",lbl:"Registreer elke opdracht direct in uw portfolio",sub:"Type nalatenschap, objectcategorieën, totale waarde, opdrachtgever — alles systematisch vastleggen"}
+      ],
+      opl:[],pm:[]},
+    "n_4_1":{tag:"VRT Registratie",title:"Toetsing VRT commissie",
+      desc:"Na portfolio en opleiding wordt uw aanvraag beoordeeld door de VRT-commissie Successie.",
+      wv:[
+        {ico:"📋",lbl:"Doe een mock-toetsing met uw VRT-begeleider",sub:"Vraag hem de rol van commissielid te spelen — oefen het verdedigen van uw taxatiemethoden"}
+      ],
+      opl:[{nm:"VRT — Voorbereidingsgesprek Successie",url:"https://www.vrt.nl",tp:"Adviesgesprek",dr:"1 uur",pr:"Gratis",lv:"klassikaal"}],pm:[]},
+    "n_4_2":{tag:"VRT Registratie",title:"VRT register Successie",
+      desc:"Inschrijving in het VRT-deelregister Successie geeft u de erkende status als register successie taxateur.",
+      wv:[
+        {ico:"🎉",lbl:"Communiceer uw VRT-registratie naar notariskantoren in uw regio",sub:"Persoonlijk contact met notarissen is de meest effectieve manier om nieuwe opdrachten te genereren"}
+      ],
+      opl:[],pm:[]},
+    "n_4_3":{tag:"VRT Registratie",title:"PE-punten bijhouden",
+      desc:"Jaarlijkse PE-verplichting: bijblijven over nieuwe regelgeving, marktprijsontwikkelingen en vakinhoudelijke verdieping.",
+      wv:[
+        {ico:"📅",lbl:"Plan jaarlijks minimaal één vakinhoudelijke verdiepingsdag",sub:"Combineer VRT-bijeenkomsten met gespecialiseerde cursussen over uw favoriete objectcategorieën"}
+      ],
+      opl:[
+        {nm:"VRT — PE Successie Jaarbijeenkomst",url:"https://www.vrt.nl",tp:"PE verplicht",dr:"1 dag/jaar",pr:"Inbegrepen",lv:"klassikaal"},
+        {nm:"SkillsTown — Digitale Tools voor Taxateurs",url:"https://skillstown.nl",tp:"Online",dr:"2 uur",pr:"€ 79",lv:"online"}
+      ],
+      pm:[]}
+  }
+  ,kunst:{
+    "n_0_0":{tag:"Kunsthistorische Basis",title:"Kunstgeschiedenis overzicht",
+      desc:"Een brede kennis van kunstgeschiedenis is de basis voor betrouwbare kunst- en antiekwaardering. U leert stijlperioden, bewegingen en hun invloed op waarde herkennen.",
+      wv:[
+        {ico:"🎨",lbl:"Breng een dag door bij een veilinghuis (Venduehuis, Sothebys Amsterdam)",sub:"Observeer hoe objecten worden gecatalogiseerd, getaxeerd en op welke gronden startprijzen worden bepaald"},
+        {ico:"🏛️",lbl:"Bezoek drie musea met verschillende stijlperioden",sub:"Documenteer per bezoek vijf werken: periode, stijl, materiaal en kenmerken"},
+        {ico:"👨‍🏫",lbl:"Volg een rondleiding met een conservator",sub:"Vraag specifiek naar echtheidskenmerken, hoe zij vervalsingen herkennen en wat bepalend is voor waarde"}
+      ],
+      opl:[
+        {nm:"Rijksmuseum — Kunsthistorie voor Professionals",url:"https://www.rijksmuseum.nl",tp:"Cursus",dr:"5 dagen",pr:"€ 1.450",lv:"klassikaal"},
+        {nm:"Christies Education — Art Business Online",url:"https://www.christieseducation.com",tp:"Online",dr:"6 weken",pr:"€ 1.800",lv:"online"}
+      ],
+      pm:[{tp:"Boek",lbl:"Jansons History of Art",pr:"€ 75"}]},
+    "n_0_1":{tag:"Kunsthistorische Basis",title:"Stilperioden herkennen",
+      desc:"Van Middeleeuwen tot hedendaags: elke periode heeft kenmerkende stijlen, materialen en motieven. U leert objecten snel aan een periode te koppelen.",
+      wv:[
+        {ico:"🖼️",lbl:"Bezoek een antiekbeurs en probeer objecten zelf te dateren",sub:"Vraag de handelaar achteraf of uw datering correct was — leer van de afwijkingen"},
+        {ico:"📚",lbl:"Bestudeer wekelijks twee objecten uit een veilingcatalogus",sub:"Lees de beschrijving, kijk naar de afbeelding en analyseer de redenering achter de datering"}
+      ],
+      opl:[
+        {nm:"Tefaf — Kunstmarkt Kennis Programma",url:"https://www.tefaf.com",tp:"Seminar",dr:"2 dagen",pr:"Op aanvraag",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Stijlgids Europese Kunstperioden",pr:"€ 58"}]},
+    "n_0_2":{tag:"Kunsthistorische Basis",title:"Signaturen & echtheid",
+      desc:"Het herkennen en verifiëren van signaturen, stempels en merktekens. U leert hoe echtheidsonderzoek werkt en wanneer u een specialist moet inschakelen.",
+      wv:[
+        {ico:"🔍",lbl:"Bestudeer signatuurverzamelingen en oeuvrecatalogi van bekende kunstenaars",sub:"Leer hoe een signatuur er op verschillende momenten in een carrière uitzag — dit helpt bij authenticatie"},
+        {ico:"🔬",lbl:"Observeer een echtheidsonderzoek door een conservator of restaurator",sub:"Welke technieken gebruikt hij: UV-licht, röntgen, pigmentanalyse? Wat vertelt elk onderzoek?"}
+      ],
+      opl:[
+        {nm:"RKD — Signaturen & Echtheidsonderzoek",url:"https://www.rkd.nl",tp:"Workshop",dr:"1 dag",pr:"€ 450",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Database",lbl:"RKD Artists — Nederlands Kunsthistorisch Instituut",pr:"Gratis basis"}]},
+    "n_0_3":{tag:"Kunsthistorische Basis",title:"Provenanceonderzoek",
+      desc:"De herkomstgeschiedenis van een kunstwerk beïnvloedt de waarde en legaliteit. U leert hoe u provenance onderzoekt en hoe dit beschermt tegen claims.",
+      wv:[
+        {ico:"📜",lbl:"Onderzoek de provenance van een object in een archiefcollectie",sub:"Gebruik oud veilingcatalogi, tentoonstellingscatalogi en eigendomsbewijzen als bronnen"},
+        {ico:"⚠️",lbl:"Consulteer de lijst van cultuurgoederen met onduidelijke WWII-provenance",sub:"Leer hoe u een restitutieclaim herkent en welke stappen u dan zet"}
+      ],
+      opl:[
+        {nm:"Restitutiecommissie — Provenance Training",url:"https://www.restitutiecommissie.nl",tp:"Workshop",dr:"1 dag",pr:"€ 350",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Database",lbl:"Art Loss Register — Gestolen Kunst Database",pr:"€ 50/zoekopdracht"}]},
+    "n_1_0":{tag:"Markt & Waarde",title:"Veilingmarkt begrijpen",
+      desc:"Veilingen zijn de meest transparante markt voor kunst en antiek. U leert hoe veilingen werken, wat hamerprijzen betekenen en hoe u dit vertaalt naar taxatiewaarden.",
+      wv:[
+        {ico:"🔨",lbl:"Woon een live veiling bij bij Christies, Sothebys of Venduehuis",sub:"Observeer hoe het biedproces werkt, welke objecten boven of onder de verwachting verkopen"},
+        {ico:"💻",lbl:"Analyseer tien veilingresultaten uit uw specialisatiecategorie",sub:"Welke objecten haalden meer dan verwacht? Welke vielen tegen? Wat verklaart het verschil?"}
+      ],
+      opl:[
+        {nm:"Venduehuis — Veilingmarkt Masterclass",url:"https://www.venduehuis.nl",tp:"Workshop",dr:"1 dag",pr:"€ 395",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Database",lbl:"Artprice — Veilingresultaten Wereldwijd",pr:"€ 89/mnd"}]},
+    "n_1_1":{tag:"Markt & Waarde",title:"Galeriehandel & prijsvorming",
+      desc:"Galeries hanteren andere prijsmechanismen dan veilingen. U begrijpt hoe galerieprijzen totstandkomen en hoe deze zich verhouden tot marktwaarden.",
+      wv:[
+        {ico:"🖼️",lbl:"Bezoek vijf galeries en bespreek hun prijsbeleid",sub:"Hoe bepalen zij de prijs van een werk? Welke factoren spelen een rol naast artistieke kwaliteit?"},
+        {ico:"💬",lbl:"Spreek met een galeriehouder over de taxatie van kunstwerken die zij verkopen",sub:"Gebruik hun inzicht om uw eigen waarderingsmethode te versterken"}
+      ],
+      opl:[
+        {nm:"NGA — Galeriehandel voor Professionals",url:"https://www.nederlandsegalerievereniging.nl",tp:"Seminar",dr:"1 dag",pr:"€ 295",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_1_2":{tag:"Markt & Waarde",title:"Internationale marktprijzen",
+      desc:"Kunst is een internationale markt. Prijzen in New York, Londen, Parijs en Hongkong beïnvloeden Nederlandse waarden. U leert hoe u internationale referenties gebruikt.",
+      wv:[
+        {ico:"🌍",lbl:"Vergelijk de prijs van een vergelijkbaar werk op drie internationale veilingplatforms",sub:"Hoe groot zijn de prijsverschillen per regio en wat verklaart die geografische spreiding?"},
+        {ico:"📊",lbl:"Volg maandelijks de internationale kunstmarktrapportages",sub:"Art Basel, Art Market Report en veilinghuispersen geven actueel inzicht in prijsontwikkelingen"}
+      ],
+      opl:[
+        {nm:"Christies Education — International Art Market",url:"https://www.christieseducation.com",tp:"Online",dr:"4 weken",pr:"€ 995",lv:"online"}
+      ],
+      pm:[{tp:"Rapport",lbl:"Art Basel & UBS Art Market Report (jaarlijks)",pr:"Gratis download"}]},
+    "n_1_3":{tag:"Markt & Waarde",title:"Veiling databases gebruiken",
+      desc:"Artprice, Invaluable, RKD en andere databases zijn uw dagelijkse gereedschap voor prijsreferenties. U leert hoe u zoekresultaten correct interpreteert.",
+      wv:[
+        {ico:"💻",lbl:"Oefen met drie databases voor hetzelfde object",sub:"Welke database geeft de meest relevante resultaten? Hoe filtert u op vergelijkbare conditie en formaat?"},
+        {ico:"📊",lbl:"Maak een referentieoverzicht van tien transacties voor uw volgende taxatie",sub:"Documenteer database, datum, hamerpijs, conditie en relevantie — dit is uw bewijslast"}
+      ],
+      opl:[
+        {nm:"Artprice — Database Training",url:"https://www.artprice.com",tp:"Online",dr:"3 uur",pr:"€ 145",lv:"online"}
+      ],
+      pm:[{tp:"Software",lbl:"Artprice Pro Abonnement",pr:"€ 299/jr"}]},
+    "n_2_0":{tag:"Technisch Onderzoek",title:"Materiaalanalyse basis",
+      desc:"Inzicht in de materialen waarmee kunstwerken zijn gemaakt: doeken, panelen, papier, verf, marmer, brons. Materiaalkennis helpt bij datering en echtheidsonderzoek.",
+      wv:[
+        {ico:"🔬",lbl:"Observeer een restaurator bij zijn materiaalonderzoek",sub:"Hoe gebruikt hij een loep, UV-lamp en technische kennis om materialen te identificeren?"},
+        {ico:"🎨",lbl:"Bezoek een conserveringsatelier en leer over schilderijenopbouw",sub:"Grondlaag, verf, vernis — elke laag vertelt iets over herkomst en authenticiteit"}
+      ],
+      opl:[
+        {nm:"RCE — Materiaalkennis voor Niet-Restauratoren",url:"https://www.cultureelerfgoed.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 650",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Materials and Techniques in Art",pr:"€ 62"}]},
+    "n_2_1":{tag:"Technisch Onderzoek",title:"UV & conditiebeoordeling",
+      desc:"UV-licht maakt retouches, restauraties en latere toevoegingen zichtbaar. U leert hoe u een UV-lamp correct gebruikt en hoe u de conditie systematisch beoordeelt.",
+      wv:[
+        {ico:"💡",lbl:"Gebruik een UV-lamp bij uw volgende schilderijtaxatie",sub:"Observeer welke gebieden anders oplichten dan het originele oppervlak — dit zijn restauraties"},
+        {ico:"📋",lbl:"Maak een conditierapport van drie kunstwerken",sub:"Beschrijf per werk: drager, schilderlaag, vernis, beschadigingen en restauraties — gestructureerd"}
+      ],
+      opl:[
+        {nm:"NIVRE — Conditiebeoordeling Kunstwerken",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 395",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Apparatuur",lbl:"UV-lamp Professioneel (365nm)",pr:"€ 180"}]},
+    "n_2_2":{tag:"Technisch Onderzoek",title:"Restauratie herkennen",
+      desc:"Gerestaureerde kunstwerken hebben andere waarden dan ongerestaureerde exemplaren. U leert restauraties herkennen en de impact op de waarde correct inschatten.",
+      wv:[
+        {ico:"🔍",lbl:"Bekijk een werk voor en na restauratie samen met een restaurator",sub:"Leer hoe een goede restauratie eruitziet, hoe een slechte restauratie de waarde schaadt"},
+        {ico:"📸",lbl:"Documenteer restauraties systematisch in uw taxatierapport",sub:"Beschrijf de aard, omvang en kwaliteit van de restauratie — dit beïnvloedt uw eindwaarde"}
+      ],
+      opl:[
+        {nm:"SRAL — Restauratie & Waarde",url:"https://www.sral.nl",tp:"Workshop",dr:"1 dag",pr:"€ 350",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_2_3":{tag:"Technisch Onderzoek",title:"Echtheidsonderzoek methoden",
+      desc:"Van stylistische analyse tot wetenschappelijk onderzoek: een overzicht van de methoden die gebruikt worden om de echtheid van kunstwerken vast te stellen.",
+      wv:[
+        {ico:"🔬",lbl:"Woon een dendrochronologie- of pigmentanalyse bij",sub:"Wetenschappelijk onderzoek kan de datering van een werk tot op decennia nauwkeurig vaststellen"},
+        {ico:"📚",lbl:"Bestudeer vijf bekende vervalsingsaffaires in de kunstwereld",sub:"Hoe werden de vervalsingen ontdekt, welke aanwijzingen waren er en wat leren we hiervan?"}
+      ],
+      opl:[
+        {nm:"RKD — Echtheidsonderzoek Verdieping",url:"https://www.rkd.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 750",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Fakes, Forgeries & Mysteries",pr:"€ 55"}]},
+    "n_3_0":{tag:"VRT Registratie",title:"Portfolio 30+ kunstexpertises",
+      desc:"Portfolio van minimaal 30 kunst- en antiekexpertises met diversiteit in periode, categorie en waardebereik.",
+      wv:[
+        {ico:"📁",lbl:"Registreer elke expertise direct: object, periode, categorie, waarde, methode",sub:"Diversiteit in uw portfolio is essentieel — streef naar schilderijen, beeldhouwwerk én decoratieve kunst"}
+      ],
+      opl:[],pm:[]},
+    "n_3_1":{tag:"VRT Registratie",title:"Toetsing VRT commissie",
+      desc:"De VRT-commissie Kunst & Antiek beoordeelt uw portfolio, opleiding en vakkennis.",
+      wv:[
+        {ico:"🎨",lbl:"Presenteer drie van uw meest complexe taxaties aan uw begeleider",sub:"Oefen het verdedigen van uw methodiek, referentieselectie en eindwaarde"}
+      ],
+      opl:[{nm:"VRT — Voorbereidingsgesprek Kunst",url:"https://www.vrt.nl",tp:"Adviesgesprek",dr:"1 uur",pr:"Gratis",lv:"klassikaal"}],pm:[]},
+    "n_3_2":{tag:"VRT Registratie",title:"VRT deelregister Kunst",
+      desc:"Inschrijving in het VRT-deelregister Kunst & Antiek geeft u de erkende status als register kunst taxateur.",
+      wv:[
+        {ico:"🎉",lbl:"Informeer veilinghuizen, notarissen en verzekeraars over uw registratie",sub:"Kunst & antiek taxateurs worden gevraagd door een specifieke kring — actief netwerken is essentieel"}
+      ],
+      opl:[],pm:[]},
+    "n_3_3":{tag:"VRT Registratie",title:"Permanente educatie (PE)",
+      desc:"Jaarlijkse PE in de kunstsector: nieuwe kunstenaars, marktontwikkelingen, provenance-wetgeving en technische onderzoeksmethoden.",
+      wv:[
+        {ico:"🌍",lbl:"Bezoek jaarlijks minimaal één grote kunstbeurs (Tefaf, PAN, Art Rotterdam)",sub:"Dit combineert marktkennis, netwerken en PE in één evenement"}
+      ],
+      opl:[
+        {nm:"VRT — PE Kunst & Antiek Jaarbijeenkomst",url:"https://www.vrt.nl",tp:"PE verplicht",dr:"1 dag/jaar",pr:"Inbegrepen",lv:"klassikaal"},
+        {nm:"Artprice — Marktkennis Updates",url:"https://www.artprice.com",tp:"Online",dr:"Doorlopend",pr:"€ 299/jr",lv:"online"}
+      ],
+      pm:[]}
+  }
+  ,bedrijf:{
+    "n_0_0":{tag:"Bedrijfskundige Basis",title:"Bedrijfsprocessen begrijpen",
+      desc:"Inzicht in hoe bedrijven functioneren is essentieel voor het beoordelen van bedrijfsschade. U begrijpt de relatie tussen productie, omzet, kosten en winst.",
+      wv:[
+        {ico:"🏭",lbl:"Loop een dag mee bij een productiebedrijf",sub:"Observeer de kritische processen: welke stap in de productie zou bij uitval de grootste schade veroorzaken?"},
+        {ico:"💼",lbl:"Bespreek een bedrijfsdossier met de accountant van het getroffen bedrijf",sub:"Vraag hem de verliesberekening toe te lichten — leer hoe hij omzet, vaste lasten en winst definieert"},
+        {ico:"📊",lbl:"Analyseer de jaarrekening van een bedrijf samen met een senior taxateur",sub:"Focus op de posten die relevant zijn bij een schadeclaim: omzet, brutomarge en vaste kosten"}
+      ],
+      opl:[
+        {nm:"Nyenrode — Bedrijfskunde voor niet-economen",url:"https://www.nyenrode.nl",tp:"Cursus",dr:"3 dagen",pr:"€ 1.895",lv:"klassikaal"},
+        {nm:"NIVRE — Bedrijfsschade Basis",url:"https://www.nivre.nl",tp:"Module",dr:"2 dagen",pr:"€ 650",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Bedrijfsschade en Verzekering — Handboek",pr:"€ 78"}]},
+    "n_0_1":{tag:"Bedrijfskundige Basis",title:"Financiële administratie lezen",
+      desc:"Als bedrijfsschade taxateur leest u jaarrekeningen, verlies- en winstrekeningen en balansen. U weet welke posten relevant zijn voor de schadeberekening.",
+      wv:[
+        {ico:"📊",lbl:"Lees drie jaarrekeningen van MKB-bedrijven samen met een accountant",sub:"Laat de accountant de relevante posten voor bedrijfsschadeverzekering aanwijzen en toelichten"},
+        {ico:"💰",lbl:"Bereken de brutomarge van vijf bedrijven op basis van hun cijfers",sub:"De brutomarge is de kern van elke bedrijfsschadeberekening — beheers dit concept volledig"}
+      ],
+      opl:[
+        {nm:"NCOI — Financieel Management voor niet-financieel managers",url:"https://www.ncoi.nl",tp:"Cursus",dr:"3 maanden",pr:"€ 895",lv:"blended"}
+      ],
+      pm:[{tp:"Boek",lbl:"Jaarrekening Lezen en Begrijpen",pr:"€ 45"}]},
+    "n_0_2":{tag:"Bedrijfskundige Basis",title:"Verzekerd belang bedrijven",
+      desc:"Het verzekerd belang bij een bedrijfsschadeverzekering wijkt af van een reguliere schadepolis. U begrijpt welke omzetderving, vaste lasten en extra kosten gedekt zijn.",
+      wv:[
+        {ico:"📄",lbl:"Lees vijf bedrijfsschadepoli's naast elkaar",sub:"Maak een vergelijkingstabel van dekkingsomschrijvingen, uitkeringstermijnen en uitsluitingen"},
+        {ico:"💬",lbl:"Bespreek het verzekerd belang van een concreet bedrijf met een assurantieadviseur",sub:"Hoe heeft de adviseur het verzekerd belang berekend en is de dekking toereikend?"}
+      ],
+      opl:[
+        {nm:"NIBE-SVV — Bedrijfsschadeverzekering Basis",url:"https://www.nibe-svv.nl",tp:"Module",dr:"3 maanden",pr:"€ 545",lv:"blended"}
+      ],
+      pm:[{tp:"Boek",lbl:"Bedrijfsschadeverzekering Praktijkgids",pr:"€ 58"}]},
+    "n_0_3":{tag:"Bedrijfskundige Basis",title:"Polisvoorwaarden bedrijven",
+      desc:"Bedrijfsschadepolis voorwaarden zijn complexer dan particuliere polissen. U beheerst de kernbepalingen: omzetdervingsdekking, uitkeringstermijn, eigen risico en sub-limiten.",
+      wv:[
+        {ico:"📋",lbl:"Analyseer een bedrijfsschadepolis artikel voor artikel",sub:"Schrijf bij elk artikel op wat dit betekent voor de schadeberekening en eventuele uitsluitingen"},
+        {ico:"⚖️",lbl:"Bestudeer drie rechtbankuitspraken over betwiste bedrijfsschadepolissen",sub:"Op welke gronden werd de dekking betwist en hoe oordeelde de rechter?"}
+      ],
+      opl:[
+        {nm:"LOI — Wft Schade Zakelijk",url:"https://www.loi.nl",tp:"Wft Diploma",dr:"3 maanden",pr:"€ 695",lv:"online"}
+      ],
+      pm:[{tp:"Boek",lbl:"Polisvoorwaarden Bedrijfsverzekeringen",pr:"€ 52"}]},
+    "n_1_0":{tag:"Schadeberekening",title:"Gederfde omzet berekenen",
+      desc:"De kern van elke bedrijfsschadeberekening: hoeveel omzet is gedorven door het schadegeval? U vergelijkt de werkelijke omzet met de verwachte omzet op basis van historische cijfers.",
+      wv:[
+        {ico:"📊",lbl:"Bereken de gederfde omzet van drie schadecasussen",sub:"Gebruik de methode: verwachte omzet (historisch gecorrigeerd) minus werkelijke omzet"},
+        {ico:"💬",lbl:"Bespreek uw omzetberekening met de ondernemer en zijn accountant",sub:"Zij kennen seizoenspatronen, groeicijfers en bijzondere omstandigheden die uw berekening beïnvloeden"}
+      ],
+      opl:[
+        {nm:"NIVRE — Bedrijfsschadeberekening Praktijk",url:"https://www.nivre.nl",tp:"Cursus",dr:"2 dagen",pr:"€ 750",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Gederfde Winst — Berekening & Methoden",pr:"€ 65"}],
+      tk:[
+        {ico:"🤖",lbl:"AI-tools voor omzetanalyse en trendherkenning",sub:"AI kan historische omzetdata analyseren, seizoenspatronen herkennen en realistische prognoses opstellen. Dit versnelt uw berekening en vergroot de objectiviteit.",
+          opl:[
+            {nm:"ChatGPT voor Data-analyse",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"3 uur"},
+            {nm:"Excel & AI voor Financiële Analyses",url:"https://www.ncoi.nl",brand:"NCOI",tp:"Online module",dr:"1 dag"}
+          ]}
+      ]},
+    "n_1_1":{tag:"Schadeberekening",title:"Vaste lasten analyseren",
+      desc:"Vaste lasten lopen door ook als het bedrijf stilligt. U identificeert welke lasten gedekt zijn onder de polis en hoe deze correct in de schadeberekening worden meegenomen.",
+      wv:[
+        {ico:"💰",lbl:"Maak een vaste-lastenanalyse van drie bedrijven",sub:"Welke lasten zijn echt vast (huur, afschrijvingen, loonkosten) en welke variëren met de omzet?"},
+        {ico:"🤝",lbl:"Bespreek de vaste-lastenopstelling met de bedrijfsaccountant",sub:"Zijn er bijzondere afspraken of kostenposten die uw berekening beïnvloeden?"}
+      ],
+      opl:[
+        {nm:"NIVRE — Vaste Lasten & Bedrijfsschade",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 395",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_1_2":{tag:"Schadeberekening",title:"Extra kosten bepalen",
+      desc:"Extra kosten zijn kosten die gemaakt worden om het verlies te beperken (bijv. inhuur van tijdelijke productiecapaciteit). Deze zijn vaak gedekt en complex te berekenen.",
+      wv:[
+        {ico:"📋",lbl:"Inventariseer alle extra kosten in een actuele bedrijfsschadecasus",sub:"Classificeer ze: kostenbesparend (gedekt), bedrijfsherstelkosten (gedekt), of bedrijfsverbetering (niet gedekt)"},
+        {ico:"💬",lbl:"Bespreek drie grensgevallen van extra kosten met uw leidinggevende",sub:"Wanneer is een extra kost gedekt en wanneer niet? Leer de polislogica achter deze beslissingen"}
+      ],
+      opl:[
+        {nm:"NIVRE — Extra Kosten & Schadebeperkingsplicht",url:"https://www.nivre.nl",tp:"PE-module",dr:"Halve dag",pr:"€ 250",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Extra Kosten in de Bedrijfsschade",pr:"€ 48"}]},
+    "n_1_3":{tag:"Schadeberekening",title:"Herstelperiode inschatten",
+      desc:"De maximale uitkeringstermijn is in de polis bepaald, maar de werkelijke herstelperiode kan korter of langer zijn. U leert hoe u een realistische herstelperiode vaststelt.",
+      wv:[
+        {ico:"📅",lbl:"Maak een herstelplanning voor een schadegeval samen met de ondernemer",sub:"Welke stappen moeten gezet worden, welke zijn kritiek pad, en wat is het meest pessimistische scenario?"},
+        {ico:"💬",lbl:"Bespreek een dossier waarbij de herstelperiode langer duurde dan verwacht",sub:"Wat waren de oorzaken van vertraging en hoe had u dit eerder kunnen signaleren?"}
+      ],
+      opl:[
+        {nm:"NIVRE — Herstelperiode & Uitkeringstermijn",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 375",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_2_0":{tag:"Juridisch & Verzekering",title:"Bedrijfsschadeverzekering (BI)",
+      desc:"Business Interruption verzekering: dekkingsomschrijving, uitkeringsvormen, maximale termijn en het verschil tussen omzetdervings- en brutowinstpolis.",
+      wv:[
+        {ico:"📄",lbl:"Vergelijk een omzetpolis met een brutowinstpolis naast elkaar",sub:"Wat zijn de praktische gevolgen voor de schadeberekening bij elk polistype?"},
+        {ico:"👥",lbl:"Bespreek een BI-schade met een verzekeraar en de ondernemer aanwezig",sub:"Observeer hoe partijen over de uitleg van polisbepalingen debatteren"}
+      ],
+      opl:[
+        {nm:"NIBE-SVV — Business Interruption Verdieping",url:"https://www.nibe-svv.nl",tp:"Cursus",dr:"2 maanden",pr:"€ 695",lv:"blended"}
+      ],
+      pm:[{tp:"Boek",lbl:"Business Interruption Insurance Handbook",pr:"€ 72"}]},
+    "n_2_1":{tag:"Juridisch & Verzekering",title:"Aansprakelijkheid bij bedrijfsschade",
+      desc:"Bedrijfsschade kan voortkomen uit aansprakelijkheid van derden. U begrijpt wanneer aansprakelijkheid een rol speelt en hoe dit uw schadeberekening beïnvloedt.",
+      wv:[
+        {ico:"⚖️",lbl:"Bestudeer drie bedrijfsschadezaken waarbij aansprakelijkheid een rol speelde",sub:"Hoe beïnvloedde de aansprakelijkheidsvraag de schadeafwikkeling en uw berekening?"},
+        {ico:"🤝",lbl:"Overleg met een aansprakelijkheidsexpert over een grensgeval",sub:"Leer de interface tussen bedrijfsschade en aansprakelijkheidsrecht kennen"}
+      ],
+      opl:[
+        {nm:"NCOI — Aansprakelijkheid & Bedrijfsschade",url:"https://www.ncoi.nl",tp:"Module",dr:"2 maanden",pr:"€ 695",lv:"blended"}
+      ],
+      pm:[]},
+    "n_2_2":{tag:"Juridisch & Verzekering",title:"Deskundigenclausule polissen",
+      desc:"De deskundigenclausule bepaalt de procedure bij geschillen: wanneer wordt een derde expert ingeschakeld en hoe werkt het bindend advies?",
+      wv:[
+        {ico:"📋",lbl:"Lees de deskundigenclausule in vijf verschillende bedrijfsschadepoli's",sub:"Wat zijn de verschillen in procedure, termijnen en benoeming van de derde expert?"},
+        {ico:"⚖️",lbl:"Observeer een deskundigenprocedure bij een betwiste bedrijfsschadeclaim",sub:"Hoe wordt de derde expert benoemd, wat zijn zijn bevoegdheden en hoe luidt de uitspraak?"}
+      ],
+      opl:[
+        {nm:"NIVRE — Deskundigenclausule & Arbitrage",url:"https://www.nivre.nl",tp:"Workshop",dr:"1 dag",pr:"€ 395",lv:"klassikaal"}
+      ],
+      pm:[{tp:"Boek",lbl:"Deskundigenclausule in de Praktijk",pr:"€ 45"}]},
+    "n_2_3":{tag:"Juridisch & Verzekering",title:"Arbitrage & geschillen",
+      desc:"Bij betwiste bedrijfsschades kan arbitrage of de rechter uitkomst bieden. U kent de procedure en weet hoe u uw berekening juridisch-proof opstelt.",
+      wv:[
+        {ico:"🏛️",lbl:"Woon een arbitragezitting bij bij een betwiste bedrijfsschadeclaim",sub:"Observeer hoe beide partijen hun standpunt onderbouwen en hoe de arbiter oordeelt"},
+        {ico:"📝",lbl:"Schrijf een samenvatting van uw schadeberekening die ook voor een niet-expert begrijpelijk is",sub:"Arbiters zijn niet altijd branchespecialisten — heldere communicatie is uw sterkste wapen"}
+      ],
+      opl:[
+        {nm:"De Baak — Onderhandelen & Arbitrage",url:"https://www.debaak.nl",tp:"Training",dr:"2 dagen",pr:"€ 1.495",lv:"klassikaal"}
+      ],
+      pm:[]},
+    "n_3_0":{tag:"VRT Registratie",title:"Portfolio 20+ bedrijfsexpertises",
+      desc:"Portfolio van minimaal 20 bedrijfsschade-expertises met diversiteit in branche, schadesoort en omvang.",
+      wv:[
+        {ico:"📁",lbl:"Registreer elke expertise: branche, schadesoort, verzekerd belang, schadeomvang, methode",sub:"Diversiteit in branches is cruciaal — retail, horeca, productie en dienstverlening vergen elk een andere aanpak"}
+      ],
+      opl:[],pm:[],
+      tk:[
+        {ico:"🤖",lbl:"Digitale tools in bedrijfsschade-expertise",sub:"Financiële analysetools, boekhoudsoftware en BI-dashboards worden steeds meer gebruikt door getroffen bedrijven. Als taxateur begrijpt u hoe u deze data correct interpreteert.",
+          opl:[
+            {nm:"Power BI voor Data-analyse",url:"https://skillstown.nl",brand:"SkillsTown",tp:"Online",dr:"4 uur"},
+            {nm:"Excel Financiële Modellen",url:"https://www.ncoi.nl",brand:"NCOI",tp:"Online",dr:"1 dag"}
+          ]}
+      ]},
+    "n_3_1":{tag:"VRT Registratie",title:"Samenwerking met accountants",
+      desc:"Accountants zijn uw voornaamste samenwerkingspartner bij bedrijfsschade. Zij leveren de financiële data die u nodig heeft voor uw berekening.",
+      wv:[
+        {ico:"🤝",lbl:"Sluit een samenwerkingsrelatie met een accountantskantoor",sub:"Wederzijdse doorverwijzing vergroot uw opdrachtenportefeuille en verhoogt de kwaliteit van uw analyses"},
+        {ico:"📊",lbl:"Voer een gezamenlijke casusbespreking uit met een accountant",sub:"Leer hoe zij de cijfers interpreteren en wat hun perspectief toevoegt aan uw schadeberekening"}
+      ],
+      opl:[],pm:[]},
+    "n_3_2":{tag:"VRT Registratie",title:"VRT Bedrijfsschade register",
+      desc:"Inschrijving in het VRT-deelregister Bedrijfsschade geeft u de erkende status als register bedrijfsschade taxateur.",
+      wv:[
+        {ico:"🎉",lbl:"Informeer verzekeraars en volmachtbedrijven over uw VRT-registratie",sub:"Bedrijfsschade taxateurs worden door een beperkte kring van opdrachtgevers ingehuurd — directe acquisitie werkt het best"}
+      ],
+      opl:[],pm:[]},
+    "n_3_3":{tag:"VRT Registratie",title:"Permanente educatie (PE)",
+      desc:"Jaarlijkse PE: actuele juridische ontwikkelingen, nieuwe bedrijfsschadesoftware en economische trends die uw berekeningen beïnvloeden.",
+      wv:[
+        {ico:"📅",lbl:"Combineer PE met netwerkmomenten bij brancheverenigingen",sub:"INretail, Koninklijke Horeca Nederland en Bouwend Nederland organiseren relevante bijeenkomsten"}
+      ],
+      opl:[
+        {nm:"VRT — PE Bedrijfsschade Jaarbijeenkomst",url:"https://www.vrt.nl",tp:"PE verplicht",dr:"1 dag/jaar",pr:"Inbegrepen",lv:"klassikaal"},
+        {nm:"SkillsTown — Financiële Analyse & AI",url:"https://skillstown.nl",tp:"Online",dr:"3 uur",pr:"€ 89",lv:"online"},
+        {nm:"NIVRE — Actuele Bedrijfsschade Ontwikkelingen",url:"https://www.nivre.nl",tp:"PE keuze",dr:"1 dag",pr:"€ 350",lv:"klassikaal"}
+      ],
+      pm:[]}
+  }
+};
+
+// MODAL INFO voor kaarten zonder eigen roadmap
+const MI={
+  gerechtelijk:{tag:"Rolgerichte Roadmap",t:"Gerechtelijk Deskundige",d:"Als benoemd deskundige door de rechter optreden bij geschillen over taxaties, schade en waardebepalingen.",s:true},
+  vastgoed:{tag:"Rolgerichte Roadmap",t:"Vastgoed Taxateur (VRT)",d:"VRT-registratie voor taxateurs actief in woningen, commercieel vastgoed of agrarisch vastgoed.",s:true},
+  agrarisch:{tag:"Rolgerichte Roadmap",t:"Agrarisch Taxateur (VRT)",d:"Waardering van agrarische objecten, landbouwgrond, glastuinbouw en bijbehorende gebouwen.",s:true},
+  s_calc:{tag:"Skill Roadmap",t:"Schadecalculatie",d:"Methoden voor het berekenen van herstelkosten, waardevermindering en totale schadeomvang.",s:true},
+  s_rapport:{tag:"Skill Roadmap",t:"Expertiserapport Schrijven",d:"Opbouw en vereisten van een rechtsgeldig expertiserapport voor VRT-gecertificeerde taxateurs.",s:true},
+  s_inspectie:{tag:"Skill Roadmap",t:"Objectinspectie Techniek",d:"Systematische aanpak voor het inspecteren van objecten met checklist en fotodocumentatie.",s:true},
+  s_wft:{tag:"Skill Roadmap",t:"Verzekeringswetgeving (Wft)",d:"Wft, verzekeringsrecht en aansprakelijkheidsrecht als fundament voor de schade-expertise.",s:true},
+  s_foto:{tag:"Skill Roadmap",t:"Fotodocumentatie",d:"Professionele vastlegging van schades met foto en video ten behoeve van rapportage.",s:true},
+  s_contra:{tag:"Skill Roadmap",t:"Contra-expertise",d:"Tweede onafhankelijke beoordeling van een eerder uitgebrachte taxatie en arbitrageprocedure.",s:true},
+  s_boedel:{tag:"Skill Roadmap",t:"Boedelwaardering",d:"Waardering van een volledige nalatenschap inclusief roerende zaken, schulden en vorderingen.",s:true},
+  s_bedrijfsonderbreking:{tag:"Skill Roadmap",t:"Bedrijfsonderbreking",d:"Berekening van gederfde omzet, vaste lasten en herstelkosten bij stillegging bedrijf.",s:true},
+  s_herwaardering:{tag:"Skill Roadmap",t:"Herwaardering & Indexering",d:"Aanpassen van eerder vastgestelde waarden op basis van marktbewegingen en inflatie.",s:true},
+  p1:{tag:"Praktijkproject",t:"Eerste Schade-expertise Uitvoeren",d:"Voer begeleid uw eerste volledige schade-expertise uit van inspectie tot definitief rapport.",s:false},
+  p2:{tag:"Praktijkproject",t:"Voertuigschade van A tot Z",d:"Taxeer een voertuig volledig: dagwaarde, schadeomvang, total loss beoordeling en rapport.",s:false},
+  p3:{tag:"Praktijkproject",t:"Boedelwaardering Nalatenschap",d:"Waardeer een complete nalatenschap inclusief inboedel, sieraden en bijzondere objecten.",s:false},
+  p4:{tag:"Praktijkproject",t:"Bedrijfsschade Case Study",d:"Bereken de totale bedrijfsschade bij een maand onderbreking voor een MKB-bedrijf.",s:false},
+  p5:{tag:"Praktijkproject",t:"Contra-expertise Schrijven",d:"Voer een contra-expertise uit op een bestaand expertiserapport en rapporteer uw bevindingen.",s:false},
+  p6:{tag:"Praktijkproject",t:"VRT Portfolio Opbouwen",d:"Stel een volledig VRT-aanvraagportfolio samen: 50 dossiers, begeleidingsverklaring en CV.",s:false},
+  bp1:{tag:"Best Practice",t:"Objectiviteit & Onpartijdigheid",d:"Geen belang bij de uitkomst. Rapporteren op basis van feiten en vakkennis is de kern van uw werk.",s:false},
+  bp2:{tag:"Best Practice",t:"Dossier Documentatie",d:"Volledig gedocumenteerd dossier: opdracht, inspectieverslag, foto's, berekeningen en eindrapport.",s:false},
+  bp3:{tag:"Best Practice",t:"Tuchtrecht & Klachtenprocedure",d:"VRT-tuchtcommissie behandelt klachten. Kennis van uitspraken helpt fouten voorkomen.",s:false},
+  bp4:{tag:"Best Practice",t:"Permanente Educatie",d:"Jaarlijks PE-punten behalen via erkende cursussen voor herregistratie bij VRT.",s:false},
+  bp5:{tag:"Best Practice",t:"Onafhankelijkheid Bewaken",d:"Verstrengeling van belangen herkennen en melden. Integriteitsregels van VRT naleven.",s:false},
+  bp6:{tag:"Best Practice",t:"Kwaliteitsborgingssysteem",d:"Interne audits, peer reviews en systematische opdrachtregistratie voor kwaliteitsbeheer.",s:false}
+};
+
+// STATE
+let bm=new Set(), nSt={}, rmTotal=0, curNode=null, curRm=null;
+
+// =====================================================
+// NAVIGATION
+// =====================================================
+function go(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0); closeNp();
+}
+
+// =====================================================
+// PORTAL
+// =====================================================
+function bmSVG(id,on){
+  return `<svg class="bm-ico${on?" on":""}" onclick="toggleBM(event,'${id}')" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 2.5A1 1 0 014.5 1.5h7a1 1 0 011 1v11l-4.5-2.7-4.5 2.7V2.5z" stroke="currentColor" stroke-width="1.3" fill="${on?"currentColor":"none"}"/></svg>`;
+}
+
+function renderGrid(gid,items){
+  document.getElementById(gid).innerHTML=items.map(it=>`
+    <div class="card" onclick="openCard('${it.id}')">
+      <span class="card-lbl">${it.l}</span>
+      <div class="card-right">${it.isNew?'<span class="card-new">&#9679; New</span>':""}${bmSVG(it.id,bm.has(it.id))}</div>
+    </div>`).join("");
+}
+
+function renderBM(){
+  const sec=document.getElementById("bmSec");
+  if(!bm.size){sec.style.display="none";return;}
+  sec.style.display="block";
+  const all=[...ROLES,...SKILLS,...PROJECTS,...BP];
+  document.getElementById("bmGrid").innerHTML=[...bm].map(id=>{
+    const f=all.find(i=>i.id===id);
+    return`<div class="card" onclick="openCard('${id}')"><span class="card-lbl">${f?f.l:id}</span><div class="card-right">${bmSVG(id,true)}</div></div>`;
+  }).join("");
+}
+
+function toggleBM(e,id){
+  e.stopPropagation();
+  bm.has(id)?bm.delete(id):bm.add(id);
+  renderGrid("roleGrid",ROLES); renderGrid("skillGrid",SKILLS);
+  renderGrid("projGrid",PROJECTS); renderGrid("bpGrid",BP);
+  renderBM();
+}
+
+function openCard(id){
+  if(RD[id]){openRM(id);return;}
+  const m=MI[id]||{tag:"Info",t:id,d:"Meer informatie volgt binnenkort.",s:true};
+  document.getElementById("mTag").textContent=m.tag;
+  document.getElementById("mTitle").textContent=m.t;
+  document.getElementById("mDesc").textContent=m.d;
+  document.getElementById("mSoon").style.display=m.s?"block":"none";
+  document.getElementById("ov").classList.add("open");
+}
+
+// =====================================================
+// ROADMAP DETAIL
+// =====================================================
+function openRM(id){
+  curRm=id; nSt={}; curNode=null;
+  const rm=RD[id];
+  document.getElementById("rmTitle").textContent=rm.title;
+  document.getElementById("rmSub").textContent=rm.sub;
+  rmTotal=rm.phases.reduce((a,p)=>a+p.nodes.length,0);
+  document.getElementById("pTotal").textContent=rmTotal;
+  updateProg();
+  document.getElementById("relLinks").innerHTML=(rm.related||[]).map(rid=>`
+    <div class="rel-row" onclick="openRM('${rid}')">
+      <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="#9ca3af" stroke-width="1.2"/><path d="M4 6.5l1.8 2L9.5 4.5" stroke="#9ca3af" stroke-width="1.2"/></svg>
+      ${RD[rid]?RD[rid].title:rid}</div>`).join("");
+  buildSVG(rm); go("rm");
+}
+
+function buildSVG(rm){
+  const el=document.getElementById("svg");
+  const W=820,cX=290,mW=210,mH=50,sW=238,sH=42,sGap=9,sX=452,gGap=28;
+  let y=30;
+  const groups=rm.phases.map((ph,pi)=>{
+    const sc=ph.nodes.length,sgH=sc*sH+(sc-1)*sGap,mCY=y+sgH/2;
+    const g={ph,pi,sc,sY:y,mY:mCY-mH/2,mCY};
+    y+=Math.max(sgH,mH)+gGap+22; return g;
+  });
+  const totH=y+10;
+  el.setAttribute("width",W); el.setAttribute("height",totH);
+  el.setAttribute("viewBox",`0 0 ${W} ${totH}`);
+  let s=`<line x1="${cX}" y1="0" x2="${cX}" y2="${totH}" stroke="#7c3aed" stroke-width="2" stroke-dasharray="8 5" opacity="0.3"/>`;
+  groups.forEach(g=>{
+    const {ph,pi,sY,mY,mCY}=g, mX=cX-mW/2;
+    ph.nodes.forEach((nd,ni)=>{
+      const sy=sY+ni*(sH+sGap), nid=`n_${pi}_${ni}`, scy=sy+sH/2;
+      const st=nSt[nid]||"pending";
+      const fill=st==="done"?"#d1fae5":st==="bezig"?"#dbeafe":"#f8faff";
+      const stroke=st==="done"?"#34d399":st==="bezig"?"#93c5fd":"#e0e7ff";
+      const hasData=ND[curRm]&&ND[curRm][nid];
+      s+=`<path d="M ${mX+mW} ${mCY} C ${mX+mW+48} ${mCY} ${sX-48} ${scy} ${sX} ${scy}" stroke="#7c3aed" stroke-width="1.3" stroke-dasharray="5 4" fill="none" opacity="0.35"/>`;
+      s+=`<g id="${nid}" onclick="nodeClick('${nid}')" style="cursor:${hasData?'pointer':'default'}">
+        <rect id="r_${nid}" x="${sX}" y="${sy}" width="${sW}" height="${sH}" rx="5" fill="${fill}" stroke="${stroke}" stroke-width="1.5"/>
+        <text x="${sX+sW/2-16}" y="${sy+sH/2+5}" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="12.5" fill="#1e3a5f">${nd}</text>
+        <circle id="cb_${nid}" cx="${sX+sW-18}" cy="${sy+sH/2}" r="9" fill="${st==="done"?"#7c3aed":"none"}" stroke="${st==="done"?"#7c3aed":"#c7d2fe"}" stroke-width="1.4"/>
+        <path id="ck_${nid}" d="M ${sX+sW-23} ${sy+sH/2+1} l3.5 3.5 5-5.5" stroke="${st==="done"?"white":"transparent"}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      </g>`;
+    });
+    s+=`<rect x="${mX}" y="${mY}" width="${mW}" height="${mH}" rx="6" fill="#1a3a8f" stroke="#0b2057" stroke-width="1.5"/>`;
+    const words=ph.label.split(" ");
+    if(ph.label.length<=22){
+      s+=`<text x="${cX}" y="${mY+mH/2+5.5}" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="14" font-weight="700" fill="white">${ph.label}</text>`;
+    } else {
+      const mid=Math.ceil(words.length/2),l1=words.slice(0,mid).join(" "),l2=words.slice(mid).join(" ");
+      s+=`<text x="${cX}" y="${mY+mH/2-3}" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="13.5" font-weight="700" fill="white">${l1}</text>`;
+      s+=`<text x="${cX}" y="${mY+mH/2+13}" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="13.5" font-weight="700" fill="white">${l2}</text>`;
+    }
+  });
+  el.innerHTML=s;
+}
+
+// =====================================================
+// NODE PANEL
+// =====================================================
+function nodeClick(nid){
+  if(!ND[curRm]||!ND[curRm][nid])return;
+  curNode=nid;
+  const nd=ND[curRm][nid];
+  const st=nSt[nid]||"pending";
+  const sel=document.getElementById("stSel");
+  sel.value=st;
+  sel.className="st-sel"+(st==="done"?" done":st==="bezig"?" bezig":"");
+
+  let h=`<div class="np-tag">${nd.tag}</div><h2 class="np-h">${nd.title}</h2><p class="np-desc">${nd.desc}</p>`;
+
+  if(nd.wv&&nd.wv.length){
+    h+=`<div class="np-sec"><div class="np-sec-h"><span style="color:#7c3aed;font-size:18px">&#9672;</span> Leren op de werkvloer</div>`;
+    nd.wv.forEach(w=>{
+      h+=`<div class="wv-item"><div class="wv-icon">${w.ico}</div><div class="wv-txt"><div class="wv-lbl">${w.lbl}</div><div class="wv-sub">${w.sub}</div></div></div>`;
+    });
+    h+=`</div>`;
+  }
+
+  if(nd.opl&&nd.opl.length){
+    const lvIcon={klassikaal:"🏫",online:"💻",blended:"🔄",zelfstudie:"📚"};
+    h+=`<div class="np-sec"><div class="np-sec-h"><span style="color:#2563eb;font-size:18px">&#9672;</span> Opleidingen</div>`;
+    nd.opl.forEach(o=>{
+      const lv=o.lv||"klassikaal";
+      h+=`<div class="opl-item"><div class="opl-nm">${o.nm}<span class="lv-badge ${lv}">${lvIcon[lv]||"🏫"} ${lv.charAt(0).toUpperCase()+lv.slice(1)}</span></div>
+        <div class="opl-meta"><span class="tag tp">${o.tp}</span><span class="tag dr">${o.dr}</span><span class="tag pr">${o.pr}</span></div>
+        <a class="opl-link" href="${o.url}" target="_blank" rel="noopener">Bekijk opleiding &#8599;</a></div>`;
+    });
+    h+=`</div>`;
+  }
+
+  if(nd.tk&&nd.tk.length){
+    h+=`<div class="np-sec"><div class="np-sec-h"><span style="color:#f59e0b;font-size:18px">&#9650;</span> Toekomstvaardigheden</div>`;
+    nd.tk.forEach(t=>{
+      h+=`<div class="tk-item"><div class="tk-icon">${t.ico}</div><div class="tk-txt"><div class="tk-lbl">${t.lbl}</div><div class="tk-sub">${t.sub}</div>`;
+      if(t.opl&&t.opl.length){
+        h+=`<div class="tk-opl">`;
+        t.opl.forEach(o=>{
+          h+=`<a class="tk-opl-item" href="${o.url}" target="_blank" rel="noopener"><span class="tk-opl-nm">${o.nm}</span><div class="tk-opl-meta"><span class="tk-opl-brand">${o.brand}</span><span class="tk-opl-type">${o.tp} · ${o.dr}</span></div></a>`;
+        });
+        h+=`</div>`;
+      }
+      h+=`</div></div>`;
+    });
+    h+=`</div>`;
+  }
+
+  if(nd.pm&&nd.pm.length){
+    h+=`<div class="np-sec"><div class="np-sec-h"><span style="color:#f59e0b;font-size:18px">&#9733;</span> Premium Bronnen</div>`;
+    nd.pm.forEach(p=>{h+=`<div class="pm-item"><span class="pm-badge">${p.tp}</span><span class="pm-lbl">${p.lbl}</span><span class="pm-price">${p.pr}</span></div>`;});
+    h+=`</div>`;
+  }
+
+  document.getElementById("npBody").innerHTML=h;
+  document.getElementById("np").classList.add("open");
+}
+
+function setSt(val){
+  if(!curNode)return;
+  nSt[curNode]=val;
+  const sel=document.getElementById("stSel");
+  sel.className="st-sel"+(val==="done"?" done":val==="bezig"?" bezig":"");
+  updateNodeVis(curNode,val); updateProg();
+}
+
+function updateNodeVis(nid,st){
+  const r=document.getElementById("r_"+nid),cb=document.getElementById("cb_"+nid),ck=document.getElementById("ck_"+nid);
+  if(!r)return;
+  r.setAttribute("fill",st==="done"?"#d1fae5":st==="bezig"?"#dbeafe":"#f8faff");
+  r.setAttribute("stroke",st==="done"?"#34d399":st==="bezig"?"#93c5fd":"#e0e7ff");
+  if(cb){cb.setAttribute("fill",st==="done"?"#7c3aed":"none");cb.setAttribute("stroke",st==="done"?"#7c3aed":"#c7d2fe");}
+  if(ck){ck.setAttribute("stroke",st==="done"?"white":"transparent");}
+}
+
+function updateProg(){
+  const done=Object.values(nSt).filter(v=>v==="done").length;
+  document.getElementById("pFill").style.width=(rmTotal>0?Math.round(done/rmTotal*100):0)+"%";
+  document.getElementById("pDone").textContent=done;
+}
+
+function closeNp(){document.getElementById("np").classList.remove("open");curNode=null;}
+function ovClick(e){if(e.target===document.getElementById("ov"))closeOv();}
+function closeOv(){document.getElementById("ov").classList.remove("open");}
+
+// INIT
+renderGrid("roleGrid",ROLES); renderGrid("skillGrid",SKILLS);
+renderGrid("projGrid",PROJECTS); renderGrid("bpGrid",BP);
+</script>
+</body>
+</html>
