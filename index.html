@@ -97,6 +97,14 @@ body{font-family:"Segoe UI",system-ui,sans-serif;background:#0f1117;color:#e2e8f
 .wv-sub{font-size:12px;color:#6b7280;line-height:1.5}
 
 /* Opleidingen */
+
+/* Completed courses */
+.opl-item.done{background:#f0fdf4;border-color:#86efac;opacity:.85}
+.opl-item.done .opl-nm{text-decoration:line-through;color:#6b7280}
+.opl-check{width:22px;height:22px;border-radius:50%;border:1.5px solid #d1d5db;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s;color:transparent;font-size:11px;font-weight:700}
+.opl-check:hover{border-color:#16a34a;background:#f0fdf4}
+.opl-item.done .opl-check{background:#16a34a;border-color:#16a34a;color:white}
+.opl-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:5px}
 .opl-item{border:1px solid #e5e7eb;border-radius:8px;padding:13px 15px;margin-bottom:9px}
 .opl-nm{font-size:13.5px;font-weight:700;color:#111;margin-bottom:5px}
 .opl-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
@@ -2421,7 +2429,7 @@ const QUIZ = {
   ]
 };
 // STATE
-let bm=new Set(), nSt={}, rmTotal=0, curNode=null, curRm=null;
+let bm=new Set(), nSt={}, rmTotal=0, curNode=null, curRm=null, doneCourses=new Set();
 
 // =====================================================
 // NAVIGATION
@@ -2561,11 +2569,18 @@ function nodeClick(nid){
   if(nd.opl&&nd.opl.length){
     const lvIcon={klassikaal:"🏫",online:"💻",blended:"🔄",zelfstudie:"📚"};
     h+=`<div class="np-sec"><div class="np-sec-h"><span style="color:#2563eb;font-size:18px">&#9672;</span> Opleidingen</div>`;
-    nd.opl.forEach(o=>{
+    nd.opl.forEach((o,oi)=>{
       const lv=o.lv||"klassikaal";
-      h+=`<div class="opl-item"><div class="opl-nm">${o.nm}<span class="lv-badge ${lv}">${lvIcon[lv]||"🏫"} ${lv.charAt(0).toUpperCase()+lv.slice(1)}</span></div>
+      const courseKey=curRm+"_"+curNode+"_"+oi;
+      const isDone=doneCourses.has(courseKey);
+      h+=`<div class="opl-item${isDone?" done":""}" id="opl_${courseKey}">
+        <div class="opl-head">
+          <div class="opl-nm">${o.nm}<span class="lv-badge ${lv}">${lvIcon[lv]||"🏫"} ${lv.charAt(0).toUpperCase()+lv.slice(1)}</span></div>
+          <div class="opl-check" onclick="toggleCourse('${courseKey}')" title="${isDone?"Markering verwijderen":"Markeer als afgerond"}">✓</div>
+        </div>
         <div class="opl-meta"><span class="tag tp">${o.tp}</span><span class="tag dr">${o.dr}</span><span class="tag pr">${o.pr}</span></div>
-        <a class="opl-link" href="${o.url}" target="_blank" rel="noopener">Bekijk opleiding &#8599;</a></div>`;
+        <a class="opl-link" href="${o.url}" target="_blank" rel="noopener">Bekijk opleiding &#8599;</a>
+      </div>`;
     });
     h+=`</div>`;
   }
@@ -2727,6 +2742,21 @@ function nextQuestion() {
   quizState.answered = false;
   quizState.lastAnswer = null;
   renderQuiz();
+}
+
+
+function toggleCourse(key){
+  var el=document.getElementById("opl_"+key);
+  if(!el)return;
+  if(doneCourses.has(key)){
+    doneCourses.delete(key);
+    el.classList.remove("done");
+    el.querySelector(".opl-check").title="Markeer als afgerond";
+  } else {
+    doneCourses.add(key);
+    el.classList.add("done");
+    el.querySelector(".opl-check").title="Markering verwijderen";
+  }
 }
 
 </script>
