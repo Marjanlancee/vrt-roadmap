@@ -2476,12 +2476,17 @@ function toggleBM(e,id){
 
 function openCard(id){
   if(RD[id]){openRM(id);return;}
-  const m=MI[id]||{tag:"Info",t:id,d:"Meer informatie volgt binnenkort.",s:true};
-  document.getElementById("mTag").textContent=m.tag;
-  document.getElementById("mTitle").textContent=m.t;
-  document.getElementById("mDesc").textContent=m.d;
-  document.getElementById("mSoon").style.display=m.s?"block":"none";
-  document.getElementById("ov").classList.add("open");
+  var m=MI[id]||{tag:"Info",t:id,d:"Meer informatie volgt binnenkort.",s:true};
+  var el_tag=document.getElementById("mTag");
+  var el_title=document.getElementById("mTitle");
+  var el_desc=document.getElementById("mDesc");
+  var el_soon=document.getElementById("mSoon");
+  var el_ov=document.getElementById("ov");
+  if(el_tag) el_tag.textContent=m.tag;
+  if(el_title) el_title.textContent=m.t;
+  if(el_desc) el_desc.textContent=m.d;
+  if(el_soon) el_soon.style.display=m.s?"block":"none";
+  if(el_ov){el_ov.style.display="flex";el_ov.classList.add("open");}
 }
 
 // =====================================================
@@ -2636,7 +2641,7 @@ function updateProg(){
 
 function closeNp(){document.getElementById("np").classList.remove("open");curNode=null;}
 function ovClick(e){if(e.target===document.getElementById("ov"))closeOv();}
-function closeOv(){document.getElementById("ov").classList.remove("open");}
+function closeOv(){var o=document.getElementById("ov");if(o){o.classList.remove("open");o.style.display="";}}
 
 // INIT
 renderGrid("roleGrid",ROLES); renderGrid("skillGrid",SKILLS);
