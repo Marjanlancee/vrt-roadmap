@@ -246,7 +246,7 @@ body{font-family:"Segoe UI",system-ui,sans-serif;background:#0f1117;color:#e2e8f
       </div>
       <div class="sbox"><div class="sbox-ttl">Gerelateerde Roadmaps</div><div id="relLinks"></div></div>
     </div>
-    <div class="rm-chart"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    <div class="rm-chart"><svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg><div id="quizPanel" style="display:none;padding:28px 32px 60px;min-height:400px"><div id="quizContent"></div></div></div>
   </div>
 </div>
 
@@ -2632,14 +2632,16 @@ renderGrid("projGrid",PROJECTS); renderGrid("bpGrid",BP);
 function switchTab(tab, el) {
   document.querySelectorAll(".rm-tab").forEach(function(t){t.classList.remove("on");});
   el.classList.add("on");
-  var chart = document.querySelector(".rm-chart");
+  var svg = document.getElementById("svg");
   var quizPanel = document.getElementById("quizPanel");
+  var npPanel = document.getElementById("np");
   if (tab === "toets") {
-    chart.style.display = "none";
+    svg.style.display = "none";
     quizPanel.style.display = "block";
+    if (npPanel) npPanel.classList.remove("open");
     startQuiz();
   } else {
-    chart.style.display = "block";
+    svg.style.display = "block";
     quizPanel.style.display = "none";
     quizState = null;
   }
@@ -2649,7 +2651,7 @@ function switchTabDirect() {
   var tabs = document.querySelectorAll(".rm-tab");
   tabs.forEach(function(t){t.classList.remove("on");});
   tabs[0].classList.add("on");
-  document.querySelector(".rm-chart").style.display = "block";
+  document.getElementById("svg").style.display = "block";
   document.getElementById("quizPanel").style.display = "none";
 }
 
