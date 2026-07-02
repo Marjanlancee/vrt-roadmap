@@ -330,12 +330,12 @@ const RD={
     sub:"Stap voor stap naar VRT-geregistreerd schade taxateur — van basis tot register",
     related:["voertuig","successie"],
     phases:[
-      {label:"Vooropleiding & Basis",nodes:["HBO/MBO Opleiding","Verzekeringskennis","Schadeproces begrijpen","Aansprakelijkheidsrecht"]},
-      {label:"Technische Kennis",nodes:["Bouwkunde & Constructie","Installatietechniek","Materiaalkunde & Slijtage","Fotodocumentatie"]},
-      {label:"Schadecalculatie",nodes:["Herstelkostenberekening","Waardevermindering","Vervangings- vs Dagwaarde","Schadebegroting opstellen"]},
-      {label:"Wet- & Regelgeving",nodes:["Verzekeringsrecht (Wft)","VRT Reglement & Gedragscode","Tuchtrecht & Klachtenprocedure","Privacy & AVG"]},
-      {label:"Praktijkervaring",nodes:["Stage Expertisebureau","Begeleiding VRT-lid","50+ Schade-expertises","Dossieropbouw & Portfolio"]},
-      {label:"VRT Registratie",nodes:["Toetsing VRT Commissie","Inschrijving VRT Register","Permanente Educatie (PE)"]}
+      {label:"Vooropleiding & Basis",nodes:["HBO/MBO Opleiding","Verzekeringskennis","Schadeproces begrijpen","Aansprakelijkheidsrecht"],left:["Rijbewijs B","Computervaardigheden"]},
+      {label:"Technische Kennis",nodes:["Bouwkunde & Constructie","Installatietechniek","Materiaalkunde & Slijtage","Fotodocumentatie"],left:["Excel basiskennis","BDB-normen toegang"]},
+      {label:"Schadecalculatie",nodes:["Herstelkostenberekening","Waardevermindering","Vervangings- vs Dagwaarde","Schadebegroting opstellen"],left:["Wft Schade diploma","Calculatiesoftware"]},
+      {label:"Wet- & Regelgeving",nodes:["Verzekeringsrecht (Wft)","VRT Reglement & Gedragscode","Tuchtrecht & Klachtenprocedure","Privacy & AVG"],left:["Polissen kunnen lezen","Wft Schade diploma"]},
+      {label:"Praktijkervaring",nodes:["Stage Expertisebureau","Begeleiding VRT-lid","50+ Schade-expertises","Dossieropbouw & Portfolio"],left:["VRT mentor gevonden","Bureau ingeschreven"]},
+      {label:"VRT Registratie",nodes:["Toetsing VRT Commissie","Inschrijving VRT Register","Permanente Educatie (PE)"],left:["Portfolio bijgehouden","PE-punten verzameld"]}
     ]
   },
   voertuig:{
@@ -343,10 +343,10 @@ const RD={
     sub:"Specialisatie in voertuigschade, dagwaarde en total loss beoordeling",
     related:["schade","inboedel"],
     phases:[
-      {label:"Technisch Fundament",nodes:["Autotechniek & Carrosserie","Merkkennis & Typologieen","Constructie & Veiligheid","Schadecategorieen herkennen"]},
-      {label:"Waarderingsmethoden",nodes:["Dagwaarde bepaling","Koerslijsten (NACA/Eurotax)","Total loss calculatie","Restwaarde bepalen"]},
-      {label:"Schade & Herstel",nodes:["Carrosserieschade beoordelen","Mechanische schade herkennen","Herstelkostencalculatie","Verholen gebreken signaleren"]},
-      {label:"VRT Registratie",nodes:["100+ Voertuigtaxaties","Begeleiding erkend taxateur","VRT Voertuig register","Permanente educatie (PE)"]}
+      {label:"Technisch Fundament",nodes:["Autotechniek & Carrosserie","Merkkennis & Typologieen","Constructie & Veiligheid","Schadecategorieen herkennen"],left:["Rijbewijs B","Wft Schade diploma"]},
+      {label:"Waarderingsmethoden",nodes:["Dagwaarde bepaling","Koerslijsten (NACA/Eurotax)","Total loss calculatie","Restwaarde bepalen"],left:["NACA/Eurotax toegang","Excel basiskennis"]},
+      {label:"Schade & Herstel",nodes:["Carrosserieschade beoordelen","Mechanische schade herkennen","Herstelkostencalculatie","Verholen gebreken signaleren"],left:["FOCWA kennis","Audatex toegang"]},
+      {label:"VRT Registratie",nodes:["100+ Voertuigtaxaties","Begeleiding erkend taxateur","VRT Voertuig register","Permanente educatie (PE)"],left:["Portfolio bijgehouden","VRT mentor gevonden"]}
     ]
   },
   inboedel:{
@@ -354,10 +354,10 @@ const RD={
     sub:"Waardering van huisraad en woongebonden zaken bij schade, verzekering en verdeling",
     related:["successie","schade"],
     phases:[
-      {label:"Basiskennis",nodes:["Waardebegrippen inboedel","Vervangingswaarde vs dagwaarde","Verzekeringspolissen lezen","Schadeproces woningschade"]},
-      {label:"Inspectie & Waardering",nodes:["Systematische opname inboedel","Bijzondere objecten herkennen","Elektronica & witgoed","Kleding & persoonlijke bezittingen"]},
-      {label:"Rapportage",nodes:["Inboedelrapport opstellen","Fotorapportage bij schade","Betwiste schades behandelen","Schadeopstelling ondertekenen"]},
-      {label:"VRT Registratie",nodes:["Portfolio 30+ inboedelexpertises","Begeleiding VRT-lid","VRT Inboedel register","Permanente educatie (PE)"]}
+      {label:"Basiskennis",nodes:["Waardebegrippen inboedel","Vervangingswaarde vs dagwaarde","Verzekeringspolissen lezen","Schadeproces woningschade"],left:["Wft Schade diploma","Poliskennis basis"]},
+      {label:"Inspectie & Waardering",nodes:["Systematische opname inboedel","Bijzondere objecten herkennen","Elektronica & witgoed","Kleding & persoonlijke bezittingen"],left:["Fotocamera beschikbaar","Checklist gereed"]},
+      {label:"Rapportage",nodes:["Inboedelrapport opstellen","Fotorapportage bij schade","Betwiste schades behandelen","Schadeopstelling ondertekenen"],left:["Rapportagesoftware","Sjabloon klaar"]},
+      {label:"VRT Registratie",nodes:["Portfolio 30+ inboedelexpertises","Begeleiding VRT-lid","VRT Inboedel register","Permanente educatie (PE)"],left:["30+ expertises portfolio","VRT mentor gevonden"]}
     ]
   },
   successie:{
@@ -365,11 +365,11 @@ const RD={
     sub:"Waardering van nalatenschappen en boedels voor verdeling, belasting en recht",
     related:["kunst","inboedel"],
     phases:[
-      {label:"Juridisch Fundament",nodes:["Erfrecht (BW Boek 4)","Boedelscheiding procedures","Successiebelasting & notariaat","Samenwerking met notaris"]},
-      {label:"Waarderingsmethoden",nodes:["Marktwaarde roerende zaken","Comparatieve methode","Dagwaarde & vervangingswaarde","Fiscale waardering"]},
-      {label:"Categoriespecialisatie",nodes:["Sieraden & edelmetalen","Numismatiek & verzamelingen","Klassieke voertuigen","Kunst & antiek basis"]},
-      {label:"Rapportage & Recht",nodes:["Successierapport opstellen","Rechtbankwaardige rapportage","Contra-expertise","Betwiste boedels behandelen"]},
-      {label:"VRT Registratie",nodes:["Portfolio 30+ boedelexpertises","Toetsing VRT commissie","VRT Successie register","Permanente educatie (PE)"]}
+      {label:"Juridisch Fundament",nodes:["Erfrecht (BW Boek 4)","Boedelscheiding procedures","Successiebelasting & notariaat","Samenwerking met notaris"],left:["Erfrecht basiskennis","Notariaat begrip"]},
+      {label:"Waarderingsmethoden",nodes:["Marktwaarde roerende zaken","Comparatieve methode","Dagwaarde & vervangingswaarde","Fiscale waardering"],left:["Veilingdatabase toegang","Artprice/Invaluable"]},
+      {label:"Categoriespecialisatie",nodes:["Sieraden & edelmetalen","Numismatiek & verzamelingen","Klassieke voertuigen","Kunst & antiek basis"],left:["Specialisatie gekozen","Expert-netwerk opgebouwd"]},
+      {label:"Rapportage & Recht",nodes:["Successierapport opstellen","Rechtbankwaardige rapportage","Contra-expertise","Betwiste boedels behandelen"],left:["Rechtbankwaardige stijl","Contra-expertise kennis"]},
+      {label:"VRT Registratie",nodes:["Portfolio 30+ boedelexpertises","Toetsing VRT commissie","VRT Successie register","Permanente educatie (PE)"],left:["30+ boedelexpertises","VRT mentor gevonden"]}
     ]
   },
   kunst:{
@@ -377,10 +377,10 @@ const RD={
     sub:"Specialisatie in de waardering van kunst, antiek en bijzondere objecten",
     related:["successie","inboedel"],
     phases:[
-      {label:"Kunsthistorische Basis",nodes:["Kunstgeschiedenis overzicht","Stilperioden herkennen","Signaturen & echtheid","Provenanceonderzoek"]},
-      {label:"Markt & Waarde",nodes:["Veilingmarkt begrijpen","Galeriehandel & prijsvorming","Internationale marktprijzen","Veiling databases gebruiken"]},
-      {label:"Technisch Onderzoek",nodes:["Materiaalanalyse basis","UV & conditiebeoordeling","Restauratie herkennen","Echtheidsonderzoek methoden"]},
-      {label:"VRT Registratie",nodes:["Portfolio 30+ kunstexpertises","Toetsing VRT commissie","VRT Kunst & Antiek register","Permanente educatie (PE)"]}
+      {label:"Kunsthistorische Basis",nodes:["Kunstgeschiedenis overzicht","Stilperioden herkennen","Signaturen & echtheid","Provenanceonderzoek"],left:["Museumbezoeken gedaan","Veilingervaring"]},
+      {label:"Markt & Waarde",nodes:["Veilingmarkt begrijpen","Galeriehandel & prijsvorming","Internationale marktprijzen","Veiling databases gebruiken"],left:["Artprice toegang","Veilinghuis netwerk"]},
+      {label:"Technisch Onderzoek",nodes:["Materiaalanalyse basis","UV & conditiebeoordeling","Restauratie herkennen","Echtheidsonderzoek methoden"],left:["UV-lamp beschikbaar","RKD-database toegang"]},
+      {label:"VRT Registratie",nodes:["Portfolio 30+ kunstexpertises","Toetsing VRT commissie","VRT Kunst & Antiek register","Permanente educatie (PE)"],left:["30+ kunstexpertises","VRT mentor gevonden"]}
     ]
   },
   bedrijf:{
@@ -388,10 +388,10 @@ const RD={
     sub:"Beoordeling van bedrijfsschade, bedrijfsonderbreking en gederfde winst",
     related:["schade","successie"],
     phases:[
-      {label:"Bedrijfskundige Basis",nodes:["Bedrijfsprocessen begrijpen","Financiele administratie lezen","Verzekerd belang bedrijven","Polisvoorwaarden bedrijven"]},
-      {label:"Schadeberekening",nodes:["Gederfde omzet berekenen","Vaste lasten analyseren","Extra kosten bepalen","Herstelperiode inschatten"]},
-      {label:"Juridisch & Verzekering",nodes:["Bedrijfsschadeverzekering (BI)","Aansprakelijkheid bij bedrijfsschade","Deskundigenclausule polissen","Arbitrage & geschillen"]},
-      {label:"VRT Registratie",nodes:["Portfolio 20+ bedrijfsexpertises","Samenwerking met accountants","VRT Bedrijfsschade register","Permanente educatie (PE)"]}
+      {label:"Bedrijfskundige Basis",nodes:["Bedrijfsprocessen begrijpen","Financiele administratie lezen","Verzekerd belang bedrijven","Polisvoorwaarden bedrijven"],left:["Boekhoudkennis basis","Excel gevorderd"]},
+      {label:"Schadeberekening",nodes:["Gederfde omzet berekenen","Vaste lasten analyseren","Extra kosten bepalen","Herstelperiode inschatten"],left:["Jaarrekeningen kunnen lezen","Accountant-netwerk"]},
+      {label:"Juridisch & Verzekering",nodes:["Bedrijfsschadeverzekering (BI)","Aansprakelijkheid bij bedrijfsschade","Deskundigenclausule polissen","Arbitrage & geschillen"],left:["BI-polis kennis","Deskundigenclausule bekend"]},
+      {label:"VRT Registratie",nodes:["Portfolio 20+ bedrijfsexpertises","Samenwerking met accountants","VRT Bedrijfsschade register","Permanente educatie (PE)"],left:["20+ bedrijfsexpertises","VRT mentor gevonden"]}
     ]
   }
 
@@ -426,6 +426,67 @@ const RD={
       {label:"Verzekeringsrecht",nodes:["Verzekeringsovereenkomst","Schademelding en verplichtingen","Uitsluitingen en beperkingen","Subrogatie en regres"]},
       {label:"Schaderegelgeving",nodes:["Aansprakelijkheidsrecht basis","Eigen schuld en medeschuld","Schadebeperkingsplicht","Verjaring en stuiting"]},
       {label:"Praktijk & PE",nodes:["Wft-diploma behalen","PE-verplichting nakomen","Actuele wijzigingen volgen"]}
+    ]
+  }
+
+  ,s_inspectie:{
+    title:"Objectinspectie Techniek",
+    sub:"Systematische inspectie van objecten — van voorbereiding tot professioneel inspectierapport",
+    related:["s_foto","s_rapport"],
+    phases:[
+      {label:"Voorbereiding",nodes:["Opdracht analyseren","Dossier voorbereiden","Afspraak & toegang regelen","Veiligheidsprotocol"],left:["Dossier ontvangen","Toegang bevestigd"]},
+      {label:"Inspectie Uitvoeren",nodes:["Systematisch inspecteren","Schade documenteren","Maten opnemen","Bijzonderheden noteren"],left:["Meetgereedschap mee","Camera volledig opgeladen"]},
+      {label:"Verslaglegging",nodes:["Notities uitwerken","Fotoreportage samenstellen","Concept rapport opstellen","Kwaliteitscheck uitvoeren"],left:["Software beschikbaar","Sjabloon gereed"]}
+    ]
+  }
+  ,s_foto:{
+    title:"Fotodocumentatie",
+    sub:"Professionele vastlegging van schades met foto en video ten behoeve van rapportage",
+    related:["s_inspectie","s_rapport"],
+    phases:[
+      {label:"Fotografie Basis",nodes:["Belichting beheersen","Camera instellingen","Compositieregels","Scherptediepte begrijpen"],left:["Camera/smartphone beschikbaar","Voldoende opslag"]},
+      {label:"Schadedocumentatie",nodes:["Overzichtsfoto's maken","Detailfoto's schade","Referentiefoto's","Schaalreferentie gebruiken"],left:["Meetlint beschikbaar","Goede belichting ter plekke"]},
+      {label:"Rapportage Integratie",nodes:["Foto's selecteren","Onderschriften schrijven","Foto's nummeren","Digitaal archiveren"],left:["Bewerkingssoftware","Dossierstructuur opgezet"]}
+    ]
+  }
+  ,s_contra:{
+    title:"Contra-expertise",
+    sub:"Tweede onafhankelijke beoordeling van een eerder uitgebrachte taxatie en arbitrageprocedure",
+    related:["s_rapport","s_calc"],
+    phases:[
+      {label:"Voorbereiding",nodes:["Opdracht analyseren","Origineel rapport lezen","Juridisch kader begrijpen","Onderzoeksvragen formuleren"],left:["Origineel rapport ontvangen","Relevante polis beschikbaar"]},
+      {label:"Onafhankelijk Onderzoek",nodes:["Object inspecteren","Referenties raadplegen","Berekeningen controleren","Afwijkingen documenteren"],left:["Onafhankelijke positie geborgd","Toegang tot object verkregen"]},
+      {label:"Contra-rapportage",nodes:["Rapport structureren","Bevindingen formuleren","Conclusie onderbouwen","Rapport ondertekenen"],left:["Rechtbankwaardige stijl","Juridische review beschikbaar"]}
+    ]
+  }
+  ,s_boedel:{
+    title:"Boedelwaardering",
+    sub:"Waardering van nalatenschappen voor successie, verdeling en fiscale doeleinden",
+    related:["successie","s_rapport"],
+    phases:[
+      {label:"Inventarisatie",nodes:["Boedel inventariseren","Objecten categoriseren","Bijzondere objecten signaleren","Inventarislijst opstellen"],left:["Notarisopdracht ontvangen","Toegang tot nalatenschap"]},
+      {label:"Waardering",nodes:["Marktwaarde bepalen","Comparatieve methode toepassen","Specialist inschakelen","Waardeopstelling maken"],left:["Veilingdatabase toegang","Referenties beschikbaar"]},
+      {label:"Rapportage",nodes:["Boedelrapport opstellen","Fiscale waarde berekenen","Successie ondersteunen","Notaris informeren"],left:["Notariaat begrip","Erfrecht kennis basis"]}
+    ]
+  }
+  ,s_bedrijfsonderbreking:{
+    title:"Bedrijfsonderbreking",
+    sub:"Berekening van financieel verlies bij tijdelijke staking van bedrijfsactiviteiten",
+    related:["bedrijf","s_calc"],
+    phases:[
+      {label:"Schade Analyse",nodes:["Oorzaak vaststellen","Schadeperiode bepalen","Bedrijfsprocessen analyseren","Financiële data verzamelen"],left:["BI-polis ontvangen","Toegang tot boekhouding"]},
+      {label:"Verliesberekening",nodes:["Gederfde omzet berekenen","Vaste lasten analyseren","Extra kosten bepalen","Netto schade opstellen"],left:["Jaarrekeningen beschikbaar","Accountant beschikbaar"]},
+      {label:"Rapportage",nodes:["BI-rapport structureren","Berekening presenteren","Verzekeraar informeren","Geschil behandelen"],left:["BI-expertise opgedaan","Deskundigenclausule bekend"]}
+    ]
+  }
+  ,s_herwaardering:{
+    title:"Herwaardering & Indexering",
+    sub:"Actualisering van bestaande taxatiewaarden op basis van marktveranderingen en indexcijfers",
+    related:["s_calc","schade"],
+    phases:[
+      {label:"Waardebasis Bepalen",nodes:["Oorspronkelijke waarde vaststellen","Indexmethoden begrijpen","Marktanalyse uitvoeren","Benchmarks bepalen"],left:["Historische rapporten beschikbaar","CBS/BDB indexcijfers"]},
+      {label:"Herwaardering",nodes:["Herwaarderingsgrondslag kiezen","Nieuwe waarde berekenen","Stijging onderbouwen","Vergelijkingstransacties zoeken"],left:["Marktdata beschikbaar","Poliswaarde bekend"]},
+      {label:"Rapportage",nodes:["Herwaarderingsrapport opstellen","Verandering presenteren","Premieaanpassing adviseren","Rapport archiveren"],left:["Opdrachtgever geïnformeerd","Poliswijziging voorbereid"]}
     ]
   }
 };
@@ -2509,21 +2570,24 @@ function openRM(id){
 
 function buildSVG(rm){
   const el=document.getElementById("svg");
-  const W=820,cX=290,mW=210,mH=50,sW=238,sH=42,sGap=9,sX=452,gGap=28;
+  const W=880,cX=340,mW=210,mH=50,sW=225,sH=42,sGap=9,sX=508,gGap=28;
+  const lW=155,lH=36,lX=8;
   let y=30;
   const groups=rm.phases.map((ph,pi)=>{
-    const sc=ph.nodes.length,sgH=sc*sH+(sc-1)*sGap,mCY=y+sgH/2;
-    const g={ph,pi,sc,sY:y,mY:mCY-mH/2,mCY};
-    y+=Math.max(sgH,mH)+gGap+22; return g;
+    const sc=ph.nodes.length,lc=(ph.left||[]).length;
+    const sgH=sc*sH+(sc-1)*sGap,lgH=lc>0?lc*lH+(lc-1)*sGap:0;
+    const phH=Math.max(sgH,mH,lgH),mCY=y+phH/2;
+    const g={ph,pi,sc,lc,sY:y+(phH-sgH)/2,mY:mCY-mH/2,mCY,lY:y+(phH-lgH)/2};
+    y+=phH+gGap+22; return g;
   });
   const totH=y+10;
   el.setAttribute("width",W); el.setAttribute("height",totH);
   el.setAttribute("viewBox",`0 0 ${W} ${totH}`);
   let s=`<line x1="${cX}" y1="0" x2="${cX}" y2="${totH}" stroke="#7c3aed" stroke-width="2" stroke-dasharray="8 5" opacity="0.3"/>`;
   groups.forEach(g=>{
-    const {ph,pi,sY,mY,mCY}=g, mX=cX-mW/2;
+    const {ph,pi,sY,mY,mCY,lY}=g,mX=cX-mW/2;
     ph.nodes.forEach((nd,ni)=>{
-      const sy=sY+ni*(sH+sGap), nid=`n_${pi}_${ni}`, scy=sy+sH/2;
+      const sy=sY+ni*(sH+sGap),nid=`n_${pi}_${ni}`,scy=sy+sH/2;
       const st=nSt[nid]||"pending";
       const fill=st==="done"?"#d1fae5":st==="bezig"?"#dbeafe":"#f8faff";
       const stroke=st==="done"?"#34d399":st==="bezig"?"#93c5fd":"#e0e7ff";
@@ -2536,11 +2600,19 @@ function buildSVG(rm){
         <path id="ck_${nid}" d="M ${sX+sW-23} ${sy+sH/2+1} l3.5 3.5 5-5.5" stroke="${st==="done"?"white":"transparent"}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
       </g>`;
     });
+    if(ph.left&&ph.left.length){
+      ph.left.forEach((nd,li)=>{
+        const ly=lY+li*(lH+sGap),lcy=ly+lH/2;
+        s+=`<path d="M ${mX} ${mCY} C ${mX-40} ${mCY} ${lX+lW+40} ${lcy} ${lX+lW} ${lcy}" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="5 4" fill="none" opacity="0.6"/>`;
+        s+=`<rect x="${lX}" y="${ly}" width="${lW}" height="${lH}" rx="5" fill="#f8faff" stroke="#d1d5db" stroke-width="1.2"/>`;
+        s+=`<text x="${lX+lW/2}" y="${ly+lH/2+5}" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="#6b7280">${nd}</text>`;
+      });
+    }
     s+=`<rect x="${mX}" y="${mY}" width="${mW}" height="${mH}" rx="6" fill="#1a3a8f" stroke="#0b2057" stroke-width="1.5"/>`;
-    const words=ph.label.split(" ");
     if(ph.label.length<=22){
       s+=`<text x="${cX}" y="${mY+mH/2+5.5}" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="14" font-weight="700" fill="white">${ph.label}</text>`;
     } else {
+      const words=ph.label.split(" ");
       const mid=Math.ceil(words.length/2),l1=words.slice(0,mid).join(" "),l2=words.slice(mid).join(" ");
       s+=`<text x="${cX}" y="${mY+mH/2-3}" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="13.5" font-weight="700" fill="white">${l1}</text>`;
       s+=`<text x="${cX}" y="${mY+mH/2+13}" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="13.5" font-weight="700" fill="white">${l2}</text>`;
