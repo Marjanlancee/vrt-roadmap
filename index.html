@@ -2790,6 +2790,81 @@ const QUIZ = {
      uitleg:"Bij betwiste objecten vermeldt u beide standpunten objectief: uw eigen gemotiveerde waardeoordeel en het standpunt van de verzekerde. U legt uit op welke gronden u tot uw oordeel bent gekomen."}
   ]
 };
+
+const PREREQS={
+  "Rijbewijs B":{desc:"Een geldig rijbewijs B is verplicht voor het rijden naar schadelocaties. Vrijwel alle expertisebureaus eisen dit bij aanstelling.",url:"https://www.cbr.nl",lbl:"CBR — Rijbewijs informatie"},
+  "Computervaardigheden":{desc:"Basiskennis van Word, Excel en e-mail. Nodig voor rapporten, calculaties en communicatie met opdrachtgevers.",url:"https://skillstown.nl",lbl:"SkillsTown — Digitale Basis"},
+  "Excel basiskennis":{desc:"Microsoft Excel wordt gebruikt voor schadecalculaties en financiële analyses. U beheerst basisformules, opmaak en filters.",url:"https://skillstown.nl",lbl:"SkillsTown — Excel Basis"},
+  "BDB-normen toegang":{desc:"De BDB Bouwkostenindex geeft actuele kostennormen voor bouwkundige herstelwerkzaamheden. Nodig voor schadecalculaties.",url:"https://www.bdb.nl",lbl:"BDB — Bouwkostenindex abonnement"},
+  "Wft Schade diploma":{desc:"Het Wft-diploma Schade is wettelijk vereist voor iedereen die adviseert over schadeverzekeringen. Behaalt u via NIBE-SVV of LOI.",url:"https://www.loi.nl",lbl:"LOI — Wft Schade Online"},
+  "Calculatiesoftware":{desc:"Expertise bureaus werken met software zoals Expert Suite of Kleos voor calculaties. Uw bureau biedt toegang en training.",url:"https://www.expertsuitetraining.nl",lbl:"Expert Suite Training"},
+  "Polissen kunnen lezen":{desc:"U kunt een verzekeringsovereenkomst lezen en de relevante bepalingen voor een schadeclaim snel vinden.",url:"https://www.nibe-svv.nl",lbl:"NIBE-SVV — Polisanalyse E-learning"},
+  "Poliskennis basis":{desc:"Basiskennis van inboedel- en opstalpolissen: dekkingsomvang, grondslagen en uitsluitingen.",url:"https://www.loi.nl",lbl:"LOI — Wft Schade Particulier"},
+  "VRT mentor gevonden":{desc:"Begeleiding door een ingeschreven VRT-lid is verplicht. Vraag uw leidinggevende of NIVRE om een geschikte mentor.",url:"https://www.vrt.nl",lbl:"VRT — Mentorprogramma"},
+  "Bureau ingeschreven":{desc:"U bent werkzaam bij of ingeschreven bij een erkend expertisebureau. Dit is vereist voor het uitvoeren van verzekerde expertises.",url:"https://www.nivre.nl",lbl:"NIVRE — Erkende bureaus"},
+  "Portfolio bijgehouden":{desc:"U houdt per expertise een registratie bij: datum, objecttype, schadesoort, uw rol en de uitkomst. Nodig voor VRT-aanvraag.",url:"https://www.vrt.nl",lbl:"VRT — Portfoliorichtlijnen"},
+  "PE-punten verzameld":{desc:"VRT-leden behalen jaarlijks PE-punten. Zorg dat u aan de verplichting voldoet voordat uw registratie verlengd moet worden.",url:"https://www.vrt.nl",lbl:"VRT — PE-verplichting"},
+  "NACA/Eurotax toegang":{desc:"NACA en Eurotax zijn de standaard koerslijsten voor dagwaardebepaling van voertuigen. Uw bureau regelt de toegang.",url:"https://www.eurotax.nl",lbl:"Eurotax — Abonnement"},
+  "FOCWA kennis":{desc:"FOCWA is de brancheorganisatie voor schadeherstelbedrijven. Kennis van hun normen helpt u hersteloffertes correct te beoordelen.",url:"https://www.focwa.nl",lbl:"FOCWA — Informatie"},
+  "Audatex toegang":{desc:"Audatex Qapter is de meestgebruikte calculatiesoftware voor voertuigschade. Uw bureau biedt toegang.",url:"https://www.audatex.nl",lbl:"Audatex — Qapter Informatie"},
+  "Fotocamera beschikbaar":{desc:"Een goede smartphone of digitale camera is vereist voor professionele schadedocumentatie. Minimaal 12MP met goede belichting.",url:"https://skillstown.nl",lbl:"SkillsTown — Fotodocumentatie"},
+  "Checklist gereed":{desc:"Gebruik een vaste inspectieschecklist per objecttype. Uw bureau heeft standaard checklists — pas ze aan op uw werkwijze.",url:"https://www.nivre.nl",lbl:"NIVRE — Inspectietools"},
+  "Rapportagesoftware":{desc:"Gebruik rapportagesoftware zoals Expert Suite of Word-sjablonen voor professionele rapporten.",url:"https://www.expertsuitetraining.nl",lbl:"Expert Suite — Rapportagemodule"},
+  "Sjabloon klaar":{desc:"Werk met een vaste rapportagestructuur per type expertise. Dit bespaart tijd en verhoogt consistentie.",url:"https://www.nivre.nl",lbl:"NIVRE — Modelrapporten"},
+  "30+ expertises portfolio":{desc:"Voor VRT-toelating in successie en inboedel bouwt u een portfolio van minimaal 30 gedocumenteerde expertises.",url:"https://www.vrt.nl",lbl:"VRT — Portfoliorichtlijnen"},
+  "30+ boedelexpertises":{desc:"Voor VRT-toelating successie zijn minimaal 30 boedelexpertises vereist met voldoende diversiteit.",url:"https://www.vrt.nl",lbl:"VRT — Portfoliorichtlijnen"},
+  "30+ kunstexpertises":{desc:"Voor VRT-toelating kunst & antiek zijn minimaal 30 expertises vereist met diversiteit in periode en categorie.",url:"https://www.vrt.nl",lbl:"VRT — Portfoliorichtlijnen"},
+  "20+ bedrijfsexpertises":{desc:"Voor VRT-toelating bedrijfsschade zijn minimaal 20 expertise vereist met diversiteit in branche en schadesoort.",url:"https://www.vrt.nl",lbl:"VRT — Portfoliorichtlijnen"},
+  "Erfrecht basiskennis":{desc:"Kennis van BW Boek 4 (Erfrecht): erfopvolging, testamenten, legitieme portie en boedelscheiding.",url:"https://www.grotius.nl",lbl:"Grotius — Erfrecht voor niet-juristen"},
+  "Notariaat begrip":{desc:"Inzicht in de rol van de notaris bij nalatenschappen, akten van verdeling en de samenwerking met taxateurs.",url:"https://www.knb.nl",lbl:"KNB — Notariaat informatie"},
+  "Veilingdatabase toegang":{desc:"Toegang tot Artprice, Invaluable of vergelijkbare databases voor referentietransacties bij boedel- en kunstwaardering.",url:"https://www.artprice.com",lbl:"Artprice — Abonnement"},
+  "Artprice/Invaluable":{desc:"Internationale databases voor veilingresultaten. Essentieel voor het vinden van vergelijkingstransacties bij kunst en antiek.",url:"https://www.invaluable.com",lbl:"Invaluable — Database"},
+  "Specialisatie gekozen":{desc:"Kies uw specialisatiecategorie binnen kunst & antiek: schilderijen, meubelen, zilver, numismatiek of andere. Diepgang loont.",url:"https://www.nivre.nl",lbl:"NIVRE — Kunstspecialisaties"},
+  "Expert-netwerk opgebouwd":{desc:"Een netwerk van specialisten per objectcategorie is essentieel. Bouw dit op via NIVRE, veilinghuizen en branche-evenementen.",url:"https://www.tefaf.com",lbl:"Tefaf — Kunstmarkt Netwerk"},
+  "Rechtbankwaardige stijl":{desc:"Uw rapporten moeten standhoudt bij juridische toetsing. Studeer uitspraken waarbij taxatierapporten als bewijs dienden.",url:"https://www.ssr.nl",lbl:"SSR — Schrijven voor de Rechter"},
+  "Contra-expertise kennis":{desc:"Basiskennis van contra-expertise procedures en hoe u onpartijdig een bestaand rapport beoordeelt.",url:"https://www.nivre.nl",lbl:"NIVRE — Contra-expertise Praktijk"},
+  "Museumbezoeken gedaan":{desc:"Regelmatig museumbezoek is essentieel voor het ontwikkelen van uw oog voor kwaliteit, stijl en authenticiteit.",url:"https://www.rijksmuseum.nl",lbl:"Rijksmuseum — Professionele rondleidingen"},
+  "Veilingervaring":{desc:"Bezoeking van veilingen geeft inzicht in marktprijzen en vraag-aanbod dynamiek. Bezoek minimaal drie veilingen per jaar.",url:"https://www.venduehuis.nl",lbl:"Venduehuis — Veilingsagenda"},
+  "Artprice toegang":{desc:"Artprice is de meestgebruikte database voor internationale kunstprijzen. Jaarabonnement vereist voor professioneel gebruik.",url:"https://www.artprice.com",lbl:"Artprice — Abonnement"},
+  "Veilinghuis netwerk":{desc:"Contacten bij veilinghuizen (Venduehuis, Christie's, Sotheby's) helpen bij referentieprijzen en specialistadvies.",url:"https://www.venduehuis.nl",lbl:"Venduehuis — Contact"},
+  "UV-lamp beschikbaar":{desc:"Een UV-lamp (365nm) is standaard gereedschap voor kunstauthenticatie. Maakt restauraties en latere toevoegingen zichtbaar.",url:"https://www.nivre.nl",lbl:"NIVRE — Inspectietools Kunst"},
+  "RKD-database toegang":{desc:"Het RKD (Rijksbureau voor Kunsthistorische Documentatie) biedt toegang tot kunstenaarsgegevens en signatuurverzamelingen.",url:"https://www.rkd.nl",lbl:"RKD — Database Toegang"},
+  "Boekhoudkennis basis":{desc:"Basiskennis van boekhouding: begrip van winst-verliesrekening, balans en kasstroomoverzicht. Essentieel voor BI-berekeningen.",url:"https://www.ncoi.nl",lbl:"NCOI — Financieel Management Basis"},
+  "Excel gevorderd":{desc:"Gevorderd Excel: draaitabellen, VERT.ZOEKEN, grafieken en financiële modellen. Nodig voor complexe BI-berekeningen.",url:"https://skillstown.nl",lbl:"SkillsTown — Excel Gevorderd"},
+  "Jaarrekeningen kunnen lezen":{desc:"U begrijpt een jaarrekening: omzet, brutomarge, vaste lasten en nettoresultaat. Basis voor elke BI-berekening.",url:"https://www.ncoi.nl",lbl:"NCOI — Jaarrekening Lezen"},
+  "Accountant-netwerk":{desc:"Contacten met accountants versnellen de dataverzameling bij BI-expertises en verhogen de kwaliteit van uw berekeningen.",url:"https://www.nba.nl",lbl:"NBA — Netwerk Accountants"},
+  "BI-polis kennis":{desc:"Kennis van Business Interruption polissen: dekkingsomvang, indemniteitsperiode, uitkeringsvormen en gangbare uitsluitingen.",url:"https://www.nibe-svv.nl",lbl:"NIBE-SVV — BI Verzekering"},
+  "Deskundigenclausule bekend":{desc:"De deskundigenclausule regelt de procedure bij geschillen over BI-berekeningen. U kent uw rol als deskundige.",url:"https://www.nivre.nl",lbl:"NIVRE — Deskundigenclausule"},
+  "Dossier ontvangen":{desc:"Zorg dat u de opdracht- en polisdocumenten heeft ontvangen voor de inspectie. Onduidelijkheden lost u op voor u naar locatie gaat.",url:null,lbl:null},
+  "Toegang bevestigd":{desc:"Bevestig schriftelijk dat u toegang heeft tot het object op de afgesproken datum. Leg dit vast in uw dossier.",url:null,lbl:null},
+  "Meetgereedschap mee":{desc:"Laser-afstandsmeter of rolmaat, notitieboek en pen. Controleer uw uitrusting de avond voor de inspectie.",url:null,lbl:null},
+  "Camera volledig opgeladen":{desc:"Controleer voor vertrek of uw camera/telefoon volledig opgeladen is en voldoende geheugen heeft voor de volledige inspectie.",url:null,lbl:null},
+  "Software beschikbaar":{desc:"Zorg dat uw rapportagesoftware up-to-date is en uw sjablonen klaarstaan voor het uitwerken na de inspectie.",url:null,lbl:null},
+  "Sjabloon gereed":{desc:"Gebruik een voorbereid rapportagesjabloon per objecttype. Dit versnelt de uitwerking en verhoogt de consistentie.",url:null,lbl:null},
+  "Origineel rapport ontvangen":{desc:"U heeft het originele rapport ontvangen en gelezen. Noteer uw eerste vragen en aandachtspunten.",url:null,lbl:null},
+  "Relevante polis beschikbaar":{desc:"U heeft de verzekeringsovereenkomst en polisvoorwaarden ontvangen die relevant zijn voor de contra-expertise.",url:null,lbl:null},
+  "Onafhankelijke positie geborgd":{desc:"Controleer of u geen belangenconflict heeft bij deze contra-expertise. Bij twijfel meldt u dit aan de opdrachtgever.",url:null,lbl:null},
+  "Toegang tot object verkregen":{desc:"Bevestig dat u toegang krijgt tot het object voor uw eigen inspectie. Dit is vereist voor een goede contra-expertise.",url:null,lbl:null},
+  "Notarisopdracht ontvangen":{desc:"De notarisopdracht definieert uw rol, het te taxeren object en de gewenste grondslagen. Lees dit zorgvuldig voor u begint.",url:null,lbl:null},
+  "Toegang tot nalatenschap":{desc:"Zorg voor toegang tot het pand en de objecten. Regel dit via de notaris of de executeur.",url:null,lbl:null},
+  "Veilingdatabase toegang":{desc:"Toegang tot Artprice, Invaluable of vergelijkbare databases is vereist voor het vinden van referentietransacties.",url:"https://www.artprice.com",lbl:"Artprice — Abonnement"},
+  "Referenties beschikbaar":{desc:"Zorg dat u toegang heeft tot relevante veilingdatabases en vergelijkingstransacties voor de te taxeren objectcategorie.",url:"https://www.invaluable.com",lbl:"Invaluable — Database"},
+  "Notariaat begrip":{desc:"Inzicht in de rol van de notaris bij nalatenschappen en de samenwerking tussen notaris en taxateur.",url:"https://www.knb.nl",lbl:"KNB — Notariaat"},
+  "Erfrecht kennis basis":{desc:"Begrip van BW Boek 4: erfopvolging, testamenten en boedelscheiding. Nodig voor correcte samenwerking met de notaris.",url:"https://www.grotius.nl",lbl:"Grotius — Erfrecht Basis"},
+  "BI-polis ontvangen":{desc:"Ontvang de BI-polis met alle voorwaarden en bijlagen. Lees de dekkingsomschrijving en indemniteitsperiode nauwkeurig.",url:null,lbl:null},
+  "Toegang tot boekhouding":{desc:"Zorg voor toegang tot de relevante financiële administratie van het bedrijf: jaarrekeningen, grootboek en orderportefeuille.",url:null,lbl:null},
+  "Jaarrekeningen beschikbaar":{desc:"Vraag de jaarrekeningen van minimaal drie voorgaande jaren op voor de omzetberekening.",url:null,lbl:null},
+  "Accountant beschikbaar":{desc:"Zorg dat de bedrijfsaccountant beschikbaar is voor vragen over de financiële data. Dit versnelt het onderzoek aanzienlijk.",url:null,lbl:null},
+  "BI-expertise opgedaan":{desc:"U heeft voldoende ervaring met BI-berekeningen om een betwist rapport professioneel te verdedigen.",url:"https://www.nivre.nl",lbl:"NIVRE — BI Verdieping"},
+  "Historische rapporten beschikbaar":{desc:"Toegang tot eerdere taxatierapporten van het object is de basis voor herwaardering. Vraag deze op bij de opdrachtgever.",url:null,lbl:null},
+  "CBS/BDB indexcijfers":{desc:"Toegang tot de CBS-prijsindexen en BDB Bouwkostenindex is nodig voor de indexeringsberekening.",url:"https://www.bdb.nl",lbl:"BDB — Index Abonnement"},
+  "Marktdata beschikbaar":{desc:"Actuele marktdata van vergelijkbare objecten is nodig om te beoordelen of de index de werkelijkheid weergeeft.",url:"https://www.artprice.com",lbl:"Artprice / Invaluable"},
+  "Poliswaarde bekend":{desc:"Zorg dat u de huidige verzekerde som kent. Dit is het vertrekpunt voor de herwaarderingsberekening.",url:null,lbl:null},
+  "Opdrachtgever geïnformeerd":{desc:"Informeer de opdrachtgever proactief over de uitkomst en de impact op de polis. Verrassingen achteraf ondermijnen het vertrouwen.",url:null,lbl:null},
+  "Poliswijziging voorbereid":{desc:"Bereid de benodigde poliswijziging voor zodat de verzekeraar de verzekerde som direct kan aanpassen na uw rapport.",url:null,lbl:null}
+};
+let donePrereqs=new Set(), curPrereqKey=null;
+
 // STATE
 let bm=new Set(), nSt={}, rmTotal=0, curNode=null, curRm=null, doneCourses=new Set();
 
@@ -2904,9 +2979,15 @@ function buildSVG(rm){
     if(ph.left&&ph.left.length){
       ph.left.forEach((nd,li)=>{
         const ly=lY+li*(lH+sGap),lcy=ly+lH/2;
-        s+=`<path d="M ${mX} ${mCY} C ${mX-40} ${mCY} ${lX+lW+40} ${lcy} ${lX+lW} ${lcy}" stroke="#9ca3af" stroke-width="1.2" stroke-dasharray="5 4" fill="none" opacity="0.6"/>`;
-        s+=`<rect x="${lX}" y="${ly}" width="${lW}" height="${lH}" rx="5" fill="#f8faff" stroke="#d1d5db" stroke-width="1.2"/>`;
-        s+=`<text x="${lX+lW/2}" y="${ly+lH/2+5}" text-anchor="middle" font-family="Segoe UI,system-ui,sans-serif" font-size="11" fill="#6b7280">${nd}</text>`;
+        const lKey=curRm+"_p"+pi+"_l"+li;
+        const lDone=donePrereqs.has(lKey);
+        s+=`<path d="M ${mX} ${mCY} C ${mX-40} ${mCY} ${lX+lW+40} ${lcy} ${lX+lW} ${lcy}" stroke="${lDone?"#4ade80":"#9ca3af"}" stroke-width="1.2" stroke-dasharray="5 4" fill="none" opacity="0.6"/>`;
+        s+=`<g onclick="leftClick('${nd.replace(/'/g,"\'")}','${lKey}')" style="cursor:pointer">`;
+        s+=`<rect x="${lX}" y="${ly}" width="${lW}" height="${lH}" rx="5" fill="${lDone?"#dcfce7":"#f8faff"}" stroke="${lDone?"#4ade80":"#d1d5db"}" stroke-width="1.2"/>`;
+        s+=`<text x="${lX+4}" y="${ly+lH/2+4.5}" font-family="Segoe UI,system-ui,sans-serif" font-size="10.5" fill="${lDone?"#166534":"#6b7280"}">${nd}</text>`;
+        s+=`<circle cx="${lX+lW-11}" cy="${ly+lH/2}" r="7" fill="${lDone?"#16a34a":"none"}" stroke="${lDone?"#16a34a":"#d1d5db"}" stroke-width="1.2"/>`;
+        if(lDone) s+=`<path d="M ${lX+lW-15} ${ly+lH/2+1} l3 3 4.5-5" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/>`;
+        s+=`</g>`;
       });
     }
     s+=`<rect x="${mX}" y="${mY}" width="${mW}" height="${mH}" rx="6" fill="#1a3a8f" stroke="#0b2057" stroke-width="1.5"/>`;
@@ -3134,6 +3215,46 @@ function toggleCourse(key){
     doneCourses.add(key);
     el.classList.add("done");
     el.querySelector(".opl-check").title="Markering verwijderen";
+  }
+}
+
+
+function leftClick(name, key){
+  curPrereqKey = key;
+  var info = PREREQS[name] || {desc: name + " is een vereiste voor deze fase. Zorg dat u dit op orde heeft voordat u aan deze fase begint.", url: null, lbl: null};
+  var isDone = donePrereqs.has(key);
+  var h = '<div class="np-top"><div class="np-tag" style="color:#6b7280">VEREISTE</div><div class="np-title" style="font-size:18px">'+name+'</div><select id="stSel" class="st-sel" style="display:none"></select><button class="np-close" onclick="closeNp()">&#x2715;</button></div>';
+  h += '<div class="np-body" id="npBody2" style="padding:20px 28px 40px">';
+  h += '<div class="np-sec"><div class="np-sec-h"><span style="color:#6b7280;font-size:16px">&#9672;</span> Waarom nodig?</div>';
+  h += '<p style="font-size:13.5px;color:#374151;line-height:1.75;margin:0">'+info.desc+'</p></div>';
+  if(info.url){
+    h += '<div class="np-sec"><div class="np-sec-h"><span style="color:#2563eb;font-size:16px">&#9672;</span> Waar te halen</div>';
+    h += '<a href="'+info.url+'" target="_blank" rel="noopener" style="color:#7c3aed;font-size:13.5px;font-weight:600">'+info.lbl+' &#8599;</a></div>';
+  }
+  h += '<div class="np-sec" style="margin-top:8px">';
+  h += '<button onclick="togglePrereq()" style="background:'+(isDone?"#16a34a":"white")+';color:'+(isDone?"white":"#16a34a")+';border:1.5px solid #16a34a;padding:11px 20px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:600;width:100%;font-family:inherit;transition:all .15s">';
+  h += (isDone ? "&#10003; Vereiste gehaald — klik om ongedaan te maken" : "Markeer als gehaald &#10003;") + '</button>';
+  h += '</div></div>';
+  document.getElementById("np").innerHTML = h;
+  document.getElementById("np").classList.add("open");
+}
+
+function togglePrereq(){
+  if(!curPrereqKey) return;
+  if(donePrereqs.has(curPrereqKey)){
+    donePrereqs.delete(curPrereqKey);
+  } else {
+    donePrereqs.add(curPrereqKey);
+  }
+  buildSVG(RD[curRm]);
+  // Re-open panel with updated state - find the name from the SVG
+  var parts = curPrereqKey.split("_p");
+  var pi = parseInt(parts[1].split("_l")[0]);
+  var li = parseInt(parts[1].split("_l")[1]);
+  var rm = RD[curRm];
+  if(rm && rm.phases[pi] && rm.phases[pi].left){
+    var name = rm.phases[pi].left[li];
+    leftClick(name, curPrereqKey);
   }
 }
 
