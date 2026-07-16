@@ -244,7 +244,7 @@ body{font-family:"Segoe UI",system-ui,sans-serif;background:#0f1117;color:#e2e8f
         <div class="leg-row"><div class="leg-dot" style="background:#7c3aed"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2.5L7.5 2.5" stroke="white" stroke-width="1.5"/></svg></div>Aanbevolen route</div>
         <div class="leg-row"><div class="leg-dot" style="background:#16a34a"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2.5L7.5 2.5" stroke="white" stroke-width="1.5"/></svg></div>Alternatieve optie</div>
         <div class="leg-row"><div class="leg-dot" style="background:#9ca3af"><svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2.5L7.5 2.5" stroke="white" stroke-width="1.5"/></svg></div>Volgorde niet strikt</div>
-        <div class="leg-row"><div class="leg-dot" style="background:#f59e0b"></div>Vereiste voorkennis</div>
+        <div class="leg-row"><div class="leg-dot" style="background:#f59e0b"></div>Aanbevolen</div>
       </div>
       <div style="margin-top:10px;padding:8px;background:#f8faff;border-radius:6px;font-size:11px;color:#6b7280;line-height:1.7;border:1px solid #e0e7ff">
         <strong style="color:#374151;display:block;margin-bottom:2px">Hoe lees je de roadmap?</strong>
@@ -267,9 +267,9 @@ body{font-family:"Segoe UI",system-ui,sans-serif;background:#0f1117;color:#e2e8f
   <div style="background:#0b2057;border-radius:12px;padding:22px 20px;color:white">
     <p style="font-size:13px;font-weight:600;color:#e2e8f0;line-height:1.75;margin:0 0 18px 0">Je skillsprofiel laat zien waar je staat. Deze roadmap laat zien waar je naartoe kunt en hoe je er komt.</p>
     <p style="font-size:11px;font-weight:700;color:#93c5fd;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 10px 0">Hoe lees je de roadmap?</p>
-    <p style="font-size:12.5px;color:#cbd5e1;margin:0 0 7px 0;display:block"><span style="display:inline-block;width:10px;height:10px;background:#f59e0b;border-radius:2px;margin-right:8px;vertical-align:middle"></span>Oranje links: wat je al nodig hebt</p>
-    <p style="font-size:12.5px;color:#cbd5e1;margin:0 0 7px 0;display:block"><span style="display:inline-block;width:10px;height:10px;background:#dbeafe;border:1px solid #93c5fd;border-radius:2px;margin-right:8px;vertical-align:middle"></span>Blauw rechts: wat je in deze fase leert</p>
-    <p style="font-size:12.5px;color:#cbd5e1;margin:0 0 18px 0;display:block"><span style="display:inline-block;width:10px;height:10px;background:#7c3aed;border-radius:2px;margin-right:8px;vertical-align:middle"></span>Klik op een vakje voor leeraanbod</p>
+    <p style="font-size:12.5px;color:#cbd5e1;margin:0 0 8px 0"><span style="display:inline-block;width:12px;height:12px;background:#f59e0b;border-radius:2px;margin-right:8px;vertical-align:middle"></span>Oranje links: wat je al nodig hebt</p>
+    <p style="font-size:12.5px;color:#cbd5e1;margin:0 0 8px 0"><span style="display:inline-block;width:12px;height:12px;background:#dbeafe;border:2px solid #3b82f6;border-radius:2px;margin-right:8px;vertical-align:middle"></span>Blauw rechts: wat je in elke fase leert</p>
+    <p style="font-size:12.5px;color:#cbd5e1;margin:0 0 18px 0"><span style="display:inline-block;width:12px;height:12px;border:2px solid #cbd5e1;border-radius:2px;margin-right:8px;vertical-align:middle"></span>Klik een vakje aan voor meer uitleg</p>
     <hr style="border:none;border-top:1px solid rgba(255,255,255,0.15);margin:0 0 14px 0">
     <p style="font-size:11px;font-weight:700;color:#93c5fd;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 10px 0">Waar wil je beginnen?</p>
     <p style="font-size:12.5px;color:#cbd5e1;margin:0 0 6px 0">Je kiest zelf waar je start</p>
@@ -2085,7 +2085,7 @@ function switchTab(tab, el) {
     svg.style.display = "none";
     if(wb) wb.style.display = "none";
     quizPanel.style.display = "block";
-    showBeroep();
+    showBeroep(curRm);
   } else {
     svg.style.display = "block";
     quizPanel.style.display = "none";
@@ -2104,10 +2104,11 @@ function switchTabDirect() {
   if(wb) wb.style.display = "flex";
 }
 
-function showBeroep(){
-  var b = BEROEP[curRm];
-  var rm = RD[curRm];
-  var title = rm ? rm.title : curRm;
+function showBeroep(rmId){
+  var id = rmId || curRm;
+  var b = BEROEP[id];
+  var rm = RD[id];
+  var title = rm ? rm.title : id;
   if(!b){document.getElementById("quizContent").innerHTML = "<div style='padding:40px;color:#6b7280'>Beroepsinformatie volgt binnenkort.</div>";return;}
   document.getElementById("quizContent").innerHTML = "<div style='padding:36px;max-width:680px'><div style='font-size:11px;font-weight:700;color:#7c3aed;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px'>HET BEROEP</div><h2 style='font-size:28px;font-weight:800;color:#0b2057;margin-bottom:20px'>"+title+"</h2><p style='font-size:15px;color:#374151;line-height:1.85'>"+b.omschrijving+"</p></div>";
 }
