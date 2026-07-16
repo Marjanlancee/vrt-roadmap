@@ -263,33 +263,19 @@ body{font-family:"Segoe UI",system-ui,sans-serif;background:#0f1117;color:#e2e8f
       <svg id="svg" xmlns="http://www.w3.org/2000/svg"></svg>
       <div id="quizPanel" style="display:none;padding:28px 32px 60px"><div id="quizContent"></div></div>
     </div>
-    <div id="welcomeBanner" style="display:none;width:300px;flex-shrink:0;background:#0b2057;border-radius:12px;padding:24px;color:white;margin-left:28px;margin-top:28px;position:sticky;top:24px">
-
-  <p style="font-size:14px;font-weight:700;color:#e2e8f0;line-height:1.7;margin:0 0 20px 0">Je skillsprofiel laat zien waar je staat. Deze roadmap laat zien waar je naartoe kunt en hoe je er komt.</p>
-
-  <p style="font-size:11px;font-weight:700;color:#93c5fd;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 10px 0">Hoe lees je de roadmap?</p>
-
-  <p style="display:flex;align-items:center;gap:9px;font-size:13px;color:#cbd5e1;margin:0 0 8px 0">
-    <span style="width:11px;height:11px;background:#f59e0b;border-radius:2px;flex-shrink:0;display:block"></span>
-    Oranje links: wat je al nodig hebt
-  </p>
-  <p style="display:flex;align-items:center;gap:9px;font-size:13px;color:#cbd5e1;margin:0 0 8px 0">
-    <span style="width:11px;height:11px;background:#dbeafe;border:1px solid #93c5fd;border-radius:2px;flex-shrink:0;display:block"></span>
-    Blauw rechts: wat je in deze fase leert
-  </p>
-  <p style="display:flex;align-items:center;gap:9px;font-size:13px;color:#cbd5e1;margin:0 0 20px 0">
-    <span style="width:11px;height:11px;background:#7c3aed;border-radius:2px;flex-shrink:0;display:block"></span>
-    Klik op een vakje voor uitleg en leeraanbod
-  </p>
-
-  <hr style="border:none;border-top:1px solid rgba(255,255,255,0.15);margin:0 0 14px 0">
-
-  <p style="font-size:11px;font-weight:700;color:#93c5fd;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 10px 0">Waar wil je beginnen?</p>
-
-  <p style="font-size:13px;color:#cbd5e1;margin:0 0 6px 0">Je kiest zelf waar je start</p>
-  <p style="font-size:13px;color:#cbd5e1;margin:0 0 6px 0">Volgorde is een suggestie, geen verplichting</p>
-  <p style="font-size:13px;color:#cbd5e1;margin:0">Vink af wat je al beheerst</p>
-
+    <div id="welcomeBanner" style="display:none;width:280px;flex-shrink:0;margin-left:24px;margin-top:28px;position:sticky;top:24px">
+  <div style="background:#0b2057;border-radius:12px;padding:22px 20px;color:white">
+    <p style="font-size:13px;font-weight:600;color:#e2e8f0;line-height:1.75;margin:0 0 18px 0">Je skillsprofiel laat zien waar je staat. Deze roadmap laat zien waar je naartoe kunt en hoe je er komt.</p>
+    <p style="font-size:11px;font-weight:700;color:#93c5fd;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 10px 0">Hoe lees je de roadmap?</p>
+    <p style="font-size:12.5px;color:#cbd5e1;margin:0 0 7px 0;display:block"><span style="display:inline-block;width:10px;height:10px;background:#f59e0b;border-radius:2px;margin-right:8px;vertical-align:middle"></span>Oranje links: wat je al nodig hebt</p>
+    <p style="font-size:12.5px;color:#cbd5e1;margin:0 0 7px 0;display:block"><span style="display:inline-block;width:10px;height:10px;background:#dbeafe;border:1px solid #93c5fd;border-radius:2px;margin-right:8px;vertical-align:middle"></span>Blauw rechts: wat je in deze fase leert</p>
+    <p style="font-size:12.5px;color:#cbd5e1;margin:0 0 18px 0;display:block"><span style="display:inline-block;width:10px;height:10px;background:#7c3aed;border-radius:2px;margin-right:8px;vertical-align:middle"></span>Klik op een vakje voor leeraanbod</p>
+    <hr style="border:none;border-top:1px solid rgba(255,255,255,0.15);margin:0 0 14px 0">
+    <p style="font-size:11px;font-weight:700;color:#93c5fd;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 10px 0">Waar wil je beginnen?</p>
+    <p style="font-size:12.5px;color:#cbd5e1;margin:0 0 6px 0">Je kiest zelf waar je start</p>
+    <p style="font-size:12.5px;color:#cbd5e1;margin:0 0 6px 0">Volgorde is een suggestie</p>
+    <p style="font-size:12.5px;color:#cbd5e1;margin:0">Vink af wat je al beheerst</p>
+  </div>
 </div>
   </div>
   </div>
@@ -2065,7 +2051,13 @@ function updateProg(){
 
 function closeNp(){document.getElementById("np").classList.remove("open");curNode=null;}
 function ovClick(e){if(e.target===document.getElementById("ov"))closeOv();}
-function closeOv(){document.getElementById("ov").classList.remove("open");}
+function closeOv(){
+  var o=document.getElementById("ov");
+  if(o){o.classList.remove("open");o.style.display="";}
+  var ex=document.querySelector(".prereq-extra");
+  if(ex) ex.remove();
+  curPrereqKey=null;
+}
 
 // INIT
 renderGrid("roleGrid",ROLES); renderGrid("skillGrid",SKILLS);
@@ -2164,7 +2156,7 @@ function leftClick(name, key){
   var isDone = donePrereqs.has(key);
   var mOv = document.getElementById("ov");
   if(!mOv) return;
-  document.getElementById("mTag").textContent = "VEREISTE";
+  document.getElementById("mTag").textContent = "AANBEVOLEN";
   document.getElementById("mTag").style.color = "#b45309";
   document.getElementById("mTitle").textContent = name;
   document.getElementById("mDesc").textContent = info.desc;
